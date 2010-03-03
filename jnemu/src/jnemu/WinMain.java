@@ -1,21 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package jnemu;
 
-/**
- *
- * @author Michael
- */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
 
 class WinMain extends JFrame
 {
-
     WinMain()
     {
         int scWidth = 256;
@@ -24,6 +14,7 @@ class WinMain extends JFrame
         /********************** Main Window ***********************/
         setTitle("JNemu");
         setSize(scWidth,scHeight);
+        setResizable(false);
         Toolkit t = Toolkit.getDefaultToolkit();
         Dimension dim = t.getScreenSize();
         setLocation((dim.width / 2) - (scWidth / 2), (dim.height / 2) - (scHeight / 2));
@@ -49,7 +40,20 @@ class WinMain extends JFrame
         myExit.addActionListener(new ActionModule());
         myFile.add(myExit);
 
+        // Config
+        JMenuItem myGraphics = new JMenuItem("Graphics");
+        myConfig.add(myGraphics);
+
+        JMenuItem mySound = new JMenuItem("Sound");
+        myConfig.add(mySound);
+
+        JMenuItem myController = new JMenuItem("Controller");
+        myConfig.add(myController);
+
         //Misc
+        JMenuItem myDebugger = new JMenuItem("Debugger");
+        myMisc.add(myDebugger);
+
         JMenuItem myAbout = new JMenuItem("About");
         myMisc.add(myAbout);
 
