@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
 
-class WinMain extends JFrame
+public class WinMain extends JFrame
 {
     WinMain()
     {
@@ -34,10 +34,11 @@ class WinMain extends JFrame
 
         // File
         JMenuItem myOpenRom = new JMenuItem("Open Rom");
+        myOpenRom.addActionListener(new ActionHandler());
         myFile.add(myOpenRom);
 
         JMenuItem myExit = new JMenuItem("Exit");
-        myExit.addActionListener(new ActionModule());
+        myExit.addActionListener(new ActionHandler());
         myFile.add(myExit);
 
         // Config
