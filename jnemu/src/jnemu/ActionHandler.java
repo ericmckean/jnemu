@@ -3,7 +3,7 @@ package jnemu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ActionModule implements ActionListener
+public class ActionHandler implements ActionListener
 {
     public void actionPerformed(ActionEvent e)
     {
@@ -11,6 +11,9 @@ public class ActionModule implements ActionListener
         {
             System.exit(0);
         }
+        else if(e.getActionCommand().equals("Open Rom"))
+        {
+           Main.win.setTitle(FileOpen.getFilePath());
+        }
     }
-            
 }
