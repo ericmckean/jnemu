@@ -26,36 +26,51 @@ public class WinMain extends JFrame
 
         // Menu
         JMenu myFile = new JMenu("File");
+        myFile.setMnemonic('F');
         bar.add(myFile);
         JMenu myConfig = new JMenu("Config");
+        myConfig.setMnemonic('C');
         bar.add(myConfig);
         JMenu myMisc = new JMenu("Misc");
+        myMisc.setMnemonic('M');
         bar.add(myMisc);
 
         // File
         JMenuItem myOpenRom = new JMenuItem("Open Rom");
+        myOpenRom.setMnemonic('O');
         myOpenRom.addActionListener(new ActionHandler());
         myFile.add(myOpenRom);
 
         JMenuItem myExit = new JMenuItem("Exit");
+        myExit.setMnemonic('x');
         myExit.addActionListener(new ActionHandler());
         myFile.add(myExit);
 
         // Config
         JMenuItem myGraphics = new JMenuItem("Graphics");
+        myGraphics.setMnemonic('G');
+        myGraphics.addActionListener(new ActionHandler());
         myConfig.add(myGraphics);
 
         JMenuItem mySound = new JMenuItem("Sound");
+        mySound.setMnemonic('S');
+        mySound.addActionListener(new ActionHandler());
         myConfig.add(mySound);
 
         JMenuItem myController = new JMenuItem("Controller");
+        myController.setMnemonic('C');
+        myController.addActionListener(new ActionHandler());
         myConfig.add(myController);
 
         //Misc
         JMenuItem myDebugger = new JMenuItem("Debugger");
+        myDebugger.setMnemonic('D');
+        myDebugger.addActionListener(new ActionHandler());
         myMisc.add(myDebugger);
 
         JMenuItem myAbout = new JMenuItem("About");
+        myAbout.setMnemonic('A');
+        myAbout.addActionListener(new ActionHandler());
         myMisc.add(myAbout);
 
         //Show MenuBar................
