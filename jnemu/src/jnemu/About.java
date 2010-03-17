@@ -3,7 +3,7 @@ package jnemu;
 import java.awt.*;
 import javax.swing.*;
 
-public class About extends JFrame
+public class About extends JDialog
 {
     int scWidth = 400;
     int scHeight = 300;
@@ -17,7 +17,6 @@ public class About extends JFrame
         Toolkit t = Toolkit.getDefaultToolkit();
         Dimension dim = t.getScreenSize();
         setLocation((dim.width / 2) - (scWidth / 2), (dim.height / 2) - (scHeight / 2));
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
 }

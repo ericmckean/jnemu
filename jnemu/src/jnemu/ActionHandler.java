@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 public class ActionHandler implements ActionListener
 {
+    String x;
+    
     public void actionPerformed(ActionEvent e)
     {
         if(e.getActionCommand().equals("Exit"))
@@ -13,7 +15,7 @@ public class ActionHandler implements ActionListener
         }
         else if(e.getActionCommand().equals("Open Rom"))
         {
-           //Main.win.setTitle(FileOpen.getFilePath());
+           x = FileOpen.getFilePath();
         }
         else if(e.getActionCommand().equals("Controller"))
         {

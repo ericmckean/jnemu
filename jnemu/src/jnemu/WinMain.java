@@ -8,12 +8,17 @@ public class WinMain extends JFrame
 {
     WinMain()
     {
-        int scWidth = 256;
+        /*
+         * Nes Actual width = 256
+         * Nes Actual height = 240
+         */
+        int scWidth = 320;
         int scHeight = 240;
 
         /********************** Main Window ***********************/
         setTitle("JNemu");
         setSize(scWidth,scHeight);
+        setLayout(null);
         setResizable(false);
         Toolkit t = Toolkit.getDefaultToolkit();
         Dimension dim = t.getScreenSize();
@@ -40,6 +45,8 @@ public class WinMain extends JFrame
         myOpenRom.setMnemonic('O');
         myOpenRom.addActionListener(new ActionHandler());
         myFile.add(myOpenRom);
+
+        myFile.addSeparator();
 
         JMenuItem myExit = new JMenuItem("Exit");
         myExit.setMnemonic('x');
@@ -75,5 +82,6 @@ public class WinMain extends JFrame
 
         //Show MenuBar................
         setJMenuBar(bar);
+
     }
 }
