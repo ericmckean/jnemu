@@ -5,8 +5,6 @@ import java.awt.event.ActionListener;
 
 public class ActionHandler implements ActionListener
 {
-    String x;
-    
     public void actionPerformed(ActionEvent e)
     {
         if(e.getActionCommand().equals("Exit"))
@@ -15,7 +13,10 @@ public class ActionHandler implements ActionListener
         }
         else if(e.getActionCommand().equals("Open Rom"))
         {
-           x = FileOpen.getFilePath();
+           //load roms to cartridge
+           Cartridge.loadNesROM(Emu_MOD.getFilePath());
+           //run the core emulation
+           Core.runEmulation();
         }
         else if(e.getActionCommand().equals("Controller"))
         {
@@ -37,5 +38,22 @@ public class ActionHandler implements ActionListener
         {
             Main.about.setVisible(true);
         }
+        else if(e.getActionCommand().equals("Start"))
+        {
+            WinMain.myStart.setEnabled(false);
+            WinMain.myStop.setEnabled(true);
+            Core.startEmulation();
+        }
+        else if(e.getActionCommand().equals("Stop"))
+        {
+            WinMain.myStart.setEnabled(true);
+            WinMain.myStop.setEnabled(false);
+            Core.stopEmulation();
+        }
+        else if(e.getActionCommand().equals("Folder"))
+        {
+            Main.fold.setVisible(true);
+        }
+       
     }
 }

@@ -8,6 +8,7 @@ public class Main
     public static NesGraphics graph;
     public static NesSound sound;
     public static About about;
+    public static NesFolder fold;
     
     public static void main(String[] args)
     {
@@ -36,6 +37,10 @@ public class Main
         //Load About Window..
         about = new About();
         about.setVisible(false);
+
+        //Load Folder Window..
+        fold = new NesFolder();
+        fold.setVisible(false);
     }
 
 }

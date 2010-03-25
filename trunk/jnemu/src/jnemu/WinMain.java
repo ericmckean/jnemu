@@ -6,6 +6,9 @@ import java.awt.Color;
 
 public class WinMain extends JFrame
 {
+    public static JMenuItem myStart;
+    public static JMenuItem myStop;
+
     WinMain()
     {
         /*
@@ -33,12 +36,19 @@ public class WinMain extends JFrame
         JMenu myFile = new JMenu("File");
         myFile.setMnemonic('F');
         bar.add(myFile);
+
+        JMenu myEmu = new JMenu("Emulation");
+        myEmu.setMnemonic('E');
+        bar.add(myEmu);
+
         JMenu myConfig = new JMenu("Config");
         myConfig.setMnemonic('C');
         bar.add(myConfig);
+        
         JMenu myMisc = new JMenu("Misc");
         myMisc.setMnemonic('M');
         bar.add(myMisc);
+
 
         // File
         JMenuItem myOpenRom = new JMenuItem("Open Rom");
@@ -52,6 +62,20 @@ public class WinMain extends JFrame
         myExit.setMnemonic('x');
         myExit.addActionListener(new ActionHandler());
         myFile.add(myExit);
+
+        //Emulation
+
+        myStart = new JMenuItem("Start");
+        myStart.setMnemonic('a');
+        myStart.addActionListener(new ActionHandler());
+        myEmu.add(myStart);
+        myStart.setEnabled(false);
+
+        myStop = new JMenuItem("Stop");
+        myStop.setMnemonic('o');
+        myStop.addActionListener(new ActionHandler());
+        myEmu.add(myStop);
+        myStop.setEnabled(false);
 
         // Config
         JMenuItem myGraphics = new JMenuItem("Graphics");
@@ -68,6 +92,11 @@ public class WinMain extends JFrame
         myController.setMnemonic('C');
         myController.addActionListener(new ActionHandler());
         myConfig.add(myController);
+
+        JMenuItem myFolder = new JMenuItem("Folder");
+        myFolder.setMnemonic('F');
+        myFolder.addActionListener(new ActionHandler());
+        myConfig.add(myFolder);
 
         //Misc
         JMenuItem myDebugger = new JMenuItem("Debugger");

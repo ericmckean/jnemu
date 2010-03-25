@@ -8,6 +8,8 @@ public class NesDebugger extends JDialog
     int scWidth = 500;
     int scHeight = 400;
 
+    public static JTextArea jt;
+
     NesDebugger()
     {
         /********************** Main Window ***********************/
@@ -24,8 +26,8 @@ public class NesDebugger extends JDialog
         add(tab);
 
         //Assembly............................
-        JPanel wASM = new JPanel();
-        tab.add("Assembly",wASM);
+        //JPanel wASM = new JPanel();
+        //tab.add("Assembly",wASM);
 
         //Memory............................
         JPanel wMEM = new JPanel();
@@ -34,6 +36,26 @@ public class NesDebugger extends JDialog
         //Assembly............................
         JPanel wPPU = new JPanel();
         tab.add("PPU",wPPU);
+
+        //PRG............................
+        JPanel wPRG = new JPanel();
+        tab.add("PRG",wPRG);
+
+        //CHR............................
+        JPanel wCHR = new JPanel();
+        tab.add("CHR",wCHR);
+        
+        //NES ROM............................
+        JPanel wROM = new JPanel();
+        tab.add("NES ROM",wROM);
+        wROM.setLayout(null);
+
+        jt = new JTextArea();
+        jt.setEditable(false);
+        jt.setBackground(Color.lightGray);
+        JScrollPane sp = new JScrollPane(jt);
+        sp.setBounds(0, 0, 490, 344);
+        wROM.add(sp);
     }
 
 }
