@@ -6,7 +6,10 @@ import java.text.*;
 public class Cartridge
 {
     public static boolean noSelectedFile;
-    public static byte[] RomContent;
+    private static byte[] RomContent;
+    
+    //check if the file loaded was a nes rom file.
+    public static boolean isNes, isLoaded;
 
     public static void loadNesROM(String path)
     {
@@ -24,7 +27,17 @@ public class Cartridge
                 RomContent = new byte[(int)f.length()];
                 RomContent = Emu_MOD.getBytesFromFile(f);
                 //System.out.print((int)f.length());
-                showInDebugger(RomContent);
+                checkNesROM(RomContent);
+                if(Cartridge.isNes)
+                {
+                    showInDebugger(RomContent);
+                    isLoaded = true;
+                }
+                else
+                {
+                    System.out.println("Not a Nes Rom file.");
+                    isLoaded = false;
+                }
             }
             catch(Exception e)
             {
@@ -86,5 +99,18 @@ public class Cartridge
             catch (Exception e){}
         }
         NesDebugger.jt.setText(temp.toString());
+    }
+
+    private static void checkNesROM(byte[] bytes)
+    {
+        String str = new String(bytes);
+        if(str.substring(0, 3).equals("NES"))
+        {
+            isNes = true;
+        }
+        else
+        {
+            isNes = false;
+        }
     }
 }
