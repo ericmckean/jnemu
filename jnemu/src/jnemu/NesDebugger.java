@@ -2,13 +2,14 @@ package jnemu;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.text.*;
 
 public class NesDebugger extends JDialog
 {
-    int scWidth = 500;
+    int scWidth = 500 - 30;
     int scHeight = 400;
 
-    public static JTextArea jt;
+    public static JTextPane jt;
 
     NesDebugger()
     {
@@ -50,12 +51,16 @@ public class NesDebugger extends JDialog
         tab.add("NES ROM",wROM);
         wROM.setLayout(null);
 
-        jt = new JTextArea();
+        jt = new JTextPane();
         jt.setEditable(false);
         jt.setBackground(Color.lightGray);
         JScrollPane sp = new JScrollPane(jt);
-        sp.setBounds(0, 0, 490, 344);
+        sp.setBounds(0, 0, 490 - 30, 344);
         wROM.add(sp);
+
+        SimpleAttributeSet sa = new SimpleAttributeSet();
+        StyleConstants.setAlignment(sa, StyleConstants.ALIGN_JUSTIFIED);
+        jt.setParagraphAttributes(sa, true);
     }
 
 }
