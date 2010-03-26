@@ -15,8 +15,11 @@ public class ActionHandler implements ActionListener
         {
            //load roms to cartridge
            Cartridge.loadNesROM(Emu_MOD.getFilePath());
-           //run the core emulation
-           Core.runEmulation();
+           if(Cartridge.isLoaded)
+           {
+               //run the core emulation
+               Core.runEmulation();
+           }
         }
         else if(e.getActionCommand().equals("Controller"))
         {
