@@ -9,14 +9,11 @@ public class Main
     public static NesSound sound;
     public static About about;
     public static NesFolder fold;
+    public static Console con;
     
     public static void main(String[] args)
     {
         //Load Emu Config...........
-
-        //Show Main Window..........
-        win = new WinMain();
-        win.setVisible(true);
 
         //Load Controller Window..
         cont = new NesController();
@@ -41,6 +38,20 @@ public class Main
         //Load Folder Window..
         fold = new NesFolder();
         fold.setVisible(false);
+
+        //Console..
+        con = new Console();
+        con.setVisible(true);
+
+         //Show Main Window..........
+        win = new WinMain();
+        win.setVisible(true);
+
+        Console.print("*******************************************");
+        Console.print("*                 JNemu                   *");
+        Console.print("*        Java base Nes emulator           *");
+        Console.print("*******************************************");
+        
     }
 
 }

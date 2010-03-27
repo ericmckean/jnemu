@@ -3,6 +3,7 @@ package jnemu;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import java.io.*;
+import java.math.*;
 
 public class Emu_MOD
 {
@@ -69,7 +70,7 @@ public class Emu_MOD
         return bytes;
     }
 
-    static public String byteToHex(byte b)
+    public static String byteToStringHex(byte b)
     {
         // Returns hex String representation of byte b
         char hexDigit[] = {
@@ -79,4 +80,17 @@ public class Emu_MOD
         char[] array = { hexDigit[(b >> 4) & 0x0f], hexDigit[b & 0x0f] };
         return new String(array);
    }
+
+   public static String byteToStringInt(byte b)
+   {
+       int tmp = new Byte(b);
+       return Integer.toString(tmp);
+   }
+
+   public static String byteToStringBinary(byte b)
+   {
+       String tmp = Integer.toBinaryString(b);
+       return tmp;
+   }
+
 }
