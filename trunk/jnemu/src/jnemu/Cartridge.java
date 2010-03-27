@@ -24,6 +24,7 @@ public class Cartridge
             try
             {
                 File f = new File(path);
+                Console.print("Loading file '" + f.getName() + "'");
                 RomContent = new byte[(int)f.length()];
                 RomContent = Emu_MOD.getBytesFromFile(f);
                 //System.out.print((int)f.length());
@@ -35,13 +36,13 @@ public class Cartridge
                 }
                 else
                 {
-                    System.out.println("Not a Nes Rom file.");
+                    Console.print("Error : Not a Nes rom file.");
                     isLoaded = false;
                 }
             }
             catch(Exception e)
             {
-                System.out.println(e.toString());
+                Console.print(e.toString());
             }
         }
     }
@@ -83,12 +84,12 @@ public class Cartridge
             {
                 if(ctr2 != BASE)
                 {
-                    temp.append(Emu_MOD.byteToHex(bytes[ctr]).toUpperCase());
+                    temp.append(Emu_MOD.byteToStringHex(bytes[ctr]).toUpperCase());
                     temp.append(Spacer);
                 }
                 else
                 {
-                    temp.append(Emu_MOD.byteToHex(bytes[ctr]).toUpperCase());
+                    temp.append(Emu_MOD.byteToStringHex(bytes[ctr]).toUpperCase());
                     temp.append("\n");
                     lineCTR = lineCTR + BASE;
                     temp.append(df.format(lineCTR));
@@ -96,7 +97,7 @@ public class Cartridge
                     ctr2 = 0;
                 }
             }
-            catch (Exception e){}
+            catch (Exception e){Console.print(e.toString());}
         }
         NesDebugger.jt.setText(temp.toString());
     }
