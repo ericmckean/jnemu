@@ -32,6 +32,12 @@ public class Cartridge
                 if(Cartridge.isNes)
                 {
                     showInDebugger(RomContent);
+                    //show 16kb Rom bank..
+                    Console.print("16kb Rom Bank : " + get16kbRomBank(RomContent));
+                    //show 8kb VRom bank..
+                    Console.print("8kb VRom Bank : " + get8kbVRomBank(RomContent));
+                     //show 8kb Ram bank..
+                    Console.print("8kb Ram Bank : " + get8kbRamBank(RomContent));
                     isLoaded = true;
                 }
                 else
@@ -113,5 +119,20 @@ public class Cartridge
         {
             isNes = false;
         }
+    }
+
+    private static String get16kbRomBank(byte[] b)
+    {
+        return Emu_MOD.byteToStringInt(b[4]);
+    }
+
+    private static String get8kbVRomBank(byte[] b)
+    {
+        return Emu_MOD.byteToStringInt(b[5]);
+    }
+
+    private static String get8kbRamBank(byte[] b)
+    {
+        return Emu_MOD.byteToStringInt(b[8]);
     }
 }
