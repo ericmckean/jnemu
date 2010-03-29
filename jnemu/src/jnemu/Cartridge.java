@@ -38,6 +38,8 @@ public class Cartridge
                     Console.print("8kb VRom Bank : " + get8kbVRomBank(RomContent));
                      //show 8kb Ram bank..
                     Console.print("8kb Ram Bank : " + get8kbRamBank(RomContent));
+                    //show mapper type..
+                    Console.print("Mapper : " + getMapper(RomContent));
                     isLoaded = true;
                 }
                 else
@@ -67,7 +69,7 @@ public class Cartridge
         StringBuilder temp = new StringBuilder();
         
         ctr2 = 0;
-        lineCTR = BASE;
+        lineCTR = 0;
 
         //Upper counter...........................
         temp.append("            ");
@@ -134,5 +136,13 @@ public class Cartridge
     private static String get8kbRamBank(byte[] b)
     {
         return Emu_MOD.byteToStringInt(b[8]);
+    }
+
+    private static String getMapper(byte[] b)
+    {
+        String lower = Emu_MOD.byteToStringHex(b[6]);
+        String higher = Emu_MOD.byteToStringHex(b[7]);
+
+        return higher.substring(0,1) + lower.substring(0,1);
     }
 }
