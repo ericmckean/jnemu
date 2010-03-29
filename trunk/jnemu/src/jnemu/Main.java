@@ -51,7 +51,6 @@ public class Main
         Console.print("*                 JNemu                   *");
         Console.print("*        Java base Nes emulator           *");
         Console.print("*******************************************");
-        
     }
 
 }

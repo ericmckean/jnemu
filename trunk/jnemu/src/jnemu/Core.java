@@ -15,6 +15,7 @@ public class Core
             Main.win.setTitle("JNemu - running");
             //enable stop............
             WinMain.myStop.setEnabled(true);
+            WinMain.myStart.setEnabled(false);
             //put emulation code here................
         }
     }
