@@ -8,7 +8,7 @@ public class Main
     public static NesGraphics graph;
     public static NesSound sound;
     public static About about;
-    public static NesFolder fold;
+    public static Option opt;
     public static Console con;
     
     public static void main(String[] args)
@@ -36,21 +36,20 @@ public class Main
         about.setVisible(false);
 
         //Load Folder Window..
-        fold = new NesFolder();
-        fold.setVisible(false);
+        opt = new Option();
+        opt.setVisible(false);
 
         //Console..
         con = new Console();
-        con.setVisible(true);
+        con.setVisible(false);
 
          //Show Main Window..........
         win = new WinMain();
         win.setVisible(true);
 
-        Console.print("*******************************************");
-        Console.print("*                 JNemu                   *");
-        Console.print("*        Java base Nes emulator           *");
-        Console.print("*******************************************");
+        Console.displayFrame();
+        //Clear the Console......
+        Console.clearConsole();
     }
 
 }

@@ -3,7 +3,6 @@ package jnemu;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import java.io.*;
-import java.math.*;
 
 public class Emu_MOD
 {
@@ -11,25 +10,33 @@ public class Emu_MOD
     {
         String tmp = "";
 
-        JFileChooser jFile = new JFileChooser();
-        jFile.setDialogTitle("Open Rom");
-
-        jFile.setFileFilter(new FileFilter()
+        try
         {
-             public boolean accept(File f)
-             {
-                 return f.getName().toLowerCase().endsWith(".nes") || f.isDirectory();
-             }
+            JFileChooser jFile = new JFileChooser(new java.io.File(".").getCanonicalFile());
+            jFile.setDialogTitle("Open Rom");
+            //jFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-             public String getDescription()
-             {
-                return "Nes Files";
-             }
-        });
+            jFile.setFileFilter(new FileFilter()
+            {
+                 public boolean accept(File f)
+                 {
+                     return f.getName().toLowerCase().endsWith(".nes") || f.isDirectory();
+                 }
 
-        if(jFile.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+                 public String getDescription()
+                 {
+                    return "Nes Files (*.nes)";
+                 }
+            });
+
+            if(jFile.showOpenDialog(Main.win) == JFileChooser.APPROVE_OPTION)
+            {
+                tmp = jFile.getSelectedFile().getAbsolutePath();
+            }
+        }
+        catch(Exception e)
         {
-            tmp = jFile.getSelectedFile().getAbsolutePath();
+            Console.print(e.toString());
         }
 
         return tmp;
@@ -90,6 +97,20 @@ public class Emu_MOD
    public static String byteToStringBinary(byte b)
    {
        String tmp = Integer.toBinaryString(b);
+       return tmp;
+   }
+
+   public static String getCharFromString(int pos, String str)
+   {
+       String tmp = "";
+       try
+       {
+            tmp = str.substring(pos - 1, pos);
+       }
+       catch (Exception e)
+       {
+            Console.print(e.toString());
+       }
        return tmp;
    }
 
