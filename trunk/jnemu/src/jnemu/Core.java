@@ -10,7 +10,7 @@ public class Core
         //else dont do anything...................................
         if(Cartridge.noSelectedFile == false)
         {
-            Console.print("Starting core emulation");
+            Console.print("Starting Core emulation");
             isRunning = true;
             Main.win.setTitle("JNemu - running");
             //enable stop............
@@ -22,14 +22,14 @@ public class Core
 
     public static void startEmulation()
     {
-        Console.print("Starting core emulation");
+        Console.print("Starting Core emulation");
         isRunning = true;
         Main.win.setTitle("JNemu - running");
     }
 
     public static void stopEmulation()
     {
-        Console.print("Stopping core emulation");
+        Console.print("Stopping Core emulation");
         isRunning = false;
         Main.win.setTitle("JNemu");
     }

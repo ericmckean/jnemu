@@ -20,11 +20,13 @@ public class Cartridge
         else
         {
             noSelectedFile = false;
+            //Clear the Console.....
+            Console.clearConsole();
             //load the nes file to cartridge..........
             try
             {
                 File f = new File(path);
-                Console.print("Loading file '" + f.getName() + "'");
+                Console.print("Loading file [" + f.getName() + "]");
                 RomContent = new byte[(int)f.length()];
                 RomContent = Emu_MOD.getBytesFromFile(f);
                 //System.out.print((int)f.length());
@@ -33,18 +35,26 @@ public class Cartridge
                 {
                     showInDebugger(RomContent);
                     //show 16kb Rom bank..
-                    Console.print("16kb Rom Bank : " + get16kbRomBank(RomContent));
+                    Console.print("[INFO] 16kb Rom Bank : " + get16kbRomBank(RomContent));
                     //show 8kb VRom bank..
-                    Console.print("8kb VRom Bank : " + get8kbVRomBank(RomContent));
+                    Console.print("[INFO] 8kb VRom Bank : " + get8kbVRomBank(RomContent));
                      //show 8kb Ram bank..
-                    Console.print("8kb Ram Bank : " + get8kbRamBank(RomContent));
+                    Console.print("[INFO] 8kb Ram Bank : " + get8kbRamBank(RomContent));
                     //show mapper type..
-                    Console.print("Mapper : " + getMapper(RomContent));
+                    Console.print("[INFO] Mapper : " + getMapper(RomContent));
+                    //vertical mirroring..
+                    Console.print("[INFO] Vertical Mirroring : " + getVMirroring(RomContent));
+                    //Is battery backed at $6000-$7FFF..
+                    Console.print("[INFO] Battery-Backed at $6000-$7FFF  : " + isBatteryBacked(RomContent));
+                    //512-byte trainer at $7000-$71FF..
+                    Console.print("[INFO] 512Byte trainer at $7000-$71FF  : " + get512ByteTrainer(RomContent));
+                    //Four-Screen VRAM layout..
+                    Console.print("[INFO] Four-Screen VRAM layout  : " + getFourScreenVRamLayout(RomContent));
                     isLoaded = true;
                 }
                 else
                 {
-                    Console.print("Error : Not a Nes rom file.");
+                    Console.print("[ERROR] Not a Nes rom file.");
                     isLoaded = false;
                 }
             }
@@ -144,5 +154,53 @@ public class Cartridge
         String higher = Emu_MOD.byteToStringHex(b[7]);
 
         return higher.substring(0,1) + lower.substring(0,1);
+    }
+
+    private static String getVMirroring(byte[] b)
+    {
+        String tmp = Emu_MOD.getCharFromString(1, Emu_MOD.byteToStringBinary(b[6]));
+        return tmp;
+    }
+
+    private static String isBatteryBacked(byte[] b)
+    {
+        String z = Emu_MOD.byteToStringBinary(b[6]);
+        if(z.length() <= 1)
+        {
+            return "0";
+        }
+        else
+        {
+            String tmp = Emu_MOD.getCharFromString(2, z);
+            return tmp;
+        }
+    }
+
+    private static String get512ByteTrainer(byte[] b)
+    {
+        String z = Emu_MOD.byteToStringBinary(b[6]);
+        if(z.length() <= 1)
+        {
+            return "0";
+        }
+        else
+        {
+            String tmp = Emu_MOD.getCharFromString(3, z);
+            return tmp;
+        }
+    }
+
+    private static String getFourScreenVRamLayout(byte[] b)
+    {
+        String z = Emu_MOD.byteToStringBinary(b[6]);
+        if(z.length() <= 1)
+        {
+            return "0";
+        }
+        else
+        {
+            String tmp = Emu_MOD.getCharFromString(4, z);
+            return tmp;
+        }
     }
 }

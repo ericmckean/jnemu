@@ -8,6 +8,7 @@ public class WinMain extends JFrame
 {
     public static JMenuItem myStart;
     public static JMenuItem myStop;
+    public static JCheckBoxMenuItem myConsole;
 
     WinMain()
     {
@@ -28,6 +29,7 @@ public class WinMain extends JFrame
         setLocation((dim.width / 2) - (scWidth / 2), (dim.height / 2) - (scHeight / 2));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(Color.BLACK);
+        setAlwaysOnTop(true);
 
         /*********************** Menu Bar ***********************/
         JMenuBar bar = new JMenuBar();
@@ -93,12 +95,16 @@ public class WinMain extends JFrame
         myController.addActionListener(new ActionHandler());
         myConfig.add(myController);
 
-        JMenuItem myFolder = new JMenuItem("Folder");
-        myFolder.setMnemonic('F');
+        JMenuItem myFolder = new JMenuItem("Option");
+        myFolder.setMnemonic('O');
         myFolder.addActionListener(new ActionHandler());
         myConfig.add(myFolder);
 
         //Misc
+        myConsole = new JCheckBoxMenuItem("Console");
+        myConsole.addActionListener(new ActionHandler());
+        myMisc.add(myConsole);
+
         JMenuItem myDebugger = new JMenuItem("Debugger");
         myDebugger.setMnemonic('D');
         myDebugger.addActionListener(new ActionHandler());

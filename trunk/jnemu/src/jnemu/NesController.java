@@ -20,6 +20,7 @@ public class NesController extends JDialog
         Toolkit t = Toolkit.getDefaultToolkit();
         Dimension dim = t.getScreenSize();
         setLocation((dim.width / 2) - (scWidth / 2), (dim.height / 2) - (scHeight / 2));
+        setAlwaysOnTop(true);
 
         /****************************** TAB ****************************/
         JTabbedPane tab = new JTabbedPane();

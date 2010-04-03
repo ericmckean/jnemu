@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 public class ActionHandler implements ActionListener
 {
+    @SuppressWarnings("static-access")
     public void actionPerformed(ActionEvent e)
     {
         if(e.getActionCommand().equals("Exit"))
@@ -13,13 +14,13 @@ public class ActionHandler implements ActionListener
         }
         else if(e.getActionCommand().equals("Open Rom"))
         {
-           //load roms to cartridge
-           Cartridge.loadNesROM(Emu_MOD.getFilePath());
-           if(Cartridge.isLoaded)
-           {
-               //run the core emulation
-               Core.runEmulation();
-           }
+            //load roms to cartridge
+            Cartridge.loadNesROM(Emu_MOD.getFilePath());
+            if(Cartridge.isLoaded)
+            {
+                //run the core emulation
+                Core.runEmulation();
+            }
         }
         else if(e.getActionCommand().equals("Controller"))
         {
@@ -53,9 +54,20 @@ public class ActionHandler implements ActionListener
             WinMain.myStop.setEnabled(false);
             Core.stopEmulation();
         }
-        else if(e.getActionCommand().equals("Folder"))
+        else if(e.getActionCommand().equals("Option"))
         {
-            Main.fold.setVisible(true);
+            Main.opt.setVisible(true);
+        }
+        else if(e.getActionCommand().equals("Console"))
+        {
+            if(Main.win.myConsole.isSelected())
+            {
+                Console.displayFrame();
+            }
+            else
+            {
+                Console.hidFrame();
+            }
         }
        
     }

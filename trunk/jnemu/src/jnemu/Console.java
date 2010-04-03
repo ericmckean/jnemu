@@ -3,6 +3,8 @@ package jnemu;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.text.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Console extends JDialog
 {
@@ -33,6 +35,17 @@ public class Console extends JDialog
         txt.setParagraphAttributes(sa, true);
 
         sb = new StringBuilder();
+
+        /******************************* OnClose *********************************/
+        addWindowListener(new WindowAdapter()
+        {
+            @Override
+            @SuppressWarnings("static-access")
+            public void windowClosing(WindowEvent e)
+            {
+                Main.win.myConsole.setSelected(false);
+            }
+        });
     }
 
     public static void print(String str)
@@ -45,8 +58,24 @@ public class Console extends JDialog
 
     public static void clearConsole()
     {
-        sb = null;
+        sb.delete(0, sb.length());
+        sb.append("*******************************************\n");
+        sb.append("*                 JNemu                   *\n");
+        sb.append("*        Java base Nes emulator           *\n");
+        sb.append("*******************************************\n");
         txt.setText(sb.toString());
+    }
+
+    @SuppressWarnings("static-access")
+    public static void displayFrame()
+    {
+        Main.con.setVisible(true);
+        Main.win.myConsole.setSelected(true);
+    }
+
+    public static void hidFrame()
+    {
+        Main.con.setVisible(false);
     }
 
 }
