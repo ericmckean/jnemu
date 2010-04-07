@@ -43,7 +43,7 @@ public class Cartridge
                     //show mapper type..
                     Console.print("[INFO] Mapper : " + getMapper(RomContent));
                     //vertical mirroring..
-                    Console.print("[INFO] Vertical Mirroring : " + getVMirroring(RomContent));
+                    Console.print("[INFO] Mirroring : " + getMirroring(RomContent));
                     //Is battery backed at $6000-$7FFF..
                     Console.print("[INFO] Battery-Backed at $6000-$7FFF  : " + isBatteryBacked(RomContent));
                     //512-byte trainer at $7000-$71FF..
@@ -156,10 +156,19 @@ public class Cartridge
         return higher.substring(0,1) + lower.substring(0,1);
     }
 
-    private static String getVMirroring(byte[] b)
+    private static String getMirroring(byte[] b)
     {
+        String r = new String();
         String tmp = Emu_MOD.getCharFromString(1, Emu_MOD.byteToStringBinary(b[6]));
-        return tmp;
+        if(tmp.equals("1"))
+        {
+            r = "VERTICAL";
+        }
+        else if(tmp.equals("0"))
+        {
+            r = "HORIZONTAL";
+        }
+        return r;
     }
 
     private static String isBatteryBacked(byte[] b)

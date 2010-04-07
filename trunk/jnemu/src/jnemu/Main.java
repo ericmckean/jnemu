@@ -50,6 +50,9 @@ public class Main
         Console.displayFrame();
         //Clear the Console......
         Console.clearConsole();
+
+        //initialize memory..
+        eMEM.initMEMORY();
     }
 
 }
