@@ -34,22 +34,44 @@ public class Cartridge
                 if(Cartridge.isNes)
                 {
                     showInDebugger(RomContent);
-                    //show 16kb Rom bank..
-                    Console.print("[INFO] 16kb Rom Bank : " + get16kbRomBank(RomContent));
-                    //show 8kb VRom bank..
-                    Console.print("[INFO] 8kb VRom Bank : " + get8kbVRomBank(RomContent));
-                     //show 8kb Ram bank..
-                    Console.print("[INFO] 8kb Ram Bank : " + get8kbRamBank(RomContent));
-                    //show mapper type..
-                    Console.print("[INFO] Mapper : " + getMapper(RomContent));
-                    //vertical mirroring..
-                    Console.print("[INFO] Mirroring : " + getMirroring(RomContent));
-                    //Is battery backed at $6000-$7FFF..
-                    Console.print("[INFO] Battery-Backed at $6000-$7FFF  : " + isBatteryBacked(RomContent));
-                    //512-byte trainer at $7000-$71FF..
-                    Console.print("[INFO] 512Byte trainer at $7000-$71FF  : " + get512ByteTrainer(RomContent));
-                    //Four-Screen VRAM layout..
-                    Console.print("[INFO] Four-Screen VRAM layout  : " + getFourScreenVRamLayout(RomContent));
+                    //Get the Cartridge info........
+                    GAME.RomBank_16KB = Integer.parseInt(get16kbRomBank(RomContent));
+                    GAME.VRomBank_8KB = Integer.parseInt(get8kbVRomBank(RomContent));
+                    GAME.RamBank_8KB = Integer.parseInt(get8kbRamBank(RomContent));
+                    GAME.MAPPER = getMapper(RomContent);
+                    GAME.MIRRORING = getMirroring(RomContent);
+                    GAME.TVSystem = getTVSystem(RomContent);
+
+                    if(isBatteryBacked(RomContent).equals("1"))
+                    {
+                        GAME.isBatteryBacked = true;
+                    }
+                    else if(isBatteryBacked(RomContent).equals("0"))
+                    {
+                        GAME.isBatteryBacked = false;
+                    }
+                    
+                    if(get512ByteTrainer(RomContent).equals("1"))
+                    {
+                        GAME.Trainer_512KB = true;
+                    }
+                    else if(get512ByteTrainer(RomContent).equals("0"))
+                    {
+                        GAME.Trainer_512KB = false;
+                    }
+
+                    if(getFourScreenVRamLayout(RomContent).equals("1"))
+                    {
+                        GAME.VRamLayout_4Screen = true;
+                    }
+                    else if(getFourScreenVRamLayout(RomContent).equals("0"))
+                    {
+                        GAME.VRamLayout_4Screen = false;
+                    }
+
+                    //Show game info........
+                    GAME.showInfo();
+
                     isLoaded = true;
                 }
                 else
@@ -211,5 +233,22 @@ public class Cartridge
             String tmp = Emu_MOD.getCharFromString(4, z);
             return tmp;
         }
+    }
+
+    private static String getTVSystem(byte[] b)
+    {
+        String z = Emu_MOD.byteToStringBinary(b[9]);
+        String tmp = Emu_MOD.getCharFromString(1, z);
+        String r = "";
+
+        if(tmp.equals("0"))
+        {
+            r = "NTSC";
+        }
+        else if(tmp.equals("1"))
+        {
+            r = "PAL";
+        }
+        return r;
     }
 }
