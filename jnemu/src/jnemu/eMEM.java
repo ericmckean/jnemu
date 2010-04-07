@@ -1,14 +1,27 @@
 package jnemu;
+import java.util.Arrays;
 
 public class eMEM
 {
-    public static byte read8Bit()
+    private static byte[] MEMORY_MAP;
+
+    public static void initMEMORY()
     {
-        return 0x00;
+        MEMORY_MAP = new byte[0xFFFF];
     }
 
-    public static void write8Bit()
+    public static byte read8Bit(byte address)
     {
-        
+        return MEMORY_MAP[address];
+    }
+
+    public static void write8Bit(byte address, byte value)
+    {
+        MEMORY_MAP[address] = value;
+    }
+
+    public static void clear()
+    {
+        Arrays.fill(MEMORY_MAP, (byte)0);
     }
 }

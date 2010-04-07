@@ -1,6 +1,6 @@
 package jnemu;
 
-public class eSPU
+public class eAPU
 {
 
 }
