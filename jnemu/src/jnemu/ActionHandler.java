@@ -66,7 +66,7 @@ public class ActionHandler implements ActionListener
             }
             else
             {
-                Console.hidFrame();
+                Console.hideFrame();
             }
         }
        
