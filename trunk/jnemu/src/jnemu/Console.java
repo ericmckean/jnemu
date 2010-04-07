@@ -73,7 +73,7 @@ public class Console extends JDialog
         Main.win.myConsole.setSelected(true);
     }
 
-    public static void hidFrame()
+    public static void hideFrame()
     {
         Main.con.setVisible(false);
     }
