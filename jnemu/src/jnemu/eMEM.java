@@ -7,7 +7,8 @@ public class eMEM
 
     public static void initMEMORY()
     {
-        MEMORY_MAP = new byte[0x10000];
+        MEMORY_MAP = new byte[0xFFFF];
+        clear();
     }
 
     public static byte read8Bit(byte address)
