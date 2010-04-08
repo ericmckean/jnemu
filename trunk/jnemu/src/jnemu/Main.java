@@ -45,9 +45,10 @@ public class Main
 
          //Show Main Window..........
         win = new WinMain();
-        win.setVisible(true);
-
+        //Show Console before main window..
         Console.displayFrame();
+        win.setVisible(true);
+        
         //Clear the Console......
         Console.clearConsole();
 

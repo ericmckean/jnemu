@@ -53,21 +53,29 @@ public class Cartridge
                     
                     if(get512ByteTrainer(RomContent).equals("1"))
                     {
-                        GAME.Trainer_512KB = true;
+                        GAME.hasTrainer = true;
                     }
                     else if(get512ByteTrainer(RomContent).equals("0"))
                     {
-                        GAME.Trainer_512KB = false;
+                        GAME.hasTrainer = false;
                     }
 
                     if(getFourScreenVRamLayout(RomContent).equals("1"))
                     {
-                        GAME.VRamLayout_4Screen = true;
+                        GAME.is4ScreenVRamLayout = true;
                     }
                     else if(getFourScreenVRamLayout(RomContent).equals("0"))
                     {
-                        GAME.VRamLayout_4Screen = false;
+                        GAME.is4ScreenVRamLayout = false;
                     }
+
+                    //Get the 512kb Trainer if existing..
+                    if(GAME.hasTrainer)
+                    {
+                        get512Trainer(RomContent);
+                    }
+                    //Get the 16kb Rom Bank...
+                    //Get the 8kb VRom Bank...
 
                     //Show game info........
                     GAME.showInfo();
@@ -250,5 +258,21 @@ public class Cartridge
             r = "PAL";
         }
         return r;
+    }
+
+    private static void get512Trainer(byte[] b)
+    {
+        int start = 16;
+        int size = 512; //512 bytes.
+        byte[] tmp;
+        tmp = new byte[size]; 
+        
+        for(int a=0; a<size;a++)
+        {
+            tmp[a] = b[a + start];
+        }
+        
+        GAME.Trainer = new byte[size];
+        GAME.Trainer = tmp;
     }
 }
