@@ -1,6 +1,6 @@
 package jnemu;
 
-public class cpu6502
+public class ePSG
 {
 
 }

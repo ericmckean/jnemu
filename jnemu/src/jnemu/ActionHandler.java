@@ -18,8 +18,14 @@ public class ActionHandler implements ActionListener
             Cartridge.loadNesROM(Emu_MOD.getFilePath());
             if(Cartridge.isLoaded)
             {
-                //run the core emulation
-                Core.runEmulation();
+                switch (GAME.MAPPER)
+                {
+                    case 0 : Core.startEmulation();
+                    break;
+                    default : Console.print("Unsupported mapper...");
+                    break;
+                }
+                
             }
         }
         else if(e.getActionCommand().equals("Controller"))

@@ -35,8 +35,8 @@ public class Cartridge
                 {
                     showInDebugger(RomContent);
                     //Get the Cartridge info........
-                    GAME.RomBank_16KB = Integer.parseInt(get16kbRomBank(RomContent));
-                    GAME.VRomBank_8KB = Integer.parseInt(get8kbVRomBank(RomContent));
+                    GAME.NumberOf16KbRomBank = Integer.parseInt(get16kbRomBank(RomContent));
+                    GAME.NumberOf8KbVRomBank = Integer.parseInt(get8kbVRomBank(RomContent));
                     GAME.RamBank_8KB = Integer.parseInt(get8kbRamBank(RomContent));
                     GAME.MAPPER = getMapper(RomContent);
                     GAME.MIRRORING = getMirroring(RomContent);
@@ -75,12 +75,13 @@ public class Cartridge
                         get512Trainer(RomContent);
                     }
                     //Get the 16kb Rom Bank...
+                    getRomBank(RomContent);
                     //Get the 8kb VRom Bank...
 
-                    //Show game info........
+                    //show rom info...........
                     GAME.showInfo();
 
-                    isLoaded = true;
+                   isLoaded = true;
                 }
                 else
                 {
@@ -90,7 +91,8 @@ public class Cartridge
             }
             catch(Exception e)
             {
-                Console.print(e.toString());
+                isLoaded = false;
+                Console.print("[JAVA]" + e.toString());
             }
         }
     }
@@ -145,7 +147,7 @@ public class Cartridge
                     ctr2 = 0;
                 }
             }
-            catch (Exception e){Console.print(e.toString());}
+            catch (Exception e){Console.print("[JAVA]" + e.toString());}
         }
         NesDebugger.jt.setText(temp.toString());
     }
@@ -178,12 +180,18 @@ public class Cartridge
         return Emu_MOD.byteToStringInt(b[8]);
     }
 
-    private static String getMapper(byte[] b)
+    private static int getMapper(byte[] b)
     {
+        int tmp;
+        String str;
+
         String lower = Emu_MOD.byteToStringHex(b[6]);
         String higher = Emu_MOD.byteToStringHex(b[7]);
 
-        return higher.substring(0,1) + lower.substring(0,1);
+        str =  higher.substring(0,1) + lower.substring(0,1);
+        tmp = Integer.parseInt(str,16);
+
+        return tmp;
     }
 
     private static String getMirroring(byte[] b)
@@ -267,12 +275,45 @@ public class Cartridge
         byte[] tmp;
         tmp = new byte[size]; 
         
-        for(int a=0; a<size;a++)
+        for(int a=0; a<size; a++)
         {
             tmp[a] = b[a + start];
         }
         
         GAME.Trainer = new byte[size];
         GAME.Trainer = tmp;
+    }
+
+    private static void getRomBank(byte[] b)
+    {
+        int start, x;
+        int size = 16384; //16kb Rom bank.
+        byte[][] tmp;
+
+        if(GAME.hasTrainer)
+        {
+            start = 15 + 512;
+            x = start;
+        }
+        else
+        {
+            start = 16;
+            x = 15;
+        }
+
+        
+        tmp = new byte[size][GAME.NumberOf16KbRomBank];
+        
+        for(int ctr=1; ctr<=GAME.NumberOf16KbRomBank; ctr++)
+        {
+            for(int a=0; a<size; a++)
+            {
+                tmp[a][ctr-1] = b[a + start];
+            }
+            start = x + (size * ctr);
+        }
+
+        GAME.RomBank_16KB = new byte[size][GAME.NumberOf16KbRomBank];
+        GAME.RomBank_16KB = tmp;
     }
 }

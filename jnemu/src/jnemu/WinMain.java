@@ -31,6 +31,9 @@ public class WinMain extends JFrame
         getContentPane().setBackground(Color.BLACK);
         setAlwaysOnTop(true);
 
+        /********************** Status Bar **********************/
+        //JStatusBar status = new JStatusBar();
+
         /*********************** Menu Bar ***********************/
         JMenuBar bar = new JMenuBar();
 
