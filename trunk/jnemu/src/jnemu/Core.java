@@ -4,33 +4,36 @@ public class Core
 {
     public static boolean isRunning = false;
 
-    public static void runEmulation()
+    public static void startEmulation()
     {
         //if the file is loaded to the cartridge, start emulation.
         //else dont do anything...................................
+        
         if(Cartridge.noSelectedFile == false)
         {
-            Console.print("Starting Core emulation");
+            Console.print("Start Core emulation...");
             isRunning = true;
             Main.win.setTitle("JNemu - running");
             //enable stop............
             WinMain.myStop.setEnabled(true);
             WinMain.myStart.setEnabled(false);
-            //put emulation code here................
+            RUN();
         }
-    }
-
-    public static void startEmulation()
-    {
-        Console.print("Starting Core emulation");
-        isRunning = true;
-        Main.win.setTitle("JNemu - running");
     }
 
     public static void stopEmulation()
     {
-        Console.print("Stopping Core emulation");
+        Console.print("Stop Core emulation...");
         isRunning = false;
         Main.win.setTitle("JNemu");
     }
+
+    private static void RUN()
+    {
+        while(isRunning)
+        {
+            isRunning = false;
+        }
+    }
+
 }

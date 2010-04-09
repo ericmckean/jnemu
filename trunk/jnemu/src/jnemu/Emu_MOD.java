@@ -36,7 +36,7 @@ public class Emu_MOD
         }
         catch(Exception e)
         {
-            Console.print(e.toString());
+            Console.print("[JAVA]" + e.toString());
         }
 
         return tmp;
@@ -109,7 +109,7 @@ public class Emu_MOD
        }
        catch (Exception e)
        {
-            Console.print(e.toString());
+            Console.print("[JAVA]" + e.toString());
        }
        return tmp;
    }
