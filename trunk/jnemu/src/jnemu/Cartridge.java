@@ -26,6 +26,7 @@ public class Cartridge
             try
             {
                 File f = new File(path);
+                GAME.fSize = f.length();
                 Console.print("Loading file [" + f.getName() + "]");
                 RomContent = new byte[(int)f.length()];
                 RomContent = Emu_MOD.getBytesFromFile(f);
@@ -77,11 +78,12 @@ public class Cartridge
                     //Get the 16kb Rom Bank...
                     getRomBank(RomContent);
                     //Get the 8kb VRom Bank...
+                    getVRomBank(RomContent);
 
                     //show rom info...........
                     GAME.showInfo();
 
-                   isLoaded = true;
+                    isLoaded = true;
                 }
                 else
                 {
@@ -92,7 +94,7 @@ public class Cartridge
             catch(Exception e)
             {
                 isLoaded = false;
-                Console.print("[JAVA]" + e.toString());
+                Console.print("[JAVA] " + e.toString());
             }
         }
     }
@@ -301,7 +303,6 @@ public class Cartridge
             x = 15;
         }
 
-        
         tmp = new byte[size][GAME.NumberOf16KbRomBank];
         
         for(int ctr=1; ctr<=GAME.NumberOf16KbRomBank; ctr++)
@@ -315,5 +316,37 @@ public class Cartridge
 
         GAME.RomBank_16KB = new byte[size][GAME.NumberOf16KbRomBank];
         GAME.RomBank_16KB = tmp;
+    }
+
+    private static void getVRomBank(byte[] b)
+    {
+        int start, x;
+        int size = 8192; //8kb VRom bank.
+        byte[][] tmp;
+
+        if(GAME.hasTrainer)
+        {
+            start = 15 + 512 + (16384 * GAME.NumberOf16KbRomBank);
+            x = start;
+        }
+        else
+        {
+            start = 16 + (16384 * GAME.NumberOf16KbRomBank);
+            x = 15 + (16384 * GAME.NumberOf16KbRomBank);
+        }
+
+        tmp = new byte[size][GAME.NumberOf8KbVRomBank];
+
+        for(int ctr=1; ctr<=GAME.NumberOf8KbVRomBank; ctr++)
+        {
+            for(int a=0; a<size; a++)
+            {
+                tmp[a][ctr-1] = b[a + start];
+            }
+            start = x + (size * ctr);
+        }
+
+        GAME.VRomBank_8KB = new byte[size][GAME.NumberOf8KbVRomBank];
+        GAME.VRomBank_8KB = tmp;
     }
 }

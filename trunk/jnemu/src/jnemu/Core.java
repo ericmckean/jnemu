@@ -17,6 +17,11 @@ public class Core
             //enable stop............
             WinMain.myStop.setEnabled(true);
             WinMain.myStart.setEnabled(false);
+            
+            //initialize Nes Components..
+            eMEM.init();
+            mapper.init();
+            
             RUN();
         }
     }
