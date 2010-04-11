@@ -5,7 +5,7 @@ public class eMEM
 {
     private static byte[] MEMORY_MAP;
 
-    public static void initMEMORY()
+    public static void init()
     {
         MEMORY_MAP = new byte[0xFFFF];
         clear();

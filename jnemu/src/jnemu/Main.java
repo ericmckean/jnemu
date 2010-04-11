@@ -51,9 +51,6 @@ public class Main
         
         //Clear the Console......
         Console.clearConsole();
-
-        //initialize Nes Components..
-        eMEM.initMEMORY();
     }
 
 }
