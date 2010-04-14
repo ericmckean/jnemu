@@ -97,7 +97,43 @@ public class Emu_MOD
    public static String byteToStringBinary(byte b)
    {
        String tmp = Integer.toBinaryString(b);
-       return tmp;
+       StringBuilder x = new StringBuilder();
+
+       if(tmp.length() < 8)
+       {
+            switch(tmp.length())
+            {
+                case 1 : 
+                    x.append("0000000");
+                    x.append(tmp);
+                    break;
+                case 2 :
+                    x.append("000000");
+                    x.append(tmp);
+                    break;
+                case 3 :
+                    x.append("00000");
+                    x.append(tmp);
+                    break;
+                case 4 :
+                    x.append("0000");
+                    x.append(tmp);
+                    break;
+                case 5 :
+                    x.append("000");
+                    x.append(tmp);
+                    break;
+                case 6 :
+                    x.append("00");
+                    x.append(tmp);
+                    break;
+                case 7 :
+                    x.append("0");
+                    x.append(tmp);
+                    break;
+            }
+       }
+       return x.toString();
    }
 
    public static String getCharFromString(int pos, String str)
