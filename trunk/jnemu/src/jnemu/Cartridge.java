@@ -199,7 +199,7 @@ public class Cartridge
     private static String getMirroring(byte[] b)
     {
         String r = new String();
-        String tmp = Emu_MOD.getCharFromString(1, Emu_MOD.byteToStringBinary(b[6]));
+        String tmp = Emu_MOD.getCharFromString(8, Emu_MOD.byteToStringBinary(b[6]));
         if(tmp.equals("1"))
         {
             r = "VERTICAL";
@@ -220,7 +220,7 @@ public class Cartridge
         }
         else
         {
-            String tmp = Emu_MOD.getCharFromString(2, z);
+            String tmp = Emu_MOD.getCharFromString(7, z);
             return tmp;
         }
     }
@@ -234,7 +234,7 @@ public class Cartridge
         }
         else
         {
-            String tmp = Emu_MOD.getCharFromString(3, z);
+            String tmp = Emu_MOD.getCharFromString(6, z);
             return tmp;
         }
     }
@@ -248,7 +248,7 @@ public class Cartridge
         }
         else
         {
-            String tmp = Emu_MOD.getCharFromString(4, z);
+            String tmp = Emu_MOD.getCharFromString(5, z);
             return tmp;
         }
     }
@@ -294,13 +294,13 @@ public class Cartridge
 
         if(GAME.hasTrainer)
         {
-            start = 15 + 512;
+            start = 16 + 512;
             x = start;
         }
         else
         {
             start = 16;
-            x = 15;
+            x = 16;
         }
 
         tmp = new byte[size][GAME.NumberOf16KbRomBank];
@@ -320,30 +320,36 @@ public class Cartridge
 
     private static void getVRomBank(byte[] b)
     {
-        int start, x;
+        int start, end;
         int size = 8192; //8kb VRom bank.
         byte[][] tmp;
+        int ctr = 0;
 
         if(GAME.hasTrainer)
         {
-            start = 15 + 512 + (16384 * GAME.NumberOf16KbRomBank);
-            x = start;
+            start = 16 + 512 + (16384 * GAME.NumberOf16KbRomBank);
         }
         else
         {
             start = 16 + (16384 * GAME.NumberOf16KbRomBank);
-            x = 15 + (16384 * GAME.NumberOf16KbRomBank);
         }
 
         tmp = new byte[size][GAME.NumberOf8KbVRomBank];
+        end = start + size;
 
-        for(int ctr=1; ctr<=GAME.NumberOf8KbVRomBank; ctr++)
+        int x = start;
+        int y = end;
+        int i;
+
+        for(int z=0; z<GAME.NumberOf8KbVRomBank; z++)
         {
-            for(int a=0; a<size; a++)
+            for(i=x; i<y; i++)
             {
-                tmp[a][ctr-1] = b[a + start];
+                tmp[ctr][z] = b[i];
+                ctr++;
             }
-            start = x + (size * ctr);
+            x = y;
+            y = y + size;
         }
 
         GAME.VRomBank_8KB = new byte[size][GAME.NumberOf8KbVRomBank];
