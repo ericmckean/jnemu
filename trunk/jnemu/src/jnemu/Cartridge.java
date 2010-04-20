@@ -75,13 +75,14 @@ public class Cartridge
                     {
                         get512Trainer(RomContent);
                     }
+
+                    //show rom info...........
+                    GAME.showInfo();
+
                     //Get the 16kb Rom Bank...
                     getRomBank(RomContent);
                     //Get the 8kb VRom Bank...
                     getVRomBank(RomContent);
-
-                    //show rom info...........
-                    GAME.showInfo();
 
                     isLoaded = true;
                 }
@@ -288,42 +289,44 @@ public class Cartridge
 
     private static void getRomBank(byte[] b)
     {
-        int start, x;
+        int start, end, i;
         int size = 16384; //16kb Rom bank.
-        byte[][] tmp;
 
         if(GAME.hasTrainer)
         {
             start = 16 + 512;
-            x = start;
         }
         else
         {
             start = 16;
-            x = 16;
         }
 
-        tmp = new byte[size][GAME.NumberOf16KbRomBank];
+        end = start + size;
+        i = 0;
         
-        for(int ctr=1; ctr<=GAME.NumberOf16KbRomBank; ctr++)
-        {
-            for(int a=0; a<size; a++)
-            {
-                tmp[a][ctr-1] = b[a + start];
-            }
-            start = x + (size * ctr);
-        }
-
         GAME.RomBank_16KB = new byte[size][GAME.NumberOf16KbRomBank];
-        GAME.RomBank_16KB = tmp;
+
+        switch (GAME.NumberOf16KbRomBank)
+        {
+            case 0 : //do nothing, just to prevent the error showing.;
+                break;
+            case 1 :
+                for(int ctr=start; ctr<end; ctr++)
+                {
+                    GAME.RomBank_16KB[i][0] = b[ctr];
+                    i++;
+                }
+                break;
+            default :
+                Console.print("[ERROR] Unsupported 16kb Rom Bank count.");
+                break;
+        }
     }
 
     private static void getVRomBank(byte[] b)
     {
-        int start, end;
+        int start, end, i;
         int size = 8192; //8kb VRom bank.
-        byte[][] tmp;
-        int ctr = 0;
 
         if(GAME.hasTrainer)
         {
@@ -334,25 +337,25 @@ public class Cartridge
             start = 16 + (16384 * GAME.NumberOf16KbRomBank);
         }
 
-        tmp = new byte[size][GAME.NumberOf8KbVRomBank];
         end = start + size;
-
-        int x = start;
-        int y = end;
-        int i;
-
-        for(int z=0; z<GAME.NumberOf8KbVRomBank; z++)
-        {
-            for(i=x; i<y; i++)
-            {
-                tmp[ctr][z] = b[i];
-                ctr++;
-            }
-            x = y;
-            y = y + size;
-        }
+        i = 0;
 
         GAME.VRomBank_8KB = new byte[size][GAME.NumberOf8KbVRomBank];
-        GAME.VRomBank_8KB = tmp;
+
+        switch (GAME.NumberOf8KbVRomBank)
+        {
+            case 0 : //do nothing, just to prevent the error showing.;
+                break;
+            case 1 :
+                for(int ctr=start; ctr<end; ctr++)
+                {
+                    GAME.VRomBank_8KB[i][0] = b[ctr];
+                    i++;
+                }
+                break;
+            default :
+                Console.print("[ERROR] Unsupported 8kb VRom Bank count.");
+                break;
+        }
     }
 }

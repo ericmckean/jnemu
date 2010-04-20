@@ -21,7 +21,7 @@ public class ActionHandler implements ActionListener
                 switch (GAME.MAPPER)
                 {
                     case 0 : Core.startEmulation();break;
-                    default : Console.print("Unsupported mapper...");break;
+                    default : Console.print("[ERROR] Unsupported mapper.");break;
                 }
             }
         }

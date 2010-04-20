@@ -131,6 +131,9 @@ public class Emu_MOD
                     x.append("0");
                     x.append(tmp);
                     break;
+                default:
+                    x.append(tmp);
+                    break;
             }
        }
        return x.toString();
