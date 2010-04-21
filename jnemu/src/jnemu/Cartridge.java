@@ -310,10 +310,27 @@ public class Cartridge
         {
             case 0 : //do nothing, just to prevent the error showing.;
                 break;
-            case 1 :
+            case 1 : //load 1 Rom bank.
                 for(int ctr=start; ctr<end; ctr++)
                 {
                     GAME.RomBank_16KB[i][0] = b[ctr];
+                    i++;
+                }
+                break;
+            case 2 : //load 2 Rom bank.
+                //0..
+                for(int ctr=start; ctr<end; ctr++)
+                {
+                    GAME.RomBank_16KB[i][0] = b[ctr];
+                    i++;
+                }
+                i = 0;
+                start = end;
+                end = start + size;
+                //1..
+                for(int ctr=start; ctr<end; ctr++)
+                {
+                    GAME.RomBank_16KB[i][1] = b[ctr];
                     i++;
                 }
                 break;
@@ -346,7 +363,7 @@ public class Cartridge
         {
             case 0 : //do nothing, just to prevent the error showing.;
                 break;
-            case 1 :
+            case 1 : //load 1 VRom bank.
                 for(int ctr=start; ctr<end; ctr++)
                 {
                     GAME.VRomBank_8KB[i][0] = b[ctr];
