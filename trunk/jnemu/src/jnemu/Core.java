@@ -11,7 +11,6 @@ public class Core
         
         if(Cartridge.noSelectedFile == false)
         {
-            Console.print("Start Core emulation...");
             isRunning = true;
             Main.win.setTitle("JNemu - running");
             //enable stop............
@@ -19,9 +18,16 @@ public class Core
             WinMain.myStart.setEnabled(false);
             
             //initialize Nes Components..
+            Console.print("Initializing NES components...");
             eMEM.init();
+
+            Console.print("Clearing memory...");
+            eMEM.clear();
+
+            //init mapper.....
             mapper.init();
-            
+
+            Console.print("Start Core emulation...");
             RUN();
         }
     }

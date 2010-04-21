@@ -8,7 +8,6 @@ public class eMEM
     public static void init()
     {
         MEMORY_MAP = new byte[0xFFFF];
-        clear();
     }
 
     public static byte read8Bit(byte address)
