@@ -18,14 +18,13 @@ public class Core
             WinMain.myStart.setEnabled(false);
             
             //initialize Nes Components..
-            Console.print("Initializing NES components...");
+            Console.print("Initializing memory...");
             eMEM.init();
-
-            Console.print("Clearing memory...");
-            eMEM.clear();
+            
 
             //init mapper.....
             mapper.init();
+            eMEM.showMemInDebugger();
 
             Console.print("Start Core emulation...");
             RUN();

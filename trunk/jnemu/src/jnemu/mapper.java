@@ -16,28 +16,30 @@ public class mapper
         switch (GAME.NumberOf16KbRomBank)
         {
             case 1 :
-                Console.print("Loading Bank 0 to 0x0000-0xBFFF and 0xC000-0xFFFF...");
-                for(byte ctr=(byte)0x8000; ctr<=(byte)0xBFFF; ctr++)
+                Console.print("Loading Bank 0 to address 0x8000-0xBFFF...");
+                for(int ctr=0x8000; ctr<=0xBFFF; ctr++)
                 {
                     eMEM.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
                     i++;
                 }
                 i = 0;
-                for(byte ctr=(byte)0xC000; ctr<=(byte)0xFFFF; ctr++)
+                Console.print("Loading Bank 0 to address 0xC000-0xFFFF...");
+                for(int ctr=0xC000; ctr<=0xFFFF; ctr++)
                 {
                     eMEM.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
                     i++;
                 }
                 break;
             case 2 :
-                Console.print("Loading Bank 0 to 0x0000-0xBFFF and Bank 1 to 0xC000-0xFFFF...");
-                for(byte ctr=(byte)0x8000; ctr<=(byte)0xBFFF; ctr++)
+                Console.print("Loading Bank 0 to address 0x8000-0xBFFF...");
+                for(int ctr=0x8000; ctr<=0xBFFF; ctr++)
                 {
                     eMEM.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
                     i++;
                 }
                 i = 0;
-                for(byte ctr=(byte)0xC000; ctr<=(byte)0xFFFF; ctr++)
+                Console.print("Loading Bank 1 to address 0xC000-0xFFFF...");
+                for(int ctr=0xC000; ctr<=0xFFFF; ctr++)
                 {
                     eMEM.write8Bit(ctr, GAME.RomBank_16KB[i][1]);
                     i++;

@@ -10,6 +10,7 @@ public class NesDebugger extends JDialog
     int scHeight = 400;
 
     public static JTextPane jt;
+    public static JTextPane mem_jt;
 
     NesDebugger()
     {
@@ -34,6 +35,18 @@ public class NesDebugger extends JDialog
         //Memory............................
         JPanel wMEM = new JPanel();
         tab.add("Memory",wMEM);
+        wMEM.setLayout(null);
+
+        mem_jt = new JTextPane();
+        mem_jt.setEditable(false);
+        mem_jt.setBackground(Color.lightGray);
+        JScrollPane mem_sp = new JScrollPane(mem_jt);
+        mem_sp.setBounds(0, 0, 490 - 30, 344);
+        wMEM.add(mem_sp);
+
+        SimpleAttributeSet mem_sa = new SimpleAttributeSet();
+        StyleConstants.setAlignment(mem_sa, StyleConstants.ALIGN_JUSTIFIED);
+        mem_jt.setParagraphAttributes(mem_sa, true);
 
         //Assembly............................
         JPanel wPPU = new JPanel();
