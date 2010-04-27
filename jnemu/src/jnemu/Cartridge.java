@@ -95,7 +95,7 @@ public class Cartridge
             catch(Exception e)
             {
                 isLoaded = false;
-                Console.print("[JAVA] " + e.toString());
+                Console.print("[loadNesROM] " + e.toString());
             }
         }
     }
@@ -150,7 +150,7 @@ public class Cartridge
                     ctr2 = 0;
                 }
             }
-            catch (Exception e){Console.print("[JAVA]" + e.toString());}
+            catch (Exception e){Console.print("[showInDebugger]" + e.toString());}
         }
         NesDebugger.jt.setText(temp.toString());
     }
@@ -335,7 +335,7 @@ public class Cartridge
                 }
                 break;
             default :
-                Console.print("[ERROR] Unsupported 16kb Rom Bank count.");
+                Console.print("[ERROR] Unsupported Rom Bank count.");
                 break;
         }
     }
@@ -371,7 +371,7 @@ public class Cartridge
                 }
                 break;
             default :
-                Console.print("[ERROR] Unsupported 8kb VRom Bank count.");
+                Console.print("[ERROR] Unsupported VRom Bank count.");
                 break;
         }
     }

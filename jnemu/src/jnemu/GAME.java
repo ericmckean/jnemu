@@ -1,7 +1,5 @@
 package jnemu;
 
-import java.lang.reflect.Array;
-
 public class GAME
 {
     public static int MAPPER;

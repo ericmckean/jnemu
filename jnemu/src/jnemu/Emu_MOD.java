@@ -36,7 +36,7 @@ public class Emu_MOD
         }
         catch(Exception e)
         {
-            Console.print("[JAVA]" + e.toString());
+            Console.print("[getFilePath]" + e.toString());
         }
 
         return tmp;
@@ -69,7 +69,7 @@ public class Emu_MOD
         // Ensure all the bytes have been read in
         if (offset < bytes.length)
         {
-            throw new IOException("Could not completely read file " + file.getName());
+            throw new IOException("[getBytesFromFile] Could not completely read file " + file.getName());
         }
 
         // Close the input stream and return bytes
@@ -103,6 +103,9 @@ public class Emu_MOD
        {
             switch(tmp.length())
             {
+                case 0 :
+                    x.append("00000000");
+                    break;
                 case 1 : 
                     x.append("0000000");
                     x.append(tmp);
@@ -148,7 +151,7 @@ public class Emu_MOD
        }
        catch (Exception e)
        {
-            Console.print("[JAVA]" + e.toString());
+            Console.print("[getCharFromString]" + e.toString());
        }
        return tmp;
    }

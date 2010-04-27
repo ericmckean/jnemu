@@ -7,15 +7,15 @@ public class eMEM
 
     public static void init()
     {
-        MEMORY_MAP = new byte[0xFFFF];
+        MEMORY_MAP = new byte[0x10000];
     }
 
-    public static byte read8Bit(byte address)
+    public static byte read8Bit(int address)
     {
         return MEMORY_MAP[address];
     }
 
-    public static void write8Bit(byte address, byte value)
+    public static void write8Bit(int address, byte value)
     {
         MEMORY_MAP[address] = value;
     }
@@ -23,5 +23,10 @@ public class eMEM
     public static void clear()
     {
         Arrays.fill(MEMORY_MAP, (byte)0);
+    }
+
+    public static void showMemInDebugger()
+    {
+
     }
 }
