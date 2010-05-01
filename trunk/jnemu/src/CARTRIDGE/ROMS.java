@@ -1,9 +1,14 @@
-package jnemu;
+package CARTRIDGE;
+
+import jnemu.Console;
+import jnemu.NesDebugger;
+import MISC.CONVERTER;
+import MISC.INOUT;
 
 import java.io.*;
 import java.text.*;
 
-public class Cartridge
+public class ROMS
 {
     public static boolean noSelectedFile;
     private static byte[] RomContent;
@@ -29,17 +34,17 @@ public class Cartridge
                 GAME.fSize = f.length();
                 Console.print("Loading file [" + f.getName() + "]");
                 RomContent = new byte[(int)f.length()];
-                RomContent = Emu_MOD.getBytesFromFile(f);
+                RomContent = INOUT.getBytesFromFile(f);
                 //System.out.print((int)f.length());
                 checkNesROM(RomContent);
-                if(Cartridge.isNes)
+                if(ROMS.isNes)
                 {
                     showInDebugger(RomContent);
                     //Get the Cartridge info........
                     GAME.NumberOf16KbRomBank = Integer.parseInt(get16kbRomBank(RomContent));
                     GAME.NumberOf8KbVRomBank = Integer.parseInt(get8kbVRomBank(RomContent));
                     GAME.RamBank_8KB = Integer.parseInt(get8kbRamBank(RomContent));
-                    GAME.MAPPER = getMapper(RomContent);
+                    GAME.MAPPER_NUMBER = getMapper(RomContent);
                     GAME.MIRRORING = getMirroring(RomContent);
                     GAME.TVSystem = getTVSystem(RomContent);
 
@@ -137,12 +142,12 @@ public class Cartridge
             {
                 if(ctr2 != BASE)
                 {
-                    temp.append(Emu_MOD.byteToStringHex(bytes[ctr]).toUpperCase());
+                    temp.append(CONVERTER.byteToStringHex(bytes[ctr]).toUpperCase());
                     temp.append(Spacer);
                 }
                 else
                 {
-                    temp.append(Emu_MOD.byteToStringHex(bytes[ctr]).toUpperCase());
+                    temp.append(CONVERTER.byteToStringHex(bytes[ctr]).toUpperCase());
                     temp.append("\n");
                     lineCTR = lineCTR + BASE;
                     temp.append(df.format(lineCTR));
@@ -170,17 +175,17 @@ public class Cartridge
 
     private static String get16kbRomBank(byte[] b)
     {
-        return Emu_MOD.byteToStringInt(b[4]);
+        return CONVERTER.byteToStringInt(b[4]);
     }
 
     private static String get8kbVRomBank(byte[] b)
     {
-        return Emu_MOD.byteToStringInt(b[5]);
+        return CONVERTER.byteToStringInt(b[5]);
     }
 
     private static String get8kbRamBank(byte[] b)
     {
-        return Emu_MOD.byteToStringInt(b[8]);
+        return CONVERTER.byteToStringInt(b[8]);
     }
 
     private static int getMapper(byte[] b)
@@ -188,8 +193,8 @@ public class Cartridge
         int tmp;
         String str;
 
-        String lower = Emu_MOD.byteToStringHex(b[6]);
-        String higher = Emu_MOD.byteToStringHex(b[7]);
+        String lower = CONVERTER.byteToStringHex(b[6]);
+        String higher = CONVERTER.byteToStringHex(b[7]);
 
         str =  higher.substring(0,1) + lower.substring(0,1);
         tmp = Integer.parseInt(str,16);
@@ -200,7 +205,7 @@ public class Cartridge
     private static String getMirroring(byte[] b)
     {
         String r = new String();
-        String tmp = Emu_MOD.getCharFromString(8, Emu_MOD.byteToStringBinary(b[6]));
+        String tmp = INOUT.getCharFromString(8, CONVERTER.byteToStringBinary(b[6]));
         if(tmp.equals("1"))
         {
             r = "VERTICAL";
@@ -214,50 +219,50 @@ public class Cartridge
 
     private static String isBatteryBacked(byte[] b)
     {
-        String z = Emu_MOD.byteToStringBinary(b[6]);
+        String z = CONVERTER.byteToStringBinary(b[6]);
         if(z.length() <= 1)
         {
             return "0";
         }
         else
         {
-            String tmp = Emu_MOD.getCharFromString(7, z);
+            String tmp = INOUT.getCharFromString(7, z);
             return tmp;
         }
     }
 
     private static String get512ByteTrainer(byte[] b)
     {
-        String z = Emu_MOD.byteToStringBinary(b[6]);
+        String z = CONVERTER.byteToStringBinary(b[6]);
         if(z.length() <= 1)
         {
             return "0";
         }
         else
         {
-            String tmp = Emu_MOD.getCharFromString(6, z);
+            String tmp = INOUT.getCharFromString(6, z);
             return tmp;
         }
     }
 
     private static String getFourScreenVRamLayout(byte[] b)
     {
-        String z = Emu_MOD.byteToStringBinary(b[6]);
+        String z = CONVERTER.byteToStringBinary(b[6]);
         if(z.length() <= 1)
         {
             return "0";
         }
         else
         {
-            String tmp = Emu_MOD.getCharFromString(5, z);
+            String tmp = INOUT.getCharFromString(5, z);
             return tmp;
         }
     }
 
     private static String getTVSystem(byte[] b)
     {
-        String z = Emu_MOD.byteToStringBinary(b[9]);
-        String tmp = Emu_MOD.getCharFromString(1, z);
+        String z = CONVERTER.byteToStringBinary(b[9]);
+        String tmp = INOUT.getCharFromString(1, z);
         String r = "";
 
         if(tmp.equals("0"))

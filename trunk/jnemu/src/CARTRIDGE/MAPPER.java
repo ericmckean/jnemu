@@ -1,10 +1,13 @@
-package jnemu;
+package CARTRIDGE;
 
-public class mapper
+import PROC.MEMORY;
+import jnemu.Console;
+
+public class MAPPER
 {
     public static void init()
     {
-        switch(GAME.MAPPER)
+        switch(GAME.MAPPER_NUMBER)
         {
             case 0: init_mapper_0(); break;
         }
@@ -19,14 +22,14 @@ public class mapper
                 Console.print("Loading Bank 0 to address 0x8000-0xBFFF...");
                 for(int ctr=0x8000; ctr<=0xBFFF; ctr++)
                 {
-                    eMEM.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
+                    MEMORY.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
                     i++;
                 }
                 i = 0;
                 Console.print("Loading Bank 0 to address 0xC000-0xFFFF...");
                 for(int ctr=0xC000; ctr<=0xFFFF; ctr++)
                 {
-                    eMEM.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
+                    MEMORY.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
                     i++;
                 }
                 break;
@@ -34,14 +37,14 @@ public class mapper
                 Console.print("Loading Bank 0 to address 0x8000-0xBFFF...");
                 for(int ctr=0x8000; ctr<=0xBFFF; ctr++)
                 {
-                    eMEM.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
+                    MEMORY.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
                     i++;
                 }
                 i = 0;
                 Console.print("Loading Bank 1 to address 0xC000-0xFFFF...");
                 for(int ctr=0xC000; ctr<=0xFFFF; ctr++)
                 {
-                    eMEM.write8Bit(ctr, GAME.RomBank_16KB[i][1]);
+                    MEMORY.write8Bit(ctr, GAME.RomBank_16KB[i][1]);
                     i++;
                 }
                 break;

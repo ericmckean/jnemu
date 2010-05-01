@@ -1,5 +1,9 @@
 package jnemu;
 
+import CARTRIDGE.ROMS;
+import CARTRIDGE.MAPPER;
+import PROC.MEMORY;
+
 public class Core
 {
     public static boolean isRunning = false;
@@ -9,7 +13,7 @@ public class Core
         //if the file is loaded to the cartridge, start emulation.
         //else dont do anything...................................
         
-        if(Cartridge.noSelectedFile == false)
+        if(ROMS.noSelectedFile == false)
         {
             isRunning = true;
             Main.win.setTitle("JNemu - running");
@@ -19,23 +23,31 @@ public class Core
             
             //initialize Nes Components..
             Console.print("Initializing memory...");
-            eMEM.init();
+            MEMORY.init();
             
 
             //init mapper.....
-            mapper.init();
-            eMEM.showMemInDebugger();
+            MAPPER.init();
+            MEMORY.showMemInDebugger();
 
             Console.print("Start Core emulation...");
             RUN();
         }
     }
 
-    public static void stopEmulation()
+    public static void STOP()
     {
         Console.print("Stop Core emulation...");
         isRunning = false;
         Main.win.setTitle("JNemu");
+    }
+
+    public static void GO()
+    {
+        Console.print("Resume Core emulation...");
+        isRunning = false;
+        RUN();
+        Main.win.setTitle("JNemu - running");
     }
 
     private static void RUN()

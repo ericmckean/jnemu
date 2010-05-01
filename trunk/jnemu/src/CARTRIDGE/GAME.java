@@ -1,8 +1,10 @@
-package jnemu;
+package CARTRIDGE;
+
+import jnemu.Console;
 
 public class GAME
 {
-    public static int MAPPER;
+    public static int MAPPER_NUMBER;
     public static String TVSystem;
     public static int NumberOf16KbRomBank;
     public static int NumberOf8KbVRomBank;
@@ -19,7 +21,7 @@ public class GAME
     public static void showInfo()
     {
         Console.print("[INFO] File Size : " + fSize);
-        Console.print("[INFO] Mapper : " + MAPPER);
+        Console.print("[INFO] Mapper : " + MAPPER_NUMBER);
         Console.print("[INFO] TV System : " + TVSystem);
         Console.print("[INFO] 16kb Rom bank : " + NumberOf16KbRomBank);
         Console.print("[INFO] 8kb VRom bank : " + NumberOf8KbVRomBank);
