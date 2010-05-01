@@ -1,4 +1,4 @@
-package jnemu;
+package PSG;
 
 public class ePSG
 {

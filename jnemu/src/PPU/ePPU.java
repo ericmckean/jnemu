@@ -1,4 +1,4 @@
-package jnemu;
+package PPU;
 
 public class ePPU
 {

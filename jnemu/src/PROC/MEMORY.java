@@ -1,7 +1,8 @@
-package jnemu;
+package PROC;
+
 import java.util.Arrays;
 
-public class eMEM
+public class MEMORY
 {
     private static byte[] MEMORY_MAP;
 

@@ -1,11 +1,15 @@
 package jnemu;
 
+import CARTRIDGE.GAME;
+import CARTRIDGE.ROMS;
+import MISC.INOUT;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ActionHandler implements ActionListener
 {
-    @SuppressWarnings("static-access")
+    //@SuppressWarnings("static-access")
     public void actionPerformed(ActionEvent e)
     {
         if(e.getActionCommand().equals("Exit"))
@@ -15,10 +19,10 @@ public class ActionHandler implements ActionListener
         else if(e.getActionCommand().equals("Open Rom"))
         {
             //load roms to cartridge
-            Cartridge.loadNesROM(Emu_MOD.getFilePath());
-            if(Cartridge.isLoaded)
+            ROMS.loadNesROM(INOUT.getFilePath());
+            if(ROMS.isLoaded)
             {
-                switch (GAME.MAPPER)
+                switch (GAME.MAPPER_NUMBER)
                 {
                     case 0 : Core.startEmulation();break;
                     default : Console.print("[ERROR] Unsupported mapper.");break;
@@ -49,13 +53,13 @@ public class ActionHandler implements ActionListener
         {
             WinMain.myStart.setEnabled(false);
             WinMain.myStop.setEnabled(true);
-            Core.startEmulation();
+            Core.GO();
         }
         else if(e.getActionCommand().equals("Stop"))
         {
             WinMain.myStart.setEnabled(true);
             WinMain.myStop.setEnabled(false);
-            Core.stopEmulation();
+            Core.STOP();
         }
         else if(e.getActionCommand().equals("Option"))
         {
@@ -63,7 +67,7 @@ public class ActionHandler implements ActionListener
         }
         else if(e.getActionCommand().equals("Console"))
         {
-            if(Main.win.myConsole.isSelected())
+            if(WinMain.myConsole.isSelected())
             {
                 Console.displayFrame();
             }
