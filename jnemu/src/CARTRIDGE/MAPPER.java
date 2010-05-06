@@ -1,6 +1,6 @@
 package CARTRIDGE;
 
-import PROC.MEMORY;
+import CPU.MEMORY;
 import jnemu.Console;
 
 public class MAPPER

@@ -13,6 +13,11 @@ public class CONVERTER
         return new String(array);
    }
 
+   public static String byteTo16BitStringHex(byte b)
+   {
+        return Integer.toHexString(b & 0xffff);
+   }
+
    public static String byteToStringInt(byte b)
    {
        int tmp = new Byte(b);

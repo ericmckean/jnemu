@@ -2,9 +2,10 @@ package jnemu;
 
 import CARTRIDGE.ROMS;
 import CARTRIDGE.MAPPER;
-import PROC.MEMORY;
+import CPU.MEMORY;
+import CPU.cpuCORE;
 
-public class Core
+public class emuCORE
 {
     public static boolean isRunning = false;
 
@@ -20,11 +21,12 @@ public class Core
             //enable stop............
             WinMain.myStop.setEnabled(true);
             WinMain.myStart.setEnabled(false);
-            
+
             //initialize Nes Components..
-            Console.print("Initializing memory...");
+            Console.print("Initializing cpu...");
+            cpuCORE.init();
+            Console.print("Initializing cpu memory...");
             MEMORY.init();
-            
 
             //init mapper.....
             MAPPER.init();
