@@ -1,6 +1,6 @@
-package PROC;
+package CPU;
 
-public class Instructions
+public class INSTRUCTIONS
 {
 
     /**************************** ADC ****************************/

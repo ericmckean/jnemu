@@ -24,7 +24,7 @@ public class ActionHandler implements ActionListener
             {
                 switch (GAME.MAPPER_NUMBER)
                 {
-                    case 0 : Core.startEmulation();break;
+                    case 0 : emuCORE.startEmulation();break;
                     default : Console.print("[ERROR] Unsupported mapper.");break;
                 }
             }
@@ -53,13 +53,13 @@ public class ActionHandler implements ActionListener
         {
             WinMain.myStart.setEnabled(false);
             WinMain.myStop.setEnabled(true);
-            Core.GO();
+            emuCORE.GO();
         }
         else if(e.getActionCommand().equals("Stop"))
         {
             WinMain.myStart.setEnabled(true);
             WinMain.myStop.setEnabled(false);
-            Core.STOP();
+            emuCORE.STOP();
         }
         else if(e.getActionCommand().equals("Option"))
         {

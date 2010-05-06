@@ -1,4 +1,4 @@
-package PROC;
+package CPU;
 
 import java.util.Arrays;
 
