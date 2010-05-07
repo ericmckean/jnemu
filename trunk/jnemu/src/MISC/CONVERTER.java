@@ -2,20 +2,19 @@ package MISC;
 
 public class CONVERTER
 {
-    public static String byteToStringHex(byte b)
-    {
-        // Returns hex String representation of byte b
-        char hexDigit[] = {
-         '0', '1', '2', '3', '4', '5', '6', '7',
-         '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
-        };
-        char[] array = { hexDigit[(b >> 4) & 0x0f], hexDigit[b & 0x0f] };
-        return new String(array);
+   public static String byteTo8BitStringHex(byte b)
+   {
+        return Integer.toHexString(b & 0xff);
    }
 
    public static String byteTo16BitStringHex(byte b)
    {
         return Integer.toHexString(b & 0xffff);
+   }
+
+   public static int stringHexToInt(String str)
+   {
+       return Integer.parseInt(str,16);
    }
 
    public static String byteToStringInt(byte b)
@@ -24,7 +23,7 @@ public class CONVERTER
        return Integer.toString(tmp);
    }
 
-   public static String byteToStringBinary(byte b)
+   public static String byteTo8BitStringBinary(byte b)
    {
        String tmp = Integer.toBinaryString(b);
        StringBuilder x = new StringBuilder();
