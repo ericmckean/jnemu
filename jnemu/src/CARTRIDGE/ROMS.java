@@ -142,12 +142,12 @@ public class ROMS
             {
                 if(ctr2 != BASE)
                 {
-                    temp.append(CONVERTER.byteToStringHex(bytes[ctr]).toUpperCase());
+                    temp.append(CONVERTER.byteTo8BitStringHex(bytes[ctr]).toUpperCase());
                     temp.append(Spacer);
                 }
                 else
                 {
-                    temp.append(CONVERTER.byteToStringHex(bytes[ctr]).toUpperCase());
+                    temp.append(CONVERTER.byteTo8BitStringHex(bytes[ctr]).toUpperCase());
                     temp.append("\n");
                     lineCTR = lineCTR + BASE;
                     temp.append(df.format(lineCTR));
@@ -193,8 +193,8 @@ public class ROMS
         int tmp;
         String str;
 
-        String lower = CONVERTER.byteToStringHex(b[6]);
-        String higher = CONVERTER.byteToStringHex(b[7]);
+        String lower = CONVERTER.byteTo8BitStringHex(b[6]);
+        String higher = CONVERTER.byteTo8BitStringHex(b[7]);
 
         str =  higher.substring(0,1) + lower.substring(0,1);
         tmp = Integer.parseInt(str,16);
@@ -205,7 +205,7 @@ public class ROMS
     private static String getMirroring(byte[] b)
     {
         String r = new String();
-        String tmp = INOUT.getCharFromString(8, CONVERTER.byteToStringBinary(b[6]));
+        String tmp = INOUT.getCharFromString(8, CONVERTER.byteTo8BitStringBinary(b[6]));
         if(tmp.equals("1"))
         {
             r = "VERTICAL";
@@ -219,7 +219,7 @@ public class ROMS
 
     private static String isBatteryBacked(byte[] b)
     {
-        String z = CONVERTER.byteToStringBinary(b[6]);
+        String z = CONVERTER.byteTo8BitStringBinary(b[6]);
         if(z.length() <= 1)
         {
             return "0";
@@ -233,7 +233,7 @@ public class ROMS
 
     private static String get512ByteTrainer(byte[] b)
     {
-        String z = CONVERTER.byteToStringBinary(b[6]);
+        String z = CONVERTER.byteTo8BitStringBinary(b[6]);
         if(z.length() <= 1)
         {
             return "0";
@@ -247,7 +247,7 @@ public class ROMS
 
     private static String getFourScreenVRamLayout(byte[] b)
     {
-        String z = CONVERTER.byteToStringBinary(b[6]);
+        String z = CONVERTER.byteTo8BitStringBinary(b[6]);
         if(z.length() <= 1)
         {
             return "0";
@@ -261,7 +261,7 @@ public class ROMS
 
     private static String getTVSystem(byte[] b)
     {
-        String z = CONVERTER.byteToStringBinary(b[9]);
+        String z = CONVERTER.byteTo8BitStringBinary(b[9]);
         String tmp = INOUT.getCharFromString(1, z);
         String r = "";
 
