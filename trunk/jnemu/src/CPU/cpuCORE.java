@@ -7,23 +7,31 @@
 package CPU;
 
 import jnemu.Console;
+import INSTRUCTIONS.*;
 
 public class cpuCORE
 {
     public static void init()
     {
         REGISTER.A = 0;
-        REGISTER.P = 0;
-        REGISTER.PC = (byte)0xFFFC; //start at RESTART VECTOR.
-        REGISTER.S = 0;
+        REGISTER.SP = 0;
+        REGISTER.PC = MEMORY.getInitialPC();
         REGISTER.X = 0;
         REGISTER.Y = 0;
-        
-        CYCLE.init();
+
+        //status register...
+        REGISTER.carryFlag = 0;
+        REGISTER.interruptFlag = 0;
+        REGISTER.negativeFlag = 0;
+        REGISTER.overflowFlag = 0;
+        REGISTER.zeroFlag = 0;
+        REGISTER.decimalFlag = 0;
     }
 
-    public static void exec(int opcode)
+    public static int exec(int opcode)
     {
+        int cycle = 0;
+
         switch(opcode)
         {
             /*       >>Math Instructions<<
@@ -31,28 +39,22 @@ public class cpuCORE
              */
             /************** ADC **************/
             case 0x69 : //Immediate
-                INSTRUCTIONS.immediateADC();
+                IMMIDIATE.ADC();
+                cycle = 2;
                 break;
             case 0x65 : //Zero Page
-                INSTRUCTIONS.zeroPageADC();
                 break;
             case 0x75 : //Zero Page, X
-                INSTRUCTIONS.zeroPageXADC();
                 break;
             case 0x6D : //Absolute
-                INSTRUCTIONS.absoluteADC();
                 break;
             case 0x7D : //Absolute, X
-                INSTRUCTIONS.absoluteXADC();
                 break;
             case 0x79 : //Absolute, Y
-                INSTRUCTIONS.absoluteYADC();
                 break;
             case 0x61 : //(Indirect, X)
-                INSTRUCTIONS.indirectXADC();
                 break;
             case 0x71 : //(Indirect), Y
-                INSTRUCTIONS.indirectYADC();
                 break;
             /************** SBC **************/
             case 0xE9 : //immidiate
@@ -154,13 +156,17 @@ public class cpuCORE
              *        Load and Store Instructions
              */
             /************** LDA **************/
-            case 0xA9 : //Immediate
+            case 0xA9 : //Immidiate
+                IMMIDIATE.LDA();
+                cycle = 2;
                 break;
             case 0xA5 : //Zero Page
                 break;
             case 0xB5 : //Zero Page, X
                 break;
             case 0xAD : //Absolute
+                ABSOLUTE.LDA();
+                cycle = 4;
                 break;
             case 0xBD : //Absolute, X
                 break;
@@ -172,6 +178,8 @@ public class cpuCORE
                 break;
             /************** LDX **************/
             case 0xA2 : //Immediate
+                IMMIDIATE.LDX();
+                cycle = 2;
                 break;
             case 0xA6 : //Zero Page
                 break;
@@ -197,7 +205,9 @@ public class cpuCORE
                 break;
             case 0x95 : //Zero Page,X
                 break;
-            case 0x80 : //Absolute
+            case 0x8D : //Absolute
+                ABSOLUTE.STA();
+                cycle = 3;
                 break;
             case 0x9D : //Absolute,X
                 break;
@@ -364,6 +374,8 @@ public class cpuCORE
                 break;
             /************** CLD **************/
             case 0xD8 : //Implied
+                IMPLIED.CLD();
+                cycle = 2;
                 break;
             /************** CLI **************/
             case 0x58 : //Implied
@@ -394,6 +406,8 @@ public class cpuCORE
                 break;
             /************** SEI **************/
             case 0x78 : //implied
+                IMPLIED.SEI();
+                cycle = 2;
                 break;
             /************** TAX **************/
             case 0xAA : //implied
@@ -415,7 +429,9 @@ public class cpuCORE
                 break;
             /************** Unknown Opcode **************/
             default :
-                Console.print("[ERROR] Unknown Opcode '" + opcode + "'");
+                Console.print("[ERROR] Unknown Opcode [" + Integer.toHexString(opcode) + "] at " + Integer.toHexString(REGISTER.PC));
+                break;
         }
+        return cycle;
     }
 }

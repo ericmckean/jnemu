@@ -76,6 +76,10 @@ public class ActionHandler implements ActionListener
                 Console.hideFrame();
             }
         }
+        else if(e.getActionCommand().equals("Step Into"))
+        {
+            emuCORE.StepInto();
+        }
        
     }
 }

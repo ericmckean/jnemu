@@ -205,7 +205,7 @@ public class ROMS
     private static String getMirroring(byte[] b)
     {
         String r = new String();
-        String tmp = INOUT.getCharFromString(8, CONVERTER.byteTo8BitStringBinary(b[6]));
+        String tmp = INOUT.getCharFromString(8, CONVERTER.byteToStringBinary(b[6]));
         if(tmp.equals("1"))
         {
             r = "VERTICAL";
@@ -219,7 +219,7 @@ public class ROMS
 
     private static String isBatteryBacked(byte[] b)
     {
-        String z = CONVERTER.byteTo8BitStringBinary(b[6]);
+        String z = CONVERTER.byteToStringBinary(b[6]);
         if(z.length() <= 1)
         {
             return "0";
@@ -233,7 +233,7 @@ public class ROMS
 
     private static String get512ByteTrainer(byte[] b)
     {
-        String z = CONVERTER.byteTo8BitStringBinary(b[6]);
+        String z = CONVERTER.byteToStringBinary(b[6]);
         if(z.length() <= 1)
         {
             return "0";
@@ -247,7 +247,7 @@ public class ROMS
 
     private static String getFourScreenVRamLayout(byte[] b)
     {
-        String z = CONVERTER.byteTo8BitStringBinary(b[6]);
+        String z = CONVERTER.byteToStringBinary(b[6]);
         if(z.length() <= 1)
         {
             return "0";
@@ -261,7 +261,7 @@ public class ROMS
 
     private static String getTVSystem(byte[] b)
     {
-        String z = CONVERTER.byteTo8BitStringBinary(b[9]);
+        String z = CONVERTER.byteToStringBinary(b[9]);
         String tmp = INOUT.getCharFromString(1, z);
         String r = "";
 
