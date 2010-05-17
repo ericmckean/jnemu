@@ -4,12 +4,47 @@ public class CONVERTER
 {
    public static String byteTo8BitStringHex(byte b)
    {
-        return Integer.toHexString(b & 0xff);
+       StringBuilder tmp = new StringBuilder();
+       String x;
+
+       x = Integer.toHexString(b & 0xff);
+       if(x.length() < 2)
+       {
+           tmp.append("0");
+           tmp.append(x);
+       }
+       else
+       {
+           tmp.append(x);
+       }
+       return tmp.toString();
    }
 
    public static String byteTo16BitStringHex(byte b)
    {
-        return Integer.toHexString(b & 0xffff);
+       StringBuilder tmp = new StringBuilder();
+       String x;
+
+       x = Integer.toHexString(b & 0xffff);
+       switch(x.length())
+       {
+           case 1 :
+               tmp.append("000");
+               tmp.append(x);
+               break;
+           case 2 :
+               tmp.append("00");
+               tmp.append(x);
+               break;
+           case 3 :
+               tmp.append("0");
+               tmp.append(x);
+               break;
+           default :
+               tmp.append(x);
+               break;
+       }
+       return tmp.toString();
    }
 
    public static int stringHexToInt(String str)
@@ -23,7 +58,7 @@ public class CONVERTER
        return Integer.toString(tmp);
    }
 
-   public static String byteTo8BitStringBinary(byte b)
+   public static String byteToStringBinary(byte b)
    {
        String tmp = Integer.toBinaryString(b);
        StringBuilder x = new StringBuilder();
@@ -69,6 +104,11 @@ public class CONVERTER
             }
        }
        return x.toString();
+   }
+
+   public static String intToStringBinary(int i)
+   {
+       return Integer.toBinaryString(i);
    }
 
 }
