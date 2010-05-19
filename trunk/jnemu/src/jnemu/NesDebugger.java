@@ -45,6 +45,7 @@ public class NesDebugger extends JDialog
         /*************************** TAB ***************************/
 
         JTabbedPane tab = new JTabbedPane();
+        tab.addKeyListener(new Key_Listener());
         add(tab);
 
         //Assembly............................
