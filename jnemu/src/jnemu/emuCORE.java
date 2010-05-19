@@ -106,7 +106,7 @@ public class emuCORE
     public static void GO()
     {
         Console.print("Start Core emulation...");
-        isRunning = false;
+        isRunning = true;
         RUN();
         Main.win.setTitle("JNemu - running");
     }
