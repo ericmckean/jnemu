@@ -26,10 +26,16 @@ public class NesDebugger extends JDialog
     public static JLabel F_I;
     public static JLabel F_D; 
     public static JLabel F_V;
+    public static JLabel F_B;
 
     public static JLabel MEM_2000;
     public static JLabel MEM_2001;
     public static JLabel MEM_2002;
+    public static JLabel MEM_2003;
+    public static JLabel MEM_2004;
+    public static JLabel MEM_2005;
+    public static JLabel MEM_2006;
+    public static JLabel MEM_2007;
 
     NesDebugger()
     {
@@ -66,6 +72,7 @@ public class NesDebugger extends JDialog
 
         JButton stepOverButton = new JButton("Step Over");
         stepOverButton.setBounds(350, 310, 90, 20);
+        stepOverButton.addActionListener(new ActionHandler());
         wMEM.add(stepOverButton);
 
         JButton stepIntoButton = new JButton("Step Into");
@@ -110,33 +117,37 @@ public class NesDebugger extends JDialog
         wMEM.add(REG_PC);
 
         //Status Register..
-        JLabel REG_STATUS_LABEL = new JLabel("N Z C I D V");
-        REG_STATUS_LABEL.setBounds(435 + 20, 40, 60, 20);
+        JLabel REG_STATUS_LABEL = new JLabel("N V  B D I Z C");
+        REG_STATUS_LABEL.setBounds(435 + 20, 40, 80, 20);
         wMEM.add(REG_STATUS_LABEL);
 
-        F_N = new JLabel("0");
-        F_N.setBounds(435 + 20, 60, 60, 20);
-        wMEM.add(F_N);
-
-        F_Z = new JLabel("0");
-        F_Z.setBounds(435 + 30, 60, 60, 20);
-        wMEM.add(F_Z);
-
         F_C = new JLabel("0");
-        F_C.setBounds(435 + 40, 60, 60, 20);
+        F_C.setBounds(435 + 84, 60, 60, 20);
         wMEM.add(F_C);
 
+        F_Z = new JLabel("0");
+        F_Z.setBounds(435 + 74, 60, 60, 20);
+        wMEM.add(F_Z);
+
         F_I = new JLabel("0");
-        F_I.setBounds(435 + 50, 60, 60, 20);
+        F_I.setBounds(435 + 65, 60, 60, 20);
         wMEM.add(F_I);
 
         F_D = new JLabel("0");
-        F_D.setBounds(435 + 60, 60, 60, 20);
+        F_D.setBounds(435 + 56, 60, 60, 20);
         wMEM.add(F_D);
 
+        F_B = new JLabel("0");
+        F_B.setBounds(435 + 46, 60, 60, 20);
+        wMEM.add(F_B);
+
         F_V = new JLabel("0");
-        F_V.setBounds(435 + 70, 60, 60, 20);
+        F_V.setBounds(435 + 32, 60, 60, 20);
         wMEM.add(F_V);
+
+        F_N = new JLabel("0");
+        F_N.setBounds(435 + 22, 60, 60, 20);
+        wMEM.add(F_N);
 
 
         //Memory $2000..
@@ -165,6 +176,51 @@ public class NesDebugger extends JDialog
         MEM_2002 = new JLabel("00");
         MEM_2002.setBounds(350 + 50, 80, 60, 20);
         wMEM.add(MEM_2002);
+
+        //Memory $2003..
+        JLabel MEM_2003_LABEL = new JLabel("$2003 :");
+        MEM_2003_LABEL.setBounds(350, 100, 60, 20);
+        wMEM.add(MEM_2003_LABEL);
+
+        MEM_2003 = new JLabel("00");
+        MEM_2003.setBounds(350 + 50, 100, 60, 20);
+        wMEM.add(MEM_2003);
+
+        //Memory $2004..
+        JLabel MEM_2004_LABEL = new JLabel("$2004 :");
+        MEM_2004_LABEL.setBounds(350, 120, 60, 20);
+        wMEM.add(MEM_2004_LABEL);
+
+        MEM_2004 = new JLabel("00");
+        MEM_2004.setBounds(350 + 50, 120, 60, 20);
+        wMEM.add(MEM_2004);
+
+        //Memory $2005..
+        JLabel MEM_2005_LABEL = new JLabel("$2005 :");
+        MEM_2005_LABEL.setBounds(350, 140, 60, 20);
+        wMEM.add(MEM_2005_LABEL);
+
+        MEM_2005 = new JLabel("00");
+        MEM_2005.setBounds(350 + 50, 140, 60, 20);
+        wMEM.add(MEM_2005);
+
+        //Memory $2006..
+        JLabel MEM_2006_LABEL = new JLabel("$2006 :");
+        MEM_2006_LABEL.setBounds(350, 160, 60, 20);
+        wMEM.add(MEM_2006_LABEL);
+
+        MEM_2006 = new JLabel("00");
+        MEM_2006.setBounds(350 + 50, 160, 60, 20);
+        wMEM.add(MEM_2006);
+
+        //Memory $2007..
+        JLabel MEM_2007_LABEL = new JLabel("$2007 :");
+        MEM_2007_LABEL.setBounds(350, 180, 60, 20);
+        wMEM.add(MEM_2007_LABEL);
+
+        MEM_2007 = new JLabel("00");
+        MEM_2007.setBounds(350 + 50, 180, 60, 20);
+        wMEM.add(MEM_2007);
 
         //Assembly............................
         JPanel wPPU = new JPanel();
@@ -203,7 +259,7 @@ public class NesDebugger extends JDialog
         //clear the listbox...
         REG_Viewer.removeAll();
 
-        for(ctr=0; ctr<=255; ctr++)
+        for(ctr=0; ctr<=100; ctr++)
         {
             i = getOpcode(pc);
             pc += i;

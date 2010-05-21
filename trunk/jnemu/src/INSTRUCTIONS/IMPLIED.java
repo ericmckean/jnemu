@@ -6,13 +6,13 @@ public class IMPLIED
 {
     public static void SEI()
     {
-        REGISTER.interruptFlag = 1;
+        REGISTER.setInterruptFlag();
         REGISTER.PC += 1;
     }
 
     public static void CLD()
     {
-        REGISTER.decimalFlag = 0;
+        REGISTER.clearDecimalFlag();
         REGISTER.PC += 1;
     }
 }
