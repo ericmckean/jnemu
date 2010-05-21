@@ -18,46 +18,46 @@ public class IMMIDIATE
         //overflow flag.....
         if((REGISTER.A & 0x80) == 0 && (Value & 0x80) == 0 && (tmp & 0x80) == 0x80)
         {
-            REGISTER.overflowFlag = 1;
+            REGISTER.setOverflowFlag();
         }
         else if((REGISTER.A & 0x80) != 0 && (Value & 0x80) != 0 && (tmp & 0x80) != 0x80)
         {
-            REGISTER.overflowFlag = 1;
+            REGISTER.setOverflowFlag();
         }
         else
         {
-            REGISTER.overflowFlag = 0;
+            REGISTER.clearOverflowFlag();
         }
 
         //ZERO flag...
         if(tmp == 0)
         {
-            REGISTER.zeroFlag = 1;
+            REGISTER.setZeroFlag();
         }
         else
         {
-            REGISTER.zeroFlag = 0;
+            REGISTER.clearZeroFlag();
         }
 
         //NEGATIVE flag...
         if(tmp >= 0x80)
         {
-            REGISTER.negativeFlag = 1;
+            REGISTER.setNegativeFlag();
         }
         else
         {
-            REGISTER.negativeFlag = 0;
+            REGISTER.clearNegativeFlag();
         }
 
         //carry flag and the result.....
         if(b_tmp.toString().length() > 8)
         {
-            REGISTER.carryFlag = 1;
+            REGISTER.setCarryFlag();
             REGISTER.A = Integer.parseInt(b_tmp.toString().substring(1),2);
         }
         else
         {
-            REGISTER.carryFlag = 0;
+            REGISTER.clearCarryFlag();
             REGISTER.A = tmp;
         }
 
@@ -74,21 +74,21 @@ public class IMMIDIATE
         //ZERO flag...
         if(Value == 0)
         {
-            REGISTER.zeroFlag = 1;
+            REGISTER.setZeroFlag();
         }
         else
         {
-            REGISTER.zeroFlag = 0;
+            REGISTER.clearZeroFlag();
         }
 
         //NEGATIVE flag...
-        if(Value >= 0x80)
+        if((Value & 0x80) == 0x80)
         {
-            REGISTER.negativeFlag = 1;
+            REGISTER.setNegativeFlag();
         }
         else
         {
-            REGISTER.negativeFlag = 0;
+            REGISTER.clearNegativeFlag();
         }
 
         REGISTER.PC += 2;
@@ -103,21 +103,21 @@ public class IMMIDIATE
         //ZERO flag...
         if(Value == 0)
         {
-            REGISTER.zeroFlag = 1;
+            REGISTER.setZeroFlag();
         }
         else
         {
-            REGISTER.zeroFlag = 0;
+            REGISTER.clearZeroFlag();
         }
 
         //NEGATIVE flag...
         if(Value >= 0x80)
         {
-            REGISTER.negativeFlag = 1;
+            REGISTER.setNegativeFlag();
         }
         else
         {
-            REGISTER.negativeFlag = 0;
+            REGISTER.clearNegativeFlag();
         }
 
         REGISTER.PC += 2;

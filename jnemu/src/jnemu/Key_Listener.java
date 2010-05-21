@@ -12,6 +12,9 @@ public class Key_Listener extends KeyAdapter
             case KeyEvent.VK_F11 :
                 emuCORE.StepInto();
                 break;
+            case KeyEvent.VK_F10 :
+                emuCORE.StepOver();
+                break;
         }
     }
 }
