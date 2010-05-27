@@ -1,6 +1,6 @@
 package CPU;
 
-public class REGISTER
+public class CPU_REGISTER
 {
     public static int X; //X register
     public static int Y; //Y register
@@ -119,5 +119,5 @@ public class REGISTER
     public static int getNegativeFlag()
     {
         return (SR & 0x80) >> 0x07;
-    }
+    }   
 }

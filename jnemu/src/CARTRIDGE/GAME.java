@@ -20,6 +20,7 @@ public class GAME
 
     public static void showInfo()
     {
+        Console.print("");
         Console.print("[INFO] File Size : " + (fSize / 1024) + "kb");
         Console.print("[INFO] Mapper : " + MAPPER_NUMBER);
         Console.print("[INFO] TV System : " + TVSystem);
@@ -30,5 +31,6 @@ public class GAME
         Console.print("[INFO] Battery-backed RAM at $6000-$7FFF : " + new Boolean(isBatteryBacked).toString());
         Console.print("[INFO] 512byte trainer at $7000-$71FF : " + new Boolean(hasTrainer).toString());
         Console.print("[INFO] 4 Screen VRam Layout : " + new Boolean(is4ScreenVRamLayout).toString());
+        Console.print("");
     }
 }

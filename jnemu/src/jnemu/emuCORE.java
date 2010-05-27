@@ -2,10 +2,11 @@ package jnemu;
 
 import CARTRIDGE.ROMS;
 import CARTRIDGE.MAPPER;
-import CPU.MEMORY;
+import CPU.CPU_MEMORY;
 import CPU.cpuCORE;
-import CPU.REGISTER;
-import MISC.NES_DEBUGGER;
+import CPU.CPU_REGISTER;
+import PPU.ppuCORE;
+import DEBUGGER.*;
 
 public class emuCORE
 {
@@ -26,21 +27,24 @@ public class emuCORE
 
             //initialize Nes Components..
             Console.print("Initializing cpu memory...");
-            MEMORY.init();
+            CPU_MEMORY.init();
 
              //init mapper.....
             MAPPER.init();
-            MEMORY.showMemInDebugger();
+            CPU_MEMORY.showMemInDebugger();
 
             Console.print("Initializing cpu...");
             cpuCORE.init();
 
-            NesDebugger.loadOpcode();
+            Console.print("Initializing ppu...");
+            ppuCORE.init();
+
+            OpcodeFetcher.loadOpcode(CPU_MEMORY.getResetVector());
             //Show data on the debugger.................
-            NesDebugger.REG_A.setText(NES_DEBUGGER.forceTo8Bit(REGISTER.A));
-            NesDebugger.REG_X.setText(NES_DEBUGGER.forceTo8Bit(REGISTER.X));
-            NesDebugger.REG_Y.setText(NES_DEBUGGER.forceTo8Bit(REGISTER.Y));
-            NesDebugger.REG_PC.setText(NES_DEBUGGER.forceTo16Bit(REGISTER.PC));
+            NesDebugger.REG_A.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.A));
+            NesDebugger.REG_X.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.X));
+            NesDebugger.REG_Y.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.Y));
+            NesDebugger.REG_PC.setText(MISC_FUNCTIONS.forceTo16Bit(CPU_REGISTER.PC));
             
             //Console.print("Start Core emulation...");
             //RUN();
@@ -49,14 +53,23 @@ public class emuCORE
 
     public static void StepInto()
     {
-        int ctr, tmp = 0;
-
-        if(REGISTER.PC != 0)
+        if(CPU_REGISTER.PC != 0)
         {
-            //execute opcode...
-            cpuCORE.exec(MEMORY.read8Bit(REGISTER.PC));
+            //count cycle and execute opcode...
+            cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.read8BitForOtherFunctions(CPU_REGISTER.PC));
+            ppuCORE.execPPU();
+            updateDebugger();
+        }
+        else
+        {
+            Console.print("[emuCORE] The PC does not contain a value.");
+        }
+    }
 
-            //search the entire content of REG_Viewer.....
+    public static void updateDebugger()
+    {
+        int ctr, tmp = 0;
+        //search the entire content of REG_Viewer.....
             for(ctr=0; ctr<=100; ctr++)
             {
                 if(NesDebugger.REG_Viewer.getItem(ctr).contains(NesDebugger.REG_PC.getText()))
@@ -68,83 +81,31 @@ public class emuCORE
             NesDebugger.REG_Viewer.select(tmp);
 
             //Show data on the debugger.................
-            NesDebugger.REG_A.setText(NES_DEBUGGER.forceTo8Bit(REGISTER.A));
-            NesDebugger.REG_X.setText(NES_DEBUGGER.forceTo8Bit(REGISTER.X));
-            NesDebugger.REG_Y.setText(NES_DEBUGGER.forceTo8Bit(REGISTER.Y));
-            NesDebugger.REG_PC.setText(NES_DEBUGGER.forceTo16Bit(REGISTER.PC));
+            NesDebugger.REG_A.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.A));
+            NesDebugger.REG_X.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.X));
+            NesDebugger.REG_Y.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.Y));
+            NesDebugger.REG_PC.setText(MISC_FUNCTIONS.forceTo16Bit(CPU_REGISTER.PC));
+            NesDebugger.REG_SP.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.SP));
 
-            NesDebugger.F_N.setText("" + REGISTER.getNegativeFlag());
-            NesDebugger.F_Z.setText("" + REGISTER.getZeroFlag());
-            NesDebugger.F_C.setText("" + REGISTER.getCarryFlag());
-            NesDebugger.F_I.setText("" + REGISTER.getInterruptFlag());
-            NesDebugger.F_V.setText("" + REGISTER.getOverflowFlag());
-            NesDebugger.F_D.setText("" + REGISTER.getDecimalFlag());
-            NesDebugger.F_B.setText("" + REGISTER.getBRKFlag());
+            NesDebugger.F_N.setText("" + CPU_REGISTER.getNegativeFlag());
+            NesDebugger.F_Z.setText("" + CPU_REGISTER.getZeroFlag());
+            NesDebugger.F_C.setText("" + CPU_REGISTER.getCarryFlag());
+            NesDebugger.F_I.setText("" + CPU_REGISTER.getInterruptFlag());
+            NesDebugger.F_V.setText("" + CPU_REGISTER.getOverflowFlag());
+            NesDebugger.F_D.setText("" + CPU_REGISTER.getDecimalFlag());
+            NesDebugger.F_B.setText("" + CPU_REGISTER.getBRKFlag());
 
-            NesDebugger.MEM_2000.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2000)));
-            NesDebugger.MEM_2001.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2001)));
-            NesDebugger.MEM_2002.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2002)));
-            NesDebugger.MEM_2003.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2003)));
-            NesDebugger.MEM_2004.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2004)));
-            NesDebugger.MEM_2005.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2005)));
-            NesDebugger.MEM_2006.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2006)));
-            NesDebugger.MEM_2007.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2007)));
-        }
-        else
-        {
-            Console.print("[emuCORE] The PC does not contain a value.");
-        }
-    }
+            NesDebugger.MEM_2000.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2000)));
+            NesDebugger.MEM_2001.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2001)));
+            NesDebugger.MEM_2002.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2002)));
+            NesDebugger.MEM_2003.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2003)));
+            NesDebugger.MEM_2004.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2004)));
+            NesDebugger.MEM_2005.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2005)));
+            NesDebugger.MEM_2006.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2006)));
+            NesDebugger.MEM_2007.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2007)));
 
-    public static void StepOver()
-    {
-        int ctr, tmp = 0;
-        int i;
-
-        if(REGISTER.PC != 0)
-        {
-            //execute opcode...
-            for(i=0; i<5; i++)
-            {
-                cpuCORE.exec(MEMORY.read8Bit(REGISTER.PC));
-                //Show data on the debugger.................
-                NesDebugger.REG_A.setText(NES_DEBUGGER.forceTo8Bit(REGISTER.A));
-                NesDebugger.REG_X.setText(NES_DEBUGGER.forceTo8Bit(REGISTER.X));
-                NesDebugger.REG_Y.setText(NES_DEBUGGER.forceTo8Bit(REGISTER.Y));
-                NesDebugger.REG_PC.setText(NES_DEBUGGER.forceTo16Bit(REGISTER.PC));
-
-                NesDebugger.F_N.setText("" + REGISTER.getNegativeFlag());
-                NesDebugger.F_Z.setText("" + REGISTER.getZeroFlag());
-                NesDebugger.F_C.setText("" + REGISTER.getCarryFlag());
-                NesDebugger.F_I.setText("" + REGISTER.getInterruptFlag());
-                NesDebugger.F_V.setText("" + REGISTER.getOverflowFlag());
-                NesDebugger.F_D.setText("" + REGISTER.getDecimalFlag());
-                NesDebugger.F_B.setText("" + REGISTER.getBRKFlag());
-
-                NesDebugger.MEM_2000.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2000)));
-                NesDebugger.MEM_2001.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2001)));
-                NesDebugger.MEM_2002.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2002)));
-                NesDebugger.MEM_2003.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2003)));
-                NesDebugger.MEM_2004.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2004)));
-                NesDebugger.MEM_2005.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2005)));
-                NesDebugger.MEM_2006.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2006)));
-                NesDebugger.MEM_2007.setText("" + NES_DEBUGGER.forceTo8Bit(MEMORY.read8Bit(0x2007)));
-            }
-
-            //search the entire content of REG_Viewer.....
-            for(ctr=0; ctr<=100; ctr++)
-            {
-                if(NesDebugger.REG_Viewer.getItem(ctr).contains(NesDebugger.REG_PC.getText()))
-                {
-                    tmp = ctr;
-                }
-            }
-            NesDebugger.REG_Viewer.select(tmp);
-        }
-        else
-        {
-            Console.print("[emuCORE] The PC does not contain a value.");
-        }
+            NesDebugger.CPU_CYCLE.setText("" + cpuCORE.CYCLE);
+            NesDebugger.PPU_SCANLINE.setText("" + ppuCORE.SCANLINE);
     }
 
     public static void STOP()
@@ -166,7 +127,8 @@ public class emuCORE
     {
         while(isRunning)
         {
-            isRunning = false;
+            cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.read8BitForOtherFunctions(CPU_REGISTER.PC));
+            ppuCORE.execPPU();
         }
     }
 

@@ -13,7 +13,7 @@ public class Key_Listener extends KeyAdapter
                 emuCORE.StepInto();
                 break;
             case KeyEvent.VK_F10 :
-                emuCORE.StepOver();
+                emuCORE.updateDebugger();
                 break;
         }
     }
