@@ -1,5 +1,5 @@
 package jnemu;
-
+import DEBUGGER.NesDebugger;
 public class Main
 {
     public static WinMain win;
@@ -51,7 +51,7 @@ public class Main
         
         //Clear the Console......
         Console.clearConsole();
-        
+
     }
 
 }

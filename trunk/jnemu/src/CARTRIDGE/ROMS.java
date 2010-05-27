@@ -1,7 +1,7 @@
 package CARTRIDGE;
 
 import jnemu.Console;
-import jnemu.NesDebugger;
+import DEBUGGER.NesDebugger;
 import MISC.CONVERTER;
 import MISC.INOUT;
 

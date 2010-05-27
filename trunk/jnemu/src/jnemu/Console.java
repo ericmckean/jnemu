@@ -8,8 +8,8 @@ import java.awt.event.WindowEvent;
 
 public class Console extends JDialog
 {
-    int scWidth = 500;
-    int scHeight = 400;
+    int scWidth = 600;
+    int scHeight = 500;
     private static JTextPane txt;
     private static StringBuilder sb;
 

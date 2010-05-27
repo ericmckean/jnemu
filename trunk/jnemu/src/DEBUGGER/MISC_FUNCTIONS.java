@@ -1,6 +1,6 @@
-package MISC;
+package DEBUGGER;
 
-public class NES_DEBUGGER
+public class MISC_FUNCTIONS
 {
     public static String forceTo8Bit(int i)
     {

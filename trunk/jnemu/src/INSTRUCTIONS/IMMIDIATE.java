@@ -1,126 +1,152 @@
 package INSTRUCTIONS;
 
-import MISC.CONVERTER;
-import CPU.REGISTER;
-import CPU.MEMORY;
+import CPU.CPU_REGISTER;
+import CPU.CPU_MEMORY;
 
 public class IMMIDIATE
 {
     public static void ADC()
     {
         int tmp, Value;
-        StringBuilder b_tmp = new StringBuilder(1);
 
-        Value =  MEMORY.read8Bit(REGISTER.PC + 1);
-        tmp = REGISTER.A + Value;
-        b_tmp.append(CONVERTER.intToStringBinary(tmp));
+        Value =  CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1);
+        tmp = CPU_REGISTER.A + Value;
 
         //overflow flag.....
-        if((REGISTER.A & 0x80) == 0 && (Value & 0x80) == 0 && (tmp & 0x80) == 0x80)
+        if((CPU_REGISTER.A & 0x80) == 0 && (Value & 0x80) == 0 && (tmp & 0x80) == 0x80)
         {
-            REGISTER.setOverflowFlag();
+            CPU_REGISTER.setOverflowFlag();
         }
-        else if((REGISTER.A & 0x80) != 0 && (Value & 0x80) != 0 && (tmp & 0x80) != 0x80)
+        else if((CPU_REGISTER.A & 0x80) != 0 && (Value & 0x80) != 0 && (tmp & 0x80) != 0x80)
         {
-            REGISTER.setOverflowFlag();
+            CPU_REGISTER.setOverflowFlag();
         }
         else
         {
-            REGISTER.clearOverflowFlag();
+            CPU_REGISTER.clearOverflowFlag();
         }
 
         //ZERO flag...
         if(tmp == 0)
         {
-            REGISTER.setZeroFlag();
+            CPU_REGISTER.setZeroFlag();
         }
         else
         {
-            REGISTER.clearZeroFlag();
+            CPU_REGISTER.clearZeroFlag();
         }
 
         //NEGATIVE flag...
         if(tmp >= 0x80)
         {
-            REGISTER.setNegativeFlag();
+            CPU_REGISTER.setNegativeFlag();
         }
         else
         {
-            REGISTER.clearNegativeFlag();
+            CPU_REGISTER.clearNegativeFlag();
         }
 
         //carry flag and the result.....
-        if(b_tmp.toString().length() > 8)
+        if((tmp & 0x100) == 0x100)
         {
-            REGISTER.setCarryFlag();
-            REGISTER.A = Integer.parseInt(b_tmp.toString().substring(1),2);
+            CPU_REGISTER.setCarryFlag();
+            CPU_REGISTER.A = tmp & 0xFF;
         }
         else
         {
-            REGISTER.clearCarryFlag();
-            REGISTER.A = tmp;
+            CPU_REGISTER.clearCarryFlag();
+            CPU_REGISTER.A = tmp;
         }
 
         
-        REGISTER.PC += 2;
+        CPU_REGISTER.PC += 2;
     }
 
     public static void LDA()
     {
         int Value;
 
-        Value =  MEMORY.read8Bit(REGISTER.PC + 1);
-        REGISTER.A = Value;
+        Value =  CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1);
+        CPU_REGISTER.A = Value;
         //ZERO flag...
         if(Value == 0)
         {
-            REGISTER.setZeroFlag();
+            CPU_REGISTER.setZeroFlag();
         }
         else
         {
-            REGISTER.clearZeroFlag();
+            CPU_REGISTER.clearZeroFlag();
         }
 
         //NEGATIVE flag...
         if((Value & 0x80) == 0x80)
         {
-            REGISTER.setNegativeFlag();
+            CPU_REGISTER.setNegativeFlag();
         }
         else
         {
-            REGISTER.clearNegativeFlag();
+            CPU_REGISTER.clearNegativeFlag();
         }
 
-        REGISTER.PC += 2;
+        CPU_REGISTER.PC += 2;
     }
 
     public static void LDX()
     {
         int Value;
 
-        Value =  MEMORY.read8Bit(REGISTER.PC + 1);
-        REGISTER.X = Value;
+        Value =  CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1);
+        CPU_REGISTER.X = Value;
         //ZERO flag...
         if(Value == 0)
         {
-            REGISTER.setZeroFlag();
+            CPU_REGISTER.setZeroFlag();
         }
         else
         {
-            REGISTER.clearZeroFlag();
+            CPU_REGISTER.clearZeroFlag();
         }
 
         //NEGATIVE flag...
         if(Value >= 0x80)
         {
-            REGISTER.setNegativeFlag();
+            CPU_REGISTER.setNegativeFlag();
         }
         else
         {
-            REGISTER.clearNegativeFlag();
+            CPU_REGISTER.clearNegativeFlag();
         }
 
-        REGISTER.PC += 2;
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void LDY()
+    {
+        int Value;
+
+        Value =  CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1);
+        CPU_REGISTER.Y = Value;
+        //ZERO flag...
+        if(Value == 0)
+        {
+            CPU_REGISTER.setZeroFlag();
+        }
+        else
+        {
+            CPU_REGISTER.clearZeroFlag();
+        }
+
+        //NEGATIVE flag...
+        if(Value >= 0x80)
+        {
+            CPU_REGISTER.setNegativeFlag();
+        }
+        else
+        {
+            CPU_REGISTER.clearNegativeFlag();
+        }
+
+        CPU_REGISTER.PC += 2;
     }
 
 }

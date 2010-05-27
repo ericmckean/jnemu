@@ -1,118 +1,113 @@
 package INSTRUCTIONS;
 
-import MISC.CONVERTER;
-import MISC.INSTRUCTIONS;
-import CPU.REGISTER;
-import CPU.MEMORY;
+import CPU.CPU_REGISTER;
+import CPU.CPU_MEMORY;
+import CPU.STACK;
 
 public class ABSOLUTE
 {
     public static void ADC()
     {
         int tmp, Value;
-        StringBuilder b_tmp = new StringBuilder(1);
-        StringBuilder addr = new StringBuilder(2);
-
-        addr.append(INSTRUCTIONS.intTo8BitHexString(MEMORY.read8Bit(REGISTER.PC + 2)));
-        addr.append(INSTRUCTIONS.intTo8BitHexString(MEMORY.read8Bit(REGISTER.PC + 1)));
-
-        Value = MEMORY.read8Bit(CONVERTER.stringHexToInt(addr.toString()));
-        tmp = REGISTER.A + Value;
-        b_tmp.append(CONVERTER.intToStringBinary(tmp));
+        
+        Value = CPU_MEMORY.read8Bit(ADDRESS.get16BitAddressOperand());
+        tmp = CPU_REGISTER.A + Value;
 
         //overflow flag.....
-        if((REGISTER.A & 0x80) == 0 && (Value & 0x80) == 0 && (tmp & 0x80) == 0x80)
+        if((CPU_REGISTER.A & 0x80) == 0 && (Value & 0x80) == 0 && (tmp & 0x80) == 0x80)
         {
-            REGISTER.setOverflowFlag();
+            CPU_REGISTER.setOverflowFlag();
         }
-        else if((REGISTER.A & 0x80) != 0 && (Value & 0x80) != 0 && (tmp & 0x80) != 0x80)
+        else if((CPU_REGISTER.A & 0x80) != 0 && (Value & 0x80) != 0 && (tmp & 0x80) != 0x80)
         {
-            REGISTER.setOverflowFlag();
+            CPU_REGISTER.setOverflowFlag();
         }
         else
         {
-            REGISTER.clearOverflowFlag();
+            CPU_REGISTER.clearOverflowFlag();
         }
 
         //ZERO flag...
         if(tmp == 0)
         {
-            REGISTER.setZeroFlag();
+            CPU_REGISTER.setZeroFlag();
         }
         else
         {
-            REGISTER.clearZeroFlag();
+            CPU_REGISTER.clearZeroFlag();
         }
 
         //NEGATIVE flag...
         if(tmp >= 0x80)
         {
-            REGISTER.setNegativeFlag();
+            CPU_REGISTER.setNegativeFlag();
         }
         else
         {
-            REGISTER.clearNegativeFlag();
+            CPU_REGISTER.clearNegativeFlag();
         }
 
         //carry flag and the result.....
-        if(b_tmp.toString().length() > 8)
+        if((tmp & 0x100) == 0x100)
         {
-            REGISTER.setCarryFlag();
-            REGISTER.A = Integer.parseInt(b_tmp.toString().substring(1),2);
+            CPU_REGISTER.setCarryFlag();
+            CPU_REGISTER.A = tmp & 0xFF;
         }
         else
         {
-            REGISTER.clearCarryFlag();
-            REGISTER.A = tmp;
+            CPU_REGISTER.clearCarryFlag();
+            CPU_REGISTER.A = tmp;
         }
 
-
-        REGISTER.PC += 3;
+        CPU_REGISTER.PC += 3;
     }
 
     public static void STA()
     {
-        StringBuilder addr = new StringBuilder(2);
-
-        addr.append(INSTRUCTIONS.intTo8BitHexString(MEMORY.read8Bit(REGISTER.PC + 2)));
-        addr.append(INSTRUCTIONS.intTo8BitHexString(MEMORY.read8Bit(REGISTER.PC + 1)));
-
-        MEMORY.write8Bit(CONVERTER.stringHexToInt(addr.toString()), REGISTER.A);
-        REGISTER.PC += 3;
+        CPU_MEMORY.write8Bit(ADDRESS.get16BitAddressOperand(), CPU_REGISTER.A);
+        CPU_REGISTER.PC += 3;
     }
 
     public static void LDA()
     {
         int Value;
-        StringBuilder addr = new StringBuilder(2);
 
-        addr.append(INSTRUCTIONS.intTo8BitHexString(MEMORY.read8Bit(REGISTER.PC + 2)));
-        addr.append(INSTRUCTIONS.intTo8BitHexString(MEMORY.read8Bit(REGISTER.PC + 1)));
-
-        Value = MEMORY.read8Bit(CONVERTER.stringHexToInt(addr.toString()));
-        REGISTER.A = Value;
-
+        Value = CPU_MEMORY.read8Bit(ADDRESS.get16BitAddressOperand());
+        CPU_REGISTER.A = Value;
 
         //ZERO flag...
         if(Value == 0)
         {
-            REGISTER.setZeroFlag();
+            CPU_REGISTER.setZeroFlag();
         }
         else
         {
-            REGISTER.clearZeroFlag();
+            CPU_REGISTER.clearZeroFlag();
         }
 
         //NEGATIVE flag...
-        if(Value >= 0x80)
+        if((Value & 0x80) == 0x80)
         {
-            REGISTER.setNegativeFlag();
+            CPU_REGISTER.setNegativeFlag();
         }
         else
         {
-            REGISTER.clearNegativeFlag();
+            CPU_REGISTER.clearNegativeFlag();
         }
 
-        REGISTER.PC += 3;
+        CPU_REGISTER.PC += 3;
+    }
+
+    public static void JSR()
+    {
+        STACK.Push(CPU_REGISTER.PC >> 8);
+        STACK.Push(CPU_REGISTER.PC & 0xFF);
+        CPU_REGISTER.PC = ADDRESS.get16BitAddressOperand();
+    }
+
+    public static void STY()
+    {
+        CPU_MEMORY.write8Bit(ADDRESS.get16BitAddressOperand(), CPU_REGISTER.Y);
+        CPU_REGISTER.PC += 3;
     }
 }

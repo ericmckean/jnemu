@@ -108,7 +108,54 @@ public class CONVERTER
 
    public static String intToStringBinary(int i)
    {
-       return Integer.toBinaryString(i);
+       String tmp;
+       StringBuilder s = new StringBuilder();
+
+       tmp = Integer.toBinaryString(i);
+       switch(tmp.length())
+       {
+           case 7 :
+               s.append("0");
+               s.append(tmp);
+               break;
+           case 6 :
+               s.append("00");
+               s.append(tmp);
+               break;
+           case 5 :
+               s.append("000");
+               s.append(tmp);
+               break;
+           case 4 :
+               s.append("0000");
+               s.append(tmp);
+               break;
+           case 3 :
+               s.append("00000");
+               s.append(tmp);
+               break;
+           case 2 :
+               s.append("000000");
+               s.append(tmp);
+               break;
+           case 1 :
+               s.append("0000000");
+               s.append(tmp);
+               break;
+           default :
+               s.append(tmp);
+               break;
+       }
+
+       return s.toString();
+   }
+
+   public static String stringBinaryToStringHex(String s)
+   {
+        int i;
+
+        i = Integer.parseInt(s, 2);
+        return Integer.toHexString(i);
    }
 
 }

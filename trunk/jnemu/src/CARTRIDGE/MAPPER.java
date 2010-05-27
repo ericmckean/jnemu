@@ -1,6 +1,6 @@
 package CARTRIDGE;
 
-import CPU.MEMORY;
+import CPU.CPU_MEMORY;
 import jnemu.Console;
 
 public class MAPPER
@@ -22,14 +22,14 @@ public class MAPPER
                 Console.print("Loading Bank 0 to address $8000-$BFFF...");
                 for(int ctr=0x8000; ctr<=0xBFFF; ctr++)
                 {
-                    MEMORY.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
+                    CPU_MEMORY.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
                     i++;
                 }
                 i = 0;
                 Console.print("Loading Bank 0 to address $C000-$FFFF...");
                 for(int ctr=0xC000; ctr<=0xFFFF; ctr++)
                 {
-                    MEMORY.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
+                    CPU_MEMORY.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
                     i++;
                 }
                 break;
@@ -37,14 +37,14 @@ public class MAPPER
                 Console.print("Loading Bank 0 to address $8000-$BFFF...");
                 for(int ctr=0x8000; ctr<=0xBFFF; ctr++)
                 {
-                    MEMORY.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
+                    CPU_MEMORY.write8Bit(ctr, GAME.RomBank_16KB[i][0]);
                     i++;
                 }
                 i = 0;
                 Console.print("Loading Bank 1 to address $C000-$FFFF...");
                 for(int ctr=0xC000; ctr<=0xFFFF; ctr++)
                 {
-                    MEMORY.write8Bit(ctr, GAME.RomBank_16KB[i][1]);
+                    CPU_MEMORY.write8Bit(ctr, GAME.RomBank_16KB[i][1]);
                     i++;
                 }
                 break;

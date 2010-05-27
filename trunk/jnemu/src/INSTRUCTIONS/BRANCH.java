@@ -8,9 +8,9 @@ public class BRANCH
     {
         int tmp;
 
-        REGISTER.PC++;
-        tmp = MEMORY.read8Bit(REGISTER.PC);
-        REGISTER.PC = (REGISTER.PC + (byte)tmp);
-        REGISTER.PC++;
+        CPU_REGISTER.PC++;
+        tmp = CPU_MEMORY.read8Bit(CPU_REGISTER.PC);
+        CPU_REGISTER.PC = (CPU_REGISTER.PC + (byte)tmp);
+        CPU_REGISTER.PC++;
     }
 }

@@ -80,6 +80,10 @@ public class ActionHandler implements ActionListener
         {
             emuCORE.StepInto();
         }
+        else if(e.getActionCommand().equals("Refresh"))
+        {
+            emuCORE.updateDebugger();
+        }
        
     }
 }

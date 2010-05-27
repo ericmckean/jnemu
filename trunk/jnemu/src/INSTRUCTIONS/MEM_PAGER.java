@@ -2,8 +2,8 @@ package INSTRUCTIONS;
 
 public class MEM_PAGER
 {
-    public static int getPage(int i)
+    public static int getPage(int address)
     {
-        return (i >> 0x80);
+        return (address >> 8);
     }
 }
