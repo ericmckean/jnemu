@@ -1,6 +1,7 @@
 package INSTRUCTIONS;
 
 import CPU.CPU_REGISTER;
+import CPU.FLAG;
 import CPU.STACK;
 
 public class IMPLIED
@@ -19,70 +20,25 @@ public class IMPLIED
 
     public static void DEX()
     {
-        CPU_REGISTER.X -= 1;
-        if(CPU_REGISTER.X == 0)
-        {
-            CPU_REGISTER.setZeroFlag();
-        }
-        else
-        {
-            CPU_REGISTER.clearZeroFlag();
-        }
-
-        if((CPU_REGISTER.X & 0x80) == 0x80)
-        {
-            CPU_REGISTER.setNegativeFlag();
-        }
-        else
-        {
-            CPU_REGISTER.clearNegativeFlag();
-        }
+        CPU_REGISTER.X = (CPU_REGISTER.X - 1) & 0xFF;
+        FLAG.CHECK_ZERO(CPU_REGISTER.X);
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.X);
         CPU_REGISTER.PC += 1;
     }
     
     public static void TSX()
     {
         CPU_REGISTER.X = CPU_REGISTER.SP;
-        if(CPU_REGISTER.X == 0)
-        {
-            CPU_REGISTER.setZeroFlag();
-        }
-        else
-        {
-            CPU_REGISTER.clearZeroFlag();
-        }
-
-        if((CPU_REGISTER.X & 0x80) == 0x80)
-        {
-            CPU_REGISTER.setNegativeFlag();
-        }
-        else
-        {
-            CPU_REGISTER.clearNegativeFlag();
-        }
+        FLAG.CHECK_ZERO(CPU_REGISTER.X);
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.X);
         CPU_REGISTER.PC += 1;
     }
 
     public static void TXS()
     {
         CPU_REGISTER.SP = CPU_REGISTER.X;
-        if(CPU_REGISTER.SP == 0)
-        {
-            CPU_REGISTER.setZeroFlag();
-        }
-        else
-        {
-            CPU_REGISTER.clearZeroFlag();
-        }
-
-        if((CPU_REGISTER.SP & 0x80) == 0x80)
-        {
-            CPU_REGISTER.setNegativeFlag();
-        }
-        else
-        {
-            CPU_REGISTER.clearNegativeFlag();
-        }
+        FLAG.CHECK_ZERO(CPU_REGISTER.SP);
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.SP);
         CPU_REGISTER.PC += 1;
     }
 
@@ -98,5 +54,21 @@ public class IMPLIED
         addr = STACK.Pull();
         addr += (STACK.Pull() << 8) + 1;
         CPU_REGISTER.PC = addr;
+    }
+
+    public static void INX()
+    {
+        CPU_REGISTER.X = (CPU_REGISTER.X + 1) & 0xFF;
+        FLAG.CHECK_ZERO(CPU_REGISTER.X);
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.X);
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void DEY()
+    {
+        CPU_REGISTER.Y = (CPU_REGISTER.Y - 1) & 0xFF;
+        FLAG.CHECK_ZERO(CPU_REGISTER.Y);
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.Y);
+        CPU_REGISTER.PC += 1;
     }
 }

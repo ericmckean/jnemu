@@ -210,8 +210,8 @@ public class cpuCORE
                 break;
             /************** INX **************/
             case 0xE8 : //Implied
-                Console.print("Unimplemented Opcode INX Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.INX();
+                cycle = 2;
                 break;
             /************** INY **************/
             case 0xC8 : //Implied
@@ -239,8 +239,8 @@ public class cpuCORE
                 break;
             /************** DEY **************/
             case 0x88 : //Implied
-                Console.print("Unimplemented Opcode DEY Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.DEY();
+                cycle = 2;
                 break;
             /*
              *        Load and Store Instructions
@@ -263,8 +263,7 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0xBD : //Absolute, X
-                Console.print("Unimplemented Opcode LDA Absolute, X");
-                emuCORE.isRunning = false;
+                cycle = ABSOLUTE_X.LDA();
                 break;
             case 0xB9 : //Absolute, Y
                 Console.print("Unimplemented Opcode LDA Absolute, Y");
@@ -517,9 +516,7 @@ public class cpuCORE
                 break;
             /************** BPL **************/
             case 0x10 : //Relative
-                tmp = RELATIVE.BPL();
-                cycle = tmp;
-                tmp = 0;
+                cycle = RELATIVE.BPL();
                 break;
             /************** BVC **************/
             case 0x50 : //Relative
