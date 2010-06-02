@@ -11,6 +11,6 @@ public class STACK
     public static int Pull()
     {
         CPU_REGISTER.SP++;
-        return CPU_MEMORY.read8BitForOtherFunctions((CPU_REGISTER.SP & 0xFF) | 0x100);
+        return CPU_MEMORY.fastRead8Bit((CPU_REGISTER.SP & 0xFF) | 0x100);
     }
 }

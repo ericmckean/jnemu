@@ -63,14 +63,14 @@ public class NesDebugger extends JDialog
         //JPanel wASM = new JPanel();
         //tab.add("Assembly",wASM);
 
-        //Memory............................
+        //Disassembler............................
         JPanel wMEM = new JPanel();
         tab.add("Disassembly",wMEM);
         wMEM.setLayout(null);
 
         REG_Viewer = new List();
         REG_Viewer.setBackground(Color.white);
-
+        
         JScrollPane mem_sp = new JScrollPane(REG_Viewer);
         mem_sp.setBounds(0, 0, scWidth - 250, scHeight - 55);
         wMEM.add(mem_sp);
@@ -126,7 +126,7 @@ public class NesDebugger extends JDialog
         REG_STATUS_LABEL.setBounds(435 + 20, 40, 80, 20);
         wMEM.add(REG_STATUS_LABEL);
 
-        JLabel LABEL_CPU_CYCLE = new JLabel("CYCLE :");
+        JLabel LABEL_CPU_CYCLE = new JLabel("Cycle :");
         LABEL_CPU_CYCLE.setBounds(435 + 20, 90, 80, 20);
         wMEM.add(LABEL_CPU_CYCLE);
 

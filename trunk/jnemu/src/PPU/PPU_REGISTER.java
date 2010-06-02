@@ -11,7 +11,7 @@ public class PPU_REGISTER
     {
         int tmp;
 
-        tmp = CPU_MEMORY.read8BitForOtherFunctions(0x2002);
+        tmp = CPU_MEMORY.fastRead8Bit(0x2002);
         tmp = tmp | 0x80;
         CPU_MEMORY.write8Bit(0x2002, tmp);
     }
@@ -20,7 +20,7 @@ public class PPU_REGISTER
     {
         int tmp;
 
-        tmp = CPU_MEMORY.read8BitForOtherFunctions(0x2002);
+        tmp = CPU_MEMORY.fastRead8Bit(0x2002);
         tmp = tmp & 0x7F;
         CPU_MEMORY.write8Bit(0x2002, tmp);
     }
@@ -29,7 +29,7 @@ public class PPU_REGISTER
     {
         int tmp;
 
-        tmp = CPU_MEMORY.read8BitForOtherFunctions(0x2002);
+        tmp = CPU_MEMORY.fastRead8Bit(0x2002);
         tmp = (tmp & 0x80) >> 0x07;
         return tmp;
     }
@@ -42,7 +42,7 @@ public class PPU_REGISTER
     {
         int tmp;
 
-        tmp = CPU_MEMORY.read8BitForOtherFunctions(0x2000);
+        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
         tmp = tmp | 0x80;
         CPU_MEMORY.write8Bit(0x2000, tmp);
     }
@@ -51,7 +51,7 @@ public class PPU_REGISTER
     {
         int tmp;
 
-        tmp = CPU_MEMORY.read8BitForOtherFunctions(0x2000);
+        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
         tmp = tmp & 0x7F;
         CPU_MEMORY.write8Bit(0x2000, tmp);
     }
@@ -60,7 +60,7 @@ public class PPU_REGISTER
     {
         int tmp;
 
-        tmp = CPU_MEMORY.read8BitForOtherFunctions(0x2000);
+        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
         tmp = (tmp & 0x80) >> 0x07;
         return tmp;
     }

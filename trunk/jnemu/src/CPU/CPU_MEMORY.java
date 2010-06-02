@@ -61,7 +61,7 @@ public class CPU_MEMORY
         return MEMORY_MAP[address >> 8][address & 0xFF] & 0xFF;
     }
 
-    public static int read8BitForOtherFunctions(int address)
+    public static int fastRead8Bit(int address)
     {
         //***************************************************
         //            Multipurpose read functions
@@ -84,8 +84,8 @@ public class CPU_MEMORY
     {
         StringBuilder tmp = new StringBuilder(2);
 
-        tmp.append(Integer.toHexString(read8BitForOtherFunctions(0xFFFD) & 0xFF));
-        tmp.append(Integer.toHexString(read8BitForOtherFunctions(0xFFFC) & 0xFF));
+        tmp.append(Integer.toHexString(fastRead8Bit(0xFFFD) & 0xFF));
+        tmp.append(Integer.toHexString(fastRead8Bit(0xFFFC) & 0xFF));
 
         switch(tmp.toString().length())
         {
@@ -108,8 +108,8 @@ public class CPU_MEMORY
     {
         StringBuilder tmp = new StringBuilder(2);
 
-        tmp.append(Integer.toHexString(read8BitForOtherFunctions(0xFFFB) & 0xFF));
-        tmp.append(Integer.toHexString(read8BitForOtherFunctions(0xFFFA) & 0xFF));
+        tmp.append(Integer.toHexString(fastRead8Bit(0xFFFB) & 0xFF));
+        tmp.append(Integer.toHexString(fastRead8Bit(0xFFFA) & 0xFF));
 
         switch(tmp.toString().length())
         {
@@ -132,8 +132,8 @@ public class CPU_MEMORY
     {
         StringBuilder tmp = new StringBuilder(2);
 
-        tmp.append(Integer.toHexString(read8BitForOtherFunctions(0xFFFF) & 0xFF));
-        tmp.append(Integer.toHexString(read8BitForOtherFunctions(0xFFFE) & 0xFF));
+        tmp.append(Integer.toHexString(fastRead8Bit(0xFFFF) & 0xFF));
+        tmp.append(Integer.toHexString(fastRead8Bit(0xFFFE) & 0xFF));
 
         switch(tmp.toString().length())
         {
