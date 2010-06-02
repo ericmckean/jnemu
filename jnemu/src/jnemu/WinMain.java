@@ -3,12 +3,14 @@ package jnemu;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
+import PPU.RENDERER;
 
 public class WinMain extends JFrame
 {
     public static JMenuItem myStart;
     public static JMenuItem myStop;
     public static JCheckBoxMenuItem myConsole;
+    public JPanel p;
 
     WinMain()
     {
@@ -16,8 +18,10 @@ public class WinMain extends JFrame
          * Nes Actual width = 256
          * Nes Actual height = 240
          */
-        int scWidth = 320;
-        int scHeight = 240;
+        int nesScrWidth = 256;
+        int nesScrHeight = 240;
+        int scWidth = nesScrWidth + 5;
+        int scHeight = nesScrHeight + 48;
 
         /********************** Main Window ***********************/
         setTitle("JNemu");
@@ -28,9 +32,13 @@ public class WinMain extends JFrame
         Dimension dim = t.getScreenSize();
         setLocation((dim.width / 2) - (scWidth / 2), (dim.height / 2) - (scHeight / 2));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setBackground(Color.BLACK);
+        getContentPane().setBackground(Color.white);
         setAlwaysOnTop(true);
 
+        p = new RENDERER();
+        p.setBounds(0, 0, nesScrWidth, nesScrHeight); //NTSC Resolution...
+        add(p);
+        //p.setVisible(false);
         /********************** Status Bar **********************/
         //JStatusBar status = new JStatusBar();
 

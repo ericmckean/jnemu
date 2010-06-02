@@ -13,23 +13,23 @@ public class MACHINE
         {
             case 1 :
                 sb.append("     ");
-                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(pc)));
+                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc)));
                 sb.append("                         ");
                 break;
             case 2 :
                 sb.append("     ");
-                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(pc)));
+                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc)));
                 sb.append("  ");
-                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(pc + 1)));
+                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc + 1)));
                 sb.append("                  ");
                 break;
             case 3 :
                 sb.append("     ");
-                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(pc)));
+                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc)));
                 sb.append("  ");
-                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(pc + 1)));
+                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc + 1)));
                 sb.append("  ");
-                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(pc + 2)));
+                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc + 2)));
                 sb.append("           ");
                 break;
         }

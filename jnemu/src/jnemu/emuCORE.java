@@ -56,8 +56,12 @@ public class emuCORE
         if(CPU_REGISTER.PC != 0)
         {
             //count cycle and execute opcode...
-            cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.read8BitForOtherFunctions(CPU_REGISTER.PC));
+            cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
             ppuCORE.execPPU();
+            if(ppuCORE.isNMI)
+            {
+                //FIXME: Execute NMI (Non-Maskable Interrupt)
+            }
             updateDebugger();
         }
         else
@@ -95,14 +99,14 @@ public class emuCORE
             NesDebugger.F_D.setText("" + CPU_REGISTER.getDecimalFlag());
             NesDebugger.F_B.setText("" + CPU_REGISTER.getBRKFlag());
 
-            NesDebugger.MEM_2000.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2000)));
-            NesDebugger.MEM_2001.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2001)));
-            NesDebugger.MEM_2002.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2002)));
-            NesDebugger.MEM_2003.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2003)));
-            NesDebugger.MEM_2004.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2004)));
-            NesDebugger.MEM_2005.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2005)));
-            NesDebugger.MEM_2006.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2006)));
-            NesDebugger.MEM_2007.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.read8BitForOtherFunctions(0x2007)));
+            NesDebugger.MEM_2000.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2000)));
+            NesDebugger.MEM_2001.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2001)));
+            NesDebugger.MEM_2002.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2002)));
+            NesDebugger.MEM_2003.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2003)));
+            NesDebugger.MEM_2004.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2004)));
+            NesDebugger.MEM_2005.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2005)));
+            NesDebugger.MEM_2006.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2006)));
+            NesDebugger.MEM_2007.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2007)));
 
             NesDebugger.CPU_CYCLE.setText("" + cpuCORE.CYCLE);
             NesDebugger.PPU_SCANLINE.setText("" + ppuCORE.SCANLINE);
@@ -127,8 +131,18 @@ public class emuCORE
     {
         while(isRunning)
         {
-            cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.read8BitForOtherFunctions(CPU_REGISTER.PC));
+            cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
             ppuCORE.execPPU();
+
+            //****************************************
+            //             Cyclic Task
+            //****************************************
+            if(ppuCORE.isNMI)
+            {
+                //FIXME: Execute NMI (Non-Maskable Interrupt)
+                Console.print("[emuCORE] NMI is not yet implemented.");
+                STOP();
+            }
         }
     }
 

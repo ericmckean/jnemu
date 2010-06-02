@@ -6,11 +6,13 @@ public class ppuCORE
 {
     public static int SCANLINE; //scanline counter............
     public static boolean VBlankPremEnd;
+    public static boolean isNMI;
 
     public static void init()
     {
         SCANLINE = 0;
         VBlankPremEnd = false;
+        isNMI = false;
         PPU_MEMORY.init();
     }
 
@@ -24,6 +26,7 @@ public class ppuCORE
             if(PPU_REGISTER.getNMIFlag() == 1)
             {
                 //Generate NMI...............
+                isNMI = true;
             }
             else if(VBlankPremEnd) //check for VBlank Premature termination...
             {
@@ -31,6 +34,7 @@ public class ppuCORE
                 //Don't forget to set VBlankPremEnd to false after VBlank is
                 //prematurely terminated as it will cause an infinite loop..
                 VBlankPremEnd = false;
+                isNMI = false;
                 //FIXME: needs more routine here...
             }
         }
