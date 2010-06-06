@@ -71,4 +71,92 @@ public class IMPLIED
         FLAG.CHECK_NEGATIVE(CPU_REGISTER.Y);
         CPU_REGISTER.PC += 1;
     }
+
+    public static void TAX()
+    {
+        CPU_REGISTER.X = CPU_REGISTER.A;
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.X);
+        FLAG.CHECK_ZERO(CPU_REGISTER.X);
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void TAY()
+    {
+        CPU_REGISTER.Y = CPU_REGISTER.A;
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.Y);
+        FLAG.CHECK_ZERO(CPU_REGISTER.Y);
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void TXA()
+    {
+        CPU_REGISTER.A = CPU_REGISTER.X;
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
+        FLAG.CHECK_ZERO(CPU_REGISTER.A);
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void TYA()
+    {
+        CPU_REGISTER.A = CPU_REGISTER.Y;
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
+        FLAG.CHECK_ZERO(CPU_REGISTER.A);
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void PHA()
+    {
+        STACK.Push(CPU_REGISTER.A);
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void PHP()
+    {
+        STACK.Push(CPU_REGISTER.SR);
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void PLA()
+    {
+        CPU_REGISTER.A = STACK.Pull();
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
+        FLAG.CHECK_ZERO(CPU_REGISTER.A);
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void PLP()
+    {
+        CPU_REGISTER.SR = STACK.Pull();
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void SED()
+    {
+        CPU_REGISTER.setDecimalFlag();
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void SEC()
+    {
+        CPU_REGISTER.setCarryFlag();
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void CLV()
+    {
+        CPU_REGISTER.clearOverflowFlag();
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void CLI()
+    {
+        CPU_REGISTER.clearInterruptFlag();
+        CPU_REGISTER.PC += 1;
+    }
+
+    public static void CLC()
+    {
+        CPU_REGISTER.clearCarryFlag();
+        CPU_REGISTER.PC += 1;
+    }
 }

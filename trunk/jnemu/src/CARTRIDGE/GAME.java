@@ -20,8 +20,9 @@ public class GAME
 
     public static void showInfo()
     {
-        Console.print("");
         Console.print("[INFO] File Size : " + (fSize / 1024) + "kb");
+        Console.print("");
+        Console.print("Reading Header...");
         Console.print("[INFO] Mapper : " + MAPPER_NUMBER);
         Console.print("[INFO] TV System : " + TVSystem);
         Console.print("[INFO] 16kb Rom bank : " + NumberOf16KbRomBank);
