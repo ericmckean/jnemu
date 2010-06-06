@@ -164,8 +164,8 @@ public class cpuCORE
                 emuCORE.isRunning = false;
                 break;
             case 0x3E : //absolute,X
-                Console.print("Unimplemented Opcode ROL absolute,X");
-                emuCORE.isRunning = false;
+                ABSOLUTE_X.ROL();
+                cycle = 7;
                 break;
             /************** ROR **************/
             case 0x6A : //accumulator
@@ -620,8 +620,8 @@ public class cpuCORE
             /************** BRL **************/ //<< FIXME: needs attention.
             /************** CLC **************/
             case 0x18 : //Implied
-                Console.print("Unimplemented Opcode CLC Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.CLC();
+                cycle = 2;
                 break;
             /************** CLD **************/
             case 0xD8 : //Implied
@@ -630,48 +630,48 @@ public class cpuCORE
                 break;
             /************** CLI **************/
             case 0x58 : //Implied
-                Console.print("Unimplemented Opcode CLI Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.CLI();
+                cycle = 2;
                 break;
             /************** CLV **************/
             case 0xB8 : //Implied
-                Console.print("Unimplemented Opcode CLV Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.CLV();
+                cycle = 2;
                 break;
             /************** NOP **************/
             case 0xEA : //implied
-                Console.print("Unimplemented Opcode NOP Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.NOP();
+                cycle = 2;
                 break;
             /************** PHA **************/
             case 0x48 : //implied
-                Console.print("Unimplemented Opcode PHA Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.PHA();
+                cycle = 3;
                 break;
             /************** PHP **************/
             case 0x08 : //implied
-                Console.print("Unimplemented Opcode PHP Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.PHP();
+                cycle = 3;
                 break;
             /************** PLA **************/
             case 0x68 : //implied
-                Console.print("Unimplemented Opcode PLA Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.PLA();
+                cycle = 3;
                 break;
             /************** PLP **************/
             case 0x28 : //implied
-                Console.print("Unimplemented Opcode PLP Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.PLP();
+                cycle = 4;
                 break;
             /************** SEC **************/
             case 0x38 : //implied
-                Console.print("Unimplemented Opcode SEC Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.SEC();
+                cycle = 2;
                 break;
             /************** SED **************/
             case 0xF8 : //implied
-                Console.print("Unimplemented Opcode SED Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.SED();
+                cycle = 2;
                 break;
             /************** SEI **************/
             case 0x78 : //implied
@@ -680,13 +680,13 @@ public class cpuCORE
                 break;
             /************** TAX **************/
             case 0xAA : //implied
-                Console.print("Unimplemented Opcode TAX Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.TAX();
+                cycle = 2;
                 break;
             /************** TAY **************/
             case 0xA8 : //implied
-                Console.print("Unimplemented Opcode TAY Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.TAY();
+                cycle = 2;
                 break;
             /************** TSX **************/
             case 0xBA : //implied
@@ -695,13 +695,13 @@ public class cpuCORE
                 break;
             /************** TXA **************/
             case 0x8A : //implied
-                Console.print("Unimplemented Opcode TXA Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.TXA();
+                cycle = 2;
                 break;
             /************** TYA **************/
             case 0x98 : //implied
-                Console.print("Unimplemented Opcode TYA Implied");
-                emuCORE.isRunning = false;
+                IMPLIED.TYA();
+                cycle = 2;
                 break;
             /************** TXS **************/
             case 0x9A : //implied
@@ -715,7 +715,7 @@ public class cpuCORE
                 break;
             /************** Unknown Opcode **************/
             default :
-                Console.print("[ERROR] Unknown Opcode [" + Integer.toHexString(opcode) + "] at " + Integer.toHexString(CPU_REGISTER.PC));
+                Console.print("[WARNING] Unknown Opcode [" + Integer.toHexString(opcode) + "] at " + Integer.toHexString(CPU_REGISTER.PC));
                 Console.print("Executing NOP...");
                 IMPLIED.NOP();
                 cycle = 2;

@@ -10,7 +10,7 @@ public class ABSOLUTE_X
     {
         int tmp, Value;
 
-        Value = CPU_MEMORY.read8Bit(ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X);
+        Value = CPU_MEMORY.read8Bit((ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X) & 0xFFFF);
         tmp = CPU_REGISTER.A + Value;
         FLAG.CHECK_OVERFLOW(CPU_REGISTER.A, Value, tmp);
         FLAG.CHECK_ZERO(tmp);
@@ -28,7 +28,7 @@ public class ABSOLUTE_X
         oldAddr = ADDRESS.get16BitAddressOperand();
         newAddr = ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X;
 
-        Value = CPU_MEMORY.read8Bit(ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X);
+        Value = CPU_MEMORY.read8Bit((ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X) & 0xFFFF);
         CPU_REGISTER.A = Value;
         FLAG.CHECK_ZERO(Value);
         FLAG.CHECK_NEGATIVE(Value);
@@ -43,6 +43,19 @@ public class ABSOLUTE_X
         }
         CPU_REGISTER.PC += 3;
         return cycle;
+    }
+
+    public static void ROL()
+    {
+        int Value, addr;
+
+        addr = (ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X) & 0xFFFF;
+        Value = (CPU_MEMORY.read8Bit(addr) << 1) | CPU_REGISTER.getCarryFlag();
+        FLAG.CHECK_CARRY(CPU_MEMORY.read8Bit(addr));
+        CPU_MEMORY.write8Bit(addr, Value);
+        FLAG.CHECK_NEGATIVE(Value);
+        FLAG.CHECK_ZERO(Value);
+        CPU_REGISTER.PC += 3;
     }
     
 }
