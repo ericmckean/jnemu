@@ -26,4 +26,10 @@ public class ZEROPAGE
         CPU_MEMORY.write8Bit(ADDRESS.get8BitAddressOperand(), CPU_REGISTER.A);
         CPU_REGISTER.PC += 2;
     }
+
+    public static void STY()
+    {
+        CPU_MEMORY.write8Bit(ADDRESS.get8BitAddressOperand(), CPU_REGISTER.Y);
+        CPU_REGISTER.PC += 2;
+    }
 }

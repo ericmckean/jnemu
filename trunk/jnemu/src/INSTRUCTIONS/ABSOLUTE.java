@@ -52,4 +52,17 @@ public class ABSOLUTE
         CPU_MEMORY.write8Bit(ADDRESS.get16BitAddressOperand(), CPU_REGISTER.Y);
         CPU_REGISTER.PC += 3;
     }
+
+    public static void ROL()
+    {
+        int Value, addr;
+
+        addr = ADDRESS.get16BitAddressOperand();
+        Value = (CPU_MEMORY.read8Bit(addr) << 1) | CPU_REGISTER.getCarryFlag();
+        FLAG.CHECK_CARRY(CPU_MEMORY.read8Bit(addr));
+        CPU_MEMORY.write8Bit(addr, Value);
+        FLAG.CHECK_NEGATIVE(Value);
+        FLAG.CHECK_ZERO(Value);
+        CPU_REGISTER.PC += 3;
+    }
 }

@@ -11,7 +11,7 @@ public class ZEROPAGE_X
     {
         int tmp, Value;
 
-        Value = CPU_MEMORY.read8Bit(ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X);
+        Value = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF);
         tmp = CPU_REGISTER.A + Value;
         FLAG.CHECK_OVERFLOW(CPU_REGISTER.A, Value, tmp);
         FLAG.CHECK_ZERO(tmp);
@@ -27,7 +27,7 @@ public class ZEROPAGE_X
         //FIXME: needs attention here...this routine is wrong...
         int tmp, Value;
 
-        Value = CPU_MEMORY.read8Bit(ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X);
+        Value = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF);
         tmp = CPU_REGISTER.A - Value;
         FLAG.CHECK_OVERFLOW(CPU_REGISTER.A, Value, tmp);
         FLAG.CHECK_ZERO(tmp);
@@ -35,6 +35,12 @@ public class ZEROPAGE_X
         FLAG.CHECK_CARRY(tmp);
         CPU_REGISTER.A = tmp & 0xFF;
         
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void STY()
+    {
+        CPU_MEMORY.write8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF, CPU_REGISTER.Y);
         CPU_REGISTER.PC += 2;
     }
 }

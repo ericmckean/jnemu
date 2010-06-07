@@ -57,5 +57,4 @@ public class ABSOLUTE_X
         FLAG.CHECK_ZERO(Value);
         CPU_REGISTER.PC += 3;
     }
-    
 }
