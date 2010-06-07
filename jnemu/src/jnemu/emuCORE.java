@@ -31,7 +31,6 @@ public class emuCORE
 
              //init mapper.....
             MAPPER.init();
-            CPU_MEMORY.showMemInDebugger();
 
             Console.print("Initializing cpu...");
             cpuCORE.init();

@@ -72,7 +72,18 @@ public class CPU_MEMORY
 
     public static void write8Bit(int address, int value)
     {
-        MEMORY_MAP[address >> 8][address & 0xFF] = value;
+        int page;
+        page = address >> 8;
+        MEMORY_MAP[page][address & 0xFF] = value;
+        //***************************************************
+        //                MEMORY Mirroring
+        //***************************************************
+        if(page >= 0 && page <= 7) //Mirror from page 0-7 (3x)
+        {
+            MEMORY_MAP[page + 8][address & 0xFF] = value;     //Mirror 1
+            MEMORY_MAP[page + 16][address & 0xFF] = value;    //Mirror 2
+            MEMORY_MAP[page + 24][address & 0xFF] = value;    //Mirror 3
+        }
     }
 
     public static void clear()
@@ -150,10 +161,5 @@ public class CPU_MEMORY
                 //do nothing...
         }
         return CONVERTER.stringHexToInt(tmp.toString());
-    }
-
-    public static void showMemInDebugger()
-    {
-        //FIXME:
     }
 }

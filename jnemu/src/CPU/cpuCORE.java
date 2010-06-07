@@ -160,8 +160,8 @@ public class cpuCORE
                 emuCORE.isRunning = false;
                 break;
             case 0x2E : //absolute
-                Console.print("Unimplemented Opcode ROL absolute");
-                emuCORE.isRunning = false;
+                ABSOLUTE.ROL();
+                cycle = 6;
                 break;
             case 0x3E : //absolute,X
                 ABSOLUTE_X.ROL();
@@ -363,12 +363,12 @@ public class cpuCORE
                 break;
             /************** STY **************/
             case 0x84 : //Zero Page
-                Console.print("Unimplemented Opcode STY Zero Page");
-                emuCORE.isRunning = false;
+                ZEROPAGE.STY();
+                cycle = 3;
                 break;
             case 0x94 : //Zero Page,X
-                Console.print("Unimplemented Opcode STY Zero Page,X");
-                emuCORE.isRunning = false;
+                ZEROPAGE_X.STY();
+                cycle = 4;
                 break;
             case 0x8C : //Absolute
                 ABSOLUTE.STY();
