@@ -41,24 +41,22 @@ public class cpuCORE
                 cycle = 2;
                 break;
             case 0x65 : //Zero Page
-                Console.print("Unimplemented Opcode ADC Zero Page");
-                emuCORE.isRunning = false;
+                ZEROPAGE.ADC();
+                cycle = 3;
                 break;
             case 0x75 : //Zero Page, X
-                Console.print("Unimplemented Opcode ADC Zero Page, X");
-                emuCORE.isRunning = false;
+                ZEROPAGE_X.ADC();
+                cycle = 4;
                 break;
             case 0x6D : //Absolute
-                Console.print("Unimplemented Opcode ADC Absolute");
-                emuCORE.isRunning = false;
+                ABSOLUTE.ADC();
+                cycle = 4;
                 break;
             case 0x7D : //Absolute, X
-                Console.print("Unimplemented Opcode ADC Absolute, X");
-                emuCORE.isRunning = false;
+                cycle = ABSOLUTE_X.ADC();
                 break;
             case 0x79 : //Absolute, Y
-                Console.print("Unimplemented Opcode ADC Absolute, Y");
-                emuCORE.isRunning = false;
+                cycle = ABSOLUTE_Y.ADC();
                 break;
             case 0x61 : //(Indirect, X)
                 Console.print("Unimplemented Opcode ADC (Indirect, X)");
@@ -481,38 +479,32 @@ public class cpuCORE
              */
             /************** JMP **************/
             case 0x4C : //Absolute
-                Console.print("Unimplemented Opcode JMP Absolute");
-                emuCORE.isRunning = false;
+                ABSOLUTE.JMP();
+                cycle = 3;
                 break;
             case 0x6C : //Indirect
-                Console.print("Unimplemented Opcode JMP Indirect");
-                emuCORE.isRunning = false;
+                INDIRECT.JMP();
+                cycle = 5;
                 break;
             /************** BCC **************/
             case 0x90 : //Relative
-                Console.print("Unimplemented Opcode BCC Relative");
-                emuCORE.isRunning = false;
+                cycle = RELATIVE.BCC();
                 break;
             /************** BCS **************/
             case 0xB0 : //Relative
-                Console.print("Unimplemented Opcode BCS Relative");
-                emuCORE.isRunning = false;
+                cycle = RELATIVE.BCS();
                 break;
             /************** BEQ **************/
             case 0xF0 : //Relative
-                Console.print("Unimplemented Opcode BEQ Relative");
-                emuCORE.isRunning = false;
+                cycle = RELATIVE.BEQ();
                 break;
             /************** BMI **************/
             case 0x30 : //Relative
-                Console.print("Unimplemented Opcode BMI Relative");
-                emuCORE.isRunning = false;
+                cycle = RELATIVE.BMI();
                 break;
             /************** BNE **************/
             case 0xD0 : //Relative
-                tmp = RELATIVE.BNE();
-                cycle = tmp;
-                tmp = 0;
+                cycle = RELATIVE.BNE();
                 break;
             /************** BPL **************/
             case 0x10 : //Relative
@@ -520,13 +512,11 @@ public class cpuCORE
                 break;
             /************** BVC **************/
             case 0x50 : //Relative
-                Console.print("Unimplemented Opcode BVC Relative");
-                emuCORE.isRunning = false;
+                cycle = RELATIVE.BVC();
                 break;
             /************** BVS **************/
             case 0x70 : //Relative
-                Console.print("Unimplemented Opcode BVS Relative");
-                emuCORE.isRunning = false;
+                cycle = RELATIVE.BVS();
                 break;
             /************** JSR **************/
             case 0x20 : //Absolute
@@ -548,8 +538,8 @@ public class cpuCORE
              */
             /************** CMP **************/
             case 0xC9 : //Immediate
-                Console.print("Unimplemented Opcode CMP Immediate");
-                emuCORE.isRunning = false;
+                IMMIDIATE.CMP();
+                cycle = 2;
                 break;
             case 0xC5 : //Zero Page
                 Console.print("Unimplemented Opcode CMP Zero Page");
