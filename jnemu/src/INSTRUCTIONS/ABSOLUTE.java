@@ -65,4 +65,10 @@ public class ABSOLUTE
         FLAG.CHECK_ZERO(Value);
         CPU_REGISTER.PC += 3;
     }
+
+    public static void JMP()
+    {
+        CPU_REGISTER.PC = ADDRESS.get16BitAddressOperand();
+        //Does not increment PC.....
+    }
 }

@@ -6,11 +6,14 @@ import CPU.FLAG;
 
 public class ABSOLUTE_X
 {
-    public static void ADC()
+    public static int ADC()
     {
-        int tmp, Value;
+        int tmp, Value, oldAddr, newAddr, retCycle;
 
-        Value = CPU_MEMORY.read8Bit((ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X) & 0xFFFF);
+        oldAddr = ADDRESS.get16BitAddressOperand();
+        newAddr =  (oldAddr + CPU_REGISTER.X) & 0xFFFF;
+
+        Value = CPU_MEMORY.read8Bit(newAddr);
         tmp = CPU_REGISTER.A + Value;
         FLAG.CHECK_OVERFLOW(CPU_REGISTER.A, Value, tmp);
         FLAG.CHECK_ZERO(tmp);
@@ -18,7 +21,17 @@ public class ABSOLUTE_X
         FLAG.CHECK_CARRY(tmp);
         CPU_REGISTER.A = tmp & 0xFF;
 
+        if(CPU_MEMORY.getPage(oldAddr) != CPU_MEMORY.getPage(newAddr))
+        {
+            retCycle = 5;
+        }
+        else
+        {
+            retCycle = 4;
+        }
+
         CPU_REGISTER.PC += 3;
+        return retCycle;
     }
 
     public static int LDA()
@@ -33,7 +46,7 @@ public class ABSOLUTE_X
         FLAG.CHECK_ZERO(Value);
         FLAG.CHECK_NEGATIVE(Value);
 
-        if(MEM_PAGER.getPage(newAddr) != MEM_PAGER.getPage(oldAddr))
+        if(CPU_MEMORY.getPage(newAddr) != CPU_MEMORY.getPage(oldAddr))
         {
             cycle = 5;
         }

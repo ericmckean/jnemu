@@ -72,16 +72,34 @@ public class emuCORE
     public static void updateDebugger()
     {
         int ctr, tmp = 0;
+        boolean found = false;
         //search the entire content of REG_Viewer.....
             for(ctr=0; ctr<=100; ctr++)
             {
                 if(NesDebugger.REG_Viewer.getItem(ctr).contains(NesDebugger.REG_PC.getText()))
                 {
+                    found = true;
                     tmp = ctr;
                 }
             }
 
-            NesDebugger.REG_Viewer.select(tmp);
+            if(found)
+            {
+                NesDebugger.REG_Viewer.select(tmp);
+            }
+            else
+            {
+                OpcodeFetcher.loadOpcode(CPU_REGISTER.PC);
+                for(ctr=0; ctr<=100; ctr++)
+                {
+                    if(NesDebugger.REG_Viewer.getItem(ctr).contains(NesDebugger.REG_PC.getText()))
+                    {
+                        tmp = ctr;
+                    }
+                }
+                NesDebugger.REG_Viewer.select(tmp);
+            }
+            
 
             //Show data on the debugger.................
             NesDebugger.REG_A.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.A));

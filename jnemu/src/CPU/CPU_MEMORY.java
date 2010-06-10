@@ -162,4 +162,9 @@ public class CPU_MEMORY
         }
         return CONVERTER.stringHexToInt(tmp.toString());
     }
+
+    public static int getPage(int address)
+    {
+        return address >> 8;
+    }
 }

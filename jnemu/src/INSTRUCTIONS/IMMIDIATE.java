@@ -57,4 +57,26 @@ public class IMMIDIATE
         CPU_REGISTER.PC += 2;
     }
 
+    public static void CMP()
+    {
+        int Value;
+        
+        Value = CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1);
+        //check for Carry Flag...
+        if(CPU_REGISTER.A >= Value)
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+        //Check for ZERO Flag...
+        if(CPU_REGISTER.A == Value)
+        {
+            CPU_REGISTER.setZeroFlag();
+        }
+
+        //Check for Negative Flag...
+        FLAG.CHECK_NEGATIVE(Value);
+
+        CPU_REGISTER.PC += 2;
+    }
+
 }

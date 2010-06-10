@@ -731,6 +731,11 @@ public class OpcodeFetcher
                 size = 1;
                 addData(pc, MACHINE.getCode(size, pc) + "TXS");
                 break;
+            /************** BRK **************/
+            case 0x00 :
+                size = 1;
+                addData(pc, MACHINE.getCode(size, pc) + "BRK");
+                break;
             default :
                 size = 1;
                 addData(pc, MACHINE.getCode(size, pc) + "????");
