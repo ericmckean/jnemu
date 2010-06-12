@@ -43,4 +43,17 @@ public class ZEROPAGE_X
         CPU_MEMORY.write8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF, CPU_REGISTER.Y);
         CPU_REGISTER.PC += 2;
     }
+
+    public static void ROL()
+    {
+        int Value, addr;
+
+        addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF;
+        Value = (CPU_MEMORY.read8Bit(addr) << 1) | CPU_REGISTER.getCarryFlag();
+        FLAG.CHECK_CARRY(CPU_MEMORY.read8Bit(addr));
+        CPU_MEMORY.write8Bit(addr, Value);
+        FLAG.CHECK_NEGATIVE(Value);
+        FLAG.CHECK_ZERO(Value);
+        CPU_REGISTER.PC += 2;
+    }
 }

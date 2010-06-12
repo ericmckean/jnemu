@@ -79,4 +79,15 @@ public class IMMIDIATE
         CPU_REGISTER.PC += 2;
     }
 
+    public static void AND()
+    {
+        int Value;
+
+        Value = CPU_REGISTER.A & CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+        CPU_REGISTER.PC += 2;
+    }
+
 }
