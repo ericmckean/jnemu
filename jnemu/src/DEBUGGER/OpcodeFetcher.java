@@ -364,11 +364,11 @@ public class OpcodeFetcher
                 addData(pc, MACHINE.getCode(size, pc) + "STA $" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc + 2)) + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc + 1)) + ", Y");
                 break;
             case 0x81 : //(Indirect,X)
-                size = 3;
+                size = 2;
                 addData(pc, MACHINE.getCode(size, pc) + "STA ($" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc + 1)) + ", X)");
                 break;
             case 0x91 : //(Indirect),Y
-                size = 3;
+                size = 2;
                 addData(pc, MACHINE.getCode(size, pc) + "STA ($" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc + 1)) + "), Y");
                 break;
             /************** STX **************/

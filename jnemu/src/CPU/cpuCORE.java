@@ -146,16 +146,16 @@ public class cpuCORE
                 break;
             /************** ROL **************/
             case 0x2A : //accumulator
-                Console.print("Unimplemented Opcode ROL accumulator");
-                emuCORE.isRunning = false;
+                ACCUMULATOR.ROL();
+                cycle = 2;
                 break;
             case 0x26 : //zeropage
-                Console.print("Unimplemented Opcode ROL zeropage");
-                emuCORE.isRunning = false;
+                ZEROPAGE.ROL();
+                cycle = 5;
                 break;
             case 0x36 : //zeropage,X
-                Console.print("Unimplemented Opcode ROL zeropage,X");
-                emuCORE.isRunning = false;
+                ZEROPAGE_X.ROL();
+                cycle = 6;
                 break;
             case 0x2E : //absolute
                 ABSOLUTE.ROL();
@@ -218,8 +218,8 @@ public class cpuCORE
                 break;
             /************** DEC **************/
             case 0xC6 : //Zero Page
-                Console.print("Unimplemented Opcode DEC Zero Page");
-                emuCORE.isRunning = false;
+                ZEROPAGE.DEC();
+                cycle = 5;
                 break;
             case 0xD6 : //Zero Page, X
                 Console.print("Unimplemented Opcode DEC Zero Page, X");
@@ -249,8 +249,8 @@ public class cpuCORE
                 cycle = 2;
                 break;
             case 0xA5 : //Zero Page
-                Console.print("Unimplemented Opcode LDA Zero Page");
-                emuCORE.isRunning = false;
+                ZEROPAGE.LDA();
+                cycle = 3;
                 break;
             case 0xB5 : //Zero Page, X
                 Console.print("Unimplemented Opcode LDA Zero Page, X");
@@ -343,8 +343,8 @@ public class cpuCORE
                 emuCORE.isRunning = false;
                 break;
             case 0x91 : //(Indirect),Y
-                Console.print("Unimplemented Opcode STA (Indirect),Y");
-                emuCORE.isRunning = false;
+                INDIRECT_Y.STA();
+                cycle = 6;
                 break;
             /************** STX **************/
             case 0x86 : //Zero Page
@@ -377,12 +377,12 @@ public class cpuCORE
              */
             /************** AND **************/
             case 0x29 : //Immediate
-                Console.print("Unimplemented Opcode AND Immediate");
-                emuCORE.isRunning = false;
+                IMMIDIATE.AND();
+                cycle = 2;
                 break;
             case 0x25 : //Zero Page
-                Console.print("Unimplemented Opcode AND Zero Page");
-                emuCORE.isRunning = false;
+                ZEROPAGE.AND();
+                cycle = 3;
                 break;
             case 0x35 : //Zero Page, X
                 Console.print("Unimplemented Opcode AND Zero Page, X");
