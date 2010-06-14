@@ -17,4 +17,23 @@ public class ACCUMULATOR
         FLAG.CHECK_ZERO(Value);
         CPU_REGISTER.PC += 1;
     }
+
+    public static void LSR()
+    {
+        int Value;
+
+        if((CPU_REGISTER.A & 1) == 1)
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+        else
+        {
+            CPU_REGISTER.clearCarryFlag();
+        }
+        Value = CPU_REGISTER.A >> 1;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+        CPU_REGISTER.A = Value;
+        CPU_REGISTER.PC += 1;
+    }
 }

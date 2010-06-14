@@ -33,4 +33,34 @@ public class ABSOLUTE_Y
         CPU_REGISTER.PC += 3;
         return retCycle;
     }
+
+    public static void STA()
+    {
+        CPU_MEMORY.write8Bit((ADDRESS.get16BitAddressOperand() + CPU_REGISTER.Y) & 0xFFFF, CPU_REGISTER.A);
+        CPU_REGISTER.PC += 3;
+    }
+
+    public static int LDA()
+    {
+        int Value, cycle = 0, oldAddr, newAddr;
+
+        oldAddr = ADDRESS.get16BitAddressOperand();
+        newAddr = ADDRESS.get16BitAddressOperand() + CPU_REGISTER.Y;
+
+        Value = CPU_MEMORY.read8Bit((ADDRESS.get16BitAddressOperand() + CPU_REGISTER.Y) & 0xFFFF);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        if(CPU_MEMORY.getPage(newAddr) != CPU_MEMORY.getPage(oldAddr))
+        {
+            cycle = 5;
+        }
+        else
+        {
+            cycle = 4;
+        }
+        CPU_REGISTER.PC += 3;
+        return cycle;
+    }
 }
