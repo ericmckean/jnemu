@@ -70,4 +70,10 @@ public class ABSOLUTE_X
         FLAG.CHECK_ZERO(Value);
         CPU_REGISTER.PC += 3;
     }
+
+    public static void STA()
+    {
+        CPU_MEMORY.write8Bit((ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X) & 0xFFFF, CPU_REGISTER.A);
+        CPU_REGISTER.PC += 3;
+    }
 }

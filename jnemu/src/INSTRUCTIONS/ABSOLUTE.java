@@ -71,4 +71,22 @@ public class ABSOLUTE
         CPU_REGISTER.PC = ADDRESS.get16BitAddressOperand();
         //Does not increment PC.....
     }
+
+    public static void LDX()
+    {
+        int Value;
+
+        Value = CPU_MEMORY.read8Bit(ADDRESS.get16BitAddressOperand());
+        CPU_REGISTER.X = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        CPU_REGISTER.PC += 3;
+    }
+
+    public static void STX()
+    {
+        CPU_MEMORY.write8Bit(ADDRESS.get16BitAddressOperand(), CPU_REGISTER.X);
+        CPU_REGISTER.PC += 3;
+    }
 }

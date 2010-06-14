@@ -159,4 +159,12 @@ public class IMPLIED
         CPU_REGISTER.clearCarryFlag();
         CPU_REGISTER.PC += 1;
     }
+
+    public static void INY()
+    {
+        CPU_REGISTER.Y = (CPU_REGISTER.Y + 1) & 0xFF;
+        FLAG.CHECK_ZERO(CPU_REGISTER.Y);
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.Y);
+        CPU_REGISTER.PC += 1;
+    }
 }

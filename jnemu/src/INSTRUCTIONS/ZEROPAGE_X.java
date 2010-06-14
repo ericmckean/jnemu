@@ -56,4 +56,23 @@ public class ZEROPAGE_X
         FLAG.CHECK_ZERO(Value);
         CPU_REGISTER.PC += 2;
     }
+
+    public static void STA()
+    {
+        CPU_MEMORY.write8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF, CPU_REGISTER.A);
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void LDA()
+    {
+        int Value, addr;
+
+        addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF;
+        Value =  CPU_MEMORY.read8Bit(addr);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        CPU_REGISTER.PC += 2;
+    }
 }
