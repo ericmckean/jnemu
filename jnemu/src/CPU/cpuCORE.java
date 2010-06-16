@@ -28,7 +28,6 @@ public class cpuCORE
     public static int exec(int opcode)
     {
         int cycle = 0;
-        int tmp = 0;
 
         switch(opcode)
         {
@@ -59,12 +58,11 @@ public class cpuCORE
                 cycle = ABSOLUTE_Y.ADC();
                 break;
             case 0x61 : //(Indirect, X)
-                Console.print("Unimplemented Opcode ADC (Indirect, X)");
-                emuCORE.isRunning = false;
+                INDIRECT_X.ADC();
+                cycle = 6;
                 break;
             case 0x71 : //(Indirect), Y
-                Console.print("Unimplemented Opcode ADC (Indirect), Y");
-                emuCORE.isRunning = false;
+                cycle = INDIRECT_Y.ADC();
                 break;
             /************** SBC **************/
             case 0xE9 : //immidiate
