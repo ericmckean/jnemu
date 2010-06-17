@@ -24,7 +24,6 @@ public class ZEROPAGE_X
 
     public static void SBC()
     {
-        //FIXME: needs attention here...this routine is wrong...
         int tmp, Value;
 
         Value = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF);
@@ -32,7 +31,7 @@ public class ZEROPAGE_X
         FLAG.CHECK_OVERFLOW(CPU_REGISTER.A, Value, tmp);
         FLAG.CHECK_ZERO(tmp);
         FLAG.CHECK_NEGATIVE(tmp);
-        FLAG.CHECK_CARRY(tmp);
+        FLAG.CHECK_CARRY_SBC(tmp);
         CPU_REGISTER.A = tmp & 0xFF;
         
         CPU_REGISTER.PC += 2;
@@ -72,6 +71,45 @@ public class ZEROPAGE_X
         CPU_REGISTER.A = Value;
         FLAG.CHECK_ZERO(Value);
         FLAG.CHECK_NEGATIVE(Value);
+
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void ASL()
+    {
+        int Value, addr, tmp;
+
+        addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF;
+
+        Value = CPU_MEMORY.read8Bit(addr);
+        tmp = Value << 1;
+        FLAG.CHECK_CARRY(Value);
+        CPU_MEMORY.write8Bit(addr, tmp);
+        FLAG.CHECK_ZERO(tmp);
+        FLAG.CHECK_NEGATIVE(tmp);
+
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void LSR()
+    {
+        int Value, addr, tmp;
+
+        addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF;
+
+        Value = CPU_MEMORY.read8Bit(addr);
+        tmp = Value >> 1;
+        if((Value & 1) == 1)
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+        else
+        {
+            CPU_REGISTER.clearCarryFlag();
+        }
+        CPU_MEMORY.write8Bit(addr, tmp);
+        FLAG.CHECK_ZERO(tmp);
+        FLAG.CHECK_NEGATIVE(tmp);
 
         CPU_REGISTER.PC += 2;
     }

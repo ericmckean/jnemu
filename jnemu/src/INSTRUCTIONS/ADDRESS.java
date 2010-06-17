@@ -2,18 +2,16 @@ package INSTRUCTIONS;
 
 import CPU.CPU_MEMORY;
 import CPU.CPU_REGISTER;
-import MISC.CONVERTER;
 
 public class ADDRESS
 {
     public static int get16BitAddressOperand()
     {
-        StringBuilder addr = new StringBuilder(2);
-        int tmp = 0;
+        int tmp, LSB, MSB;
 
-        addr.append(MISC_FUNCTIONS.intTo8BitHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 2)));
-        addr.append(MISC_FUNCTIONS.intTo8BitHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 1)));
-        tmp = CONVERTER.stringHexToInt(addr.toString());
+        MSB = CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 2);
+        LSB = CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 1);
+        tmp = (MSB << 8) | LSB;
 
         return tmp;
     }
@@ -21,8 +19,7 @@ public class ADDRESS
     public static int get8BitAddressOperand()
     {
         int tmp = 0;
-        tmp = CONVERTER.stringHexToInt(MISC_FUNCTIONS.intTo8BitHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 1)));
-
+        tmp = CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 1);
         return tmp;
     }
 }

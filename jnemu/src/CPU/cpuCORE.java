@@ -66,60 +66,57 @@ public class cpuCORE
                 break;
             /************** SBC **************/
             case 0xE9 : //immidiate
-                Console.print("Unimplemented Opcode SBC immidiate");
-                emuCORE.isRunning = false;
+                IMMIDIATE.SBC();
+                cycle = 2;
                 break;
             case 0xE5 : //zeropage
-                Console.print("Unimplemented Opcode SBC zeropage");
-                emuCORE.isRunning = false;
+                ZEROPAGE.SBC();
+                cycle = 3;
                 break;
             case 0xF5 : //zeropage,X
                 ZEROPAGE_X.SBC();
                 cycle = 4;
                 break;
             case 0xED : //absolute
-                Console.print("Unimplemented Opcode SBC absolute");
-                emuCORE.isRunning = false;
+                ABSOLUTE.SBC();
+                cycle = 4;
                 break;
             case 0xFD : //absolute,X
-                Console.print("Unimplemented Opcode SBC absolute,X");
-                emuCORE.isRunning = false;
+                cycle = ABSOLUTE_X.SBC();
                 break;
             case 0xF9 : //absolute,Y
-                Console.print("Unimplemented Opcode SBC absolute,Y");
-                emuCORE.isRunning = false;
+                cycle = ABSOLUTE_Y.SBC();
                 break;
             case 0xE1 : //(indirect,X)
-                Console.print("Unimplemented Opcode SBC (indirect,X)");
-                emuCORE.isRunning = false;
+                INDIRECT_X.SBC();
+                cycle = 6;
                 break;
             case 0xF1 : //(indirect),Y
-                Console.print("Unimplemented Opcode SBC (indirect),Y");
-                emuCORE.isRunning = false;
+                cycle = INDIRECT_Y.SBC();
                 break;
             /*
              *        Shift / Rotate
              */
             /************** ASL **************/
             case 0x0A : //(Accumulator)
-                Console.print("Unimplemented Opcode ASL (Accumulator)");
-                emuCORE.isRunning = false;
+                ACCUMULATOR.ASL();
+                cycle = 2;
                 break;
             case 0x06 : //Zero Page
-                Console.print("Unimplemented Opcode ASL Zero Page");
-                emuCORE.isRunning = false;
+                ZEROPAGE.ASL();
+                cycle = 5;
                 break;
             case 0x16 : //Zero Page, X
-                Console.print("Unimplemented Opcode ASL Zero Page, X");
-                emuCORE.isRunning = false;
+                ZEROPAGE_X.ASL();
+                cycle = 6;
                 break;
             case 0x0E : //Absolute
-                Console.print("Unimplemented Opcode ASL Absolute");
-                emuCORE.isRunning = false;
+                ABSOLUTE.ASL();
+                cycle = 6;
                 break;
             case 0x1E : //Absolute, X
-                Console.print("Unimplemented Opcode ASL Absolute, X");
-                emuCORE.isRunning = false;
+                ABSOLUTE_X.ASL();
+                cycle = 7;
                 break;
             /************** LSR **************/
             case 0x4A : //accumulator
@@ -127,20 +124,20 @@ public class cpuCORE
                 cycle = 2;
                 break;
             case 0x46 : //zeropage
-                Console.print("Unimplemented Opcode LSR zeropage");
-                emuCORE.isRunning = false;
+                ZEROPAGE.LSR();
+                cycle = 5;
                 break;
             case 0x56 : //zeropage,X
-                Console.print("Unimplemented Opcode LSR zeropage,X");
-                emuCORE.isRunning = false;
+                ZEROPAGE_X.LSR();
+                cycle = 6;
                 break;
             case 0x4E : //absolute
-                Console.print("Unimplemented Opcode LSR absolute");
-                emuCORE.isRunning = false;
+                ABSOLUTE.LSR();
+                cycle = 6;
                 break;
             case 0x5E : //absolute,X
-                Console.print("Unimplemented Opcode LSR absolute,X");
-                emuCORE.isRunning = false;
+                ABSOLUTE_X.LSR();
+                cycle = 7;
                 break;
             /************** ROL **************/
             case 0x2A : //accumulator
