@@ -14,6 +14,18 @@ public class FLAG
         }
     }
 
+    public static void CHECK_CARRY_SBC(int i)
+    {
+        if((i >> 8) != 0)
+        {
+            CPU_REGISTER.clearCarryFlag();
+        }
+        else
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+    }
+
     public static void CHECK_ZERO(int i)
     {
         if(i == 0)

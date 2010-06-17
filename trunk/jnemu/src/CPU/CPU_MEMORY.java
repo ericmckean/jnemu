@@ -12,8 +12,9 @@ public class CPU_MEMORY
     public static void init()
     {
         MEMORY_MAP = new int[0x100][0x100];
-        //power up memory state...
-        //FIXME: need to use unsigned(0-255) byte as java only uses signed(-128  to 127).
+        //***********************************************
+        //           Memory Power-Up state...
+        //***********************************************
         for(int ctr=0x0000; ctr<=0x07FF; ctr++)
         {
             if(ctr == 0x0008)
@@ -93,78 +94,55 @@ public class CPU_MEMORY
 
     public static int getResetVector()
     {
-        StringBuilder tmp = new StringBuilder(2);
+        //*********************************************
+        //               RESET VECTOR
+        //    This vector is located at $FFFC-$FFFD
+        //*********************************************
+        int MSB, LSB, tmp;
 
-        tmp.append(Integer.toHexString(fastRead8Bit(0xFFFD) & 0xFF));
-        tmp.append(Integer.toHexString(fastRead8Bit(0xFFFC) & 0xFF));
+        MSB = fastRead8Bit(0xFFFD);
+        LSB = fastRead8Bit(0xFFFC);
+        tmp = (MSB << 8) | LSB;
 
-        switch(tmp.toString().length())
-        {
-            case 3 :
-                tmp.append("0");
-                break;
-            case 2 :
-                tmp.append("00");
-                break;
-            case 1 :
-                tmp.append("0000");
-                break;
-            default :
-                //do nothing...
-        }
-        return CONVERTER.stringHexToInt(tmp.toString());
+        return tmp;
     }
 
     public static int getNMIVector()
     {
-        StringBuilder tmp = new StringBuilder(2);
+        //*********************************************
+        //                 NMI VECTOR
+        //    This vector is located at $FFFA-$FFFB
+        //*********************************************
+        int MSB, LSB, tmp;
 
-        tmp.append(Integer.toHexString(fastRead8Bit(0xFFFB) & 0xFF));
-        tmp.append(Integer.toHexString(fastRead8Bit(0xFFFA) & 0xFF));
+        MSB = fastRead8Bit(0xFFFB);
+        LSB = fastRead8Bit(0xFFFA);
+        tmp = (MSB << 8) | LSB;
 
-        switch(tmp.toString().length())
-        {
-            case 3 :
-                tmp.append("0");
-                break;
-            case 2 :
-                tmp.append("00");
-                break;
-            case 1 :
-                tmp.append("0000");
-                break;
-            default :
-                //do nothing...
-        }
-        return CONVERTER.stringHexToInt(tmp.toString());
+        return tmp;
     }
 
     public static int getIRQVector()
     {
-        StringBuilder tmp = new StringBuilder(2);
+        //*********************************************
+        //               IRQ/BRK VECTOR
+        //    This vector is located at $FFFE-$FFFF
+        //*********************************************
+        int MSB, LSB, tmp;
 
-        tmp.append(Integer.toHexString(fastRead8Bit(0xFFFF) & 0xFF));
-        tmp.append(Integer.toHexString(fastRead8Bit(0xFFFE) & 0xFF));
+        MSB = fastRead8Bit(0xFFFF);
+        LSB = fastRead8Bit(0xFFFE);
+        tmp = (MSB << 8) | LSB;
 
-        switch(tmp.toString().length())
-        {
-            case 3 :
-                tmp.append("0");
-                break;
-            case 2 :
-                tmp.append("00");
-                break;
-            case 1 :
-                tmp.append("0000");
-                break;
-            default :
-                //do nothing...
-        }
-        return CONVERTER.stringHexToInt(tmp.toString());
+        return tmp;
     }
 
     public static int getPage(int address)
     {
+        //*********************************************
+        //        This Function tells the Page
+        //            of the Memory address
+        //*********************************************
         return address >> 8;
     }
 }

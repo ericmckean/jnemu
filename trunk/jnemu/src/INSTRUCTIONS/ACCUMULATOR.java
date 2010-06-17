@@ -36,4 +36,17 @@ public class ACCUMULATOR
         CPU_REGISTER.A = Value;
         CPU_REGISTER.PC += 1;
     }
+
+    public static void ASL()
+    {
+        int Value;
+
+        Value = CPU_REGISTER.A;
+        FLAG.CHECK_CARRY(Value);
+        CPU_REGISTER.A = Value << 1;
+        FLAG.CHECK_ZERO(CPU_REGISTER.A);
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
+
+        CPU_REGISTER.PC += 1;
+    }
 }
