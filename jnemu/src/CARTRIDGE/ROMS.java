@@ -110,20 +110,22 @@ public class ROMS
         int length = (int)bytes.length;
         int ctr, ctr2, lineCTR;
         String Spacer = " ";
+        String Spacer3 = "   ";
         String Spacer2 = "  :  ";
-        int BASE = 16;
+        int BASE = 12;
 
         DecimalFormat df = new DecimalFormat("0000000");
         DecimalFormat dfUpper = new DecimalFormat("00");
         
         StringBuilder temp = new StringBuilder();
+        StringBuilder unicode = new StringBuilder(50);
         
         ctr2 = 0;
         lineCTR = 0;
 
         //Upper counter...........................
-        temp.append("            ");
-        for(int upperCTR=0; upperCTR<BASE; upperCTR++)
+        temp.append("Offset      ");
+        for(int upperCTR=0; upperCTR < BASE; upperCTR++)
         {
             temp.append(dfUpper.format(upperCTR));
             temp.append(Spacer);
@@ -137,25 +139,27 @@ public class ROMS
         //Content..................................
         for(ctr=0; ctr<length; ctr++)
         {
-            ctr2 = ctr2 + 1;
-            try
+            ctr2 += 1;
+            if(ctr2 != BASE)
             {
-                if(ctr2 != BASE)
-                {
-                    temp.append(CONVERTER.byteTo8BitStringHex(bytes[ctr]).toUpperCase());
-                    temp.append(Spacer);
-                }
-                else
-                {
-                    temp.append(CONVERTER.byteTo8BitStringHex(bytes[ctr]).toUpperCase());
-                    temp.append("\n");
-                    lineCTR = lineCTR + BASE;
-                    temp.append(df.format(lineCTR));
-                    temp.append(Spacer2);
-                    ctr2 = 0;
-                }
+                temp.append(CONVERTER.byteTo8BitStringHex(bytes[ctr]));
+                temp.append(Spacer);
+                unicode.append(CONVERTER.byteToChar(bytes[ctr]));
+                unicode.append(Spacer);
             }
-            catch (Exception e){Console.print("[showInDebugger]" + e.toString());}
+            else
+            {
+                temp.append(CONVERTER.byteTo8BitStringHex(bytes[ctr]));
+                temp.append(Spacer3);
+                temp.append(unicode.toString());
+                unicode.delete(0, unicode.length());
+                temp.append("\n");
+                lineCTR += BASE;
+                ctr2 = 0;
+                temp.append(df.format(lineCTR));
+                temp.append(Spacer2);
+            }
+            
         }
         NesDebugger.jt.setText(temp.toString());
     }

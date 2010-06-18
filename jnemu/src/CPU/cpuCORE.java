@@ -162,44 +162,44 @@ public class cpuCORE
                 break;
             /************** ROR **************/
             case 0x6A : //accumulator
-                Console.print("Unimplemented Opcode ROR accumulator");
-                emuCORE.isRunning = false;
+                ACCUMULATOR.ROR();
+                cycle = 2;
                 break;
             case 0x66 : //zeropage
-                Console.print("Unimplemented Opcode ROR zeropage");
-                emuCORE.isRunning = false;
+                ZEROPAGE.ROR();
+                cycle = 5;
                 break;
             case 0x76 : //zeropage,X
-                Console.print("Unimplemented Opcode ROR zeropage,X");
-                emuCORE.isRunning = false;
+                ZEROPAGE_X.ROR();
+                cycle = 6;
                 break;
             case 0x6E : //absolute
-                Console.print("Unimplemented Opcode ROR absolute");
-                emuCORE.isRunning = false;
+                ABSOLUTE.ROR();
+                cycle = 6;
                 break;
             case 0x7E : //absolute,X
-                Console.print("Unimplemented Opcode ROR absolute,X");
-                emuCORE.isRunning = false;
+                ABSOLUTE_X.ROR();
+                cycle = 7;
                 break;
             /*
              *        Increment / Decrement
              */
             /************** INC **************/
             case 0xE6 : //Zero Page
-                Console.print("Unimplemented Opcode INC Zero Page");
-                emuCORE.isRunning = false;
+                ZEROPAGE.INC();
+                cycle = 5;
                 break;
             case 0xF6 : //Zero Page, X
-                Console.print("Unimplemented Opcode INC Zero Page, X");
-                emuCORE.isRunning = false;
+                ZEROPAGE_X.INC();
+                cycle = 6;
                 break;
             case 0xEE : //Absolute
-                Console.print("Unimplemented Opcode INC Absolute");
-                emuCORE.isRunning = false;
+                ABSOLUTE.INC();
+                cycle = 6;
                 break;
             case 0xFE : //Absolute, X
-                Console.print("Unimplemented Opcode INC Absolute, X");
-                emuCORE.isRunning = false;
+                ABSOLUTE_X.INC();
+                cycle = 7;
                 break;
             /************** INX **************/
             case 0xE8 : //Implied
@@ -217,14 +217,17 @@ public class cpuCORE
                 cycle = 5;
                 break;
             case 0xD6 : //Zero Page, X
-                Console.print("Unimplemented Opcode DEC Zero Page, X");
-                emuCORE.isRunning = false;
+                ZEROPAGE_X.DEC();
+                cycle = 6;
                 break;
             case 0xCE : //Absolute
-                Console.print("Unimplemented Opcode DEC Absolute");
-                emuCORE.isRunning = false;
+                ABSOLUTE.DEC();
+                cycle = 6;
                 break;
             case 0xDE : //Absolute, X
+                ABSOLUTE_X.DEC();
+                cycle = 7;
+                break;
             /************** DEX **************/
             case 0xCA : //Implied
                 IMPLIED.DEX();
@@ -262,12 +265,11 @@ public class cpuCORE
                 cycle = ABSOLUTE_Y.LDA();
                 break;
             case 0xA1 : //(Indirect, X)
-                Console.print("Unimplemented Opcode LDA (Indirect, X)");
-                emuCORE.isRunning = false;
+                INDIRECT_X.LDA();
+                cycle = 6;
                 break;
             case 0xB1 : //(Indirect), Y
-                Console.print("Unimplemented Opcode LDA (Indirect), Y");
-                emuCORE.isRunning = false;
+                cycle = INDIRECT_Y.LDA();
                 break;
             /************** LDX **************/
             case 0xA2 : //Immediate
@@ -279,16 +281,15 @@ public class cpuCORE
                 cycle = 3;
                 break;
             case 0xB6 : //Zero Page, Y
-                Console.print("Unimplemented Opcode LDX Zero Page, Y");
-                emuCORE.isRunning = false;
+                ZEROPAGE_Y.LDX();
+                cycle = 4;
                 break;
             case 0xAE : //Absolute
                 ABSOLUTE.LDX();
                 cycle = 4;
                 break;
             case 0xBE : //Absolute, Y
-                Console.print("Unimplemented Opcode LDX Absolute, Y");
-                emuCORE.isRunning = false;
+                cycle = ABSOLUTE_Y.LDX();
                 break;
             /************** LDY **************/
             case 0xA0 : //Immediate
@@ -296,20 +297,19 @@ public class cpuCORE
                 cycle = 2;
                 break;
             case 0xA4 : //Zero Page
-                Console.print("Unimplemented Opcode LDY Zero Page");
-                emuCORE.isRunning = false;
+                ZEROPAGE.LDY();
+                cycle = 3;
                 break;
             case 0xB4 : //Zero Page, X
-                Console.print("Unimplemented Opcode LDY Zero Page, X");
-                emuCORE.isRunning = false;
+                ZEROPAGE_X.LDY();
+                cycle = 4;
                 break;
             case 0xAC : //Absolute
-                Console.print("Unimplemented Opcode LDY Absolute");
-                emuCORE.isRunning = false;
+                ABSOLUTE.LDY();
+                cycle = 4;
                 break;
             case 0xBC : //Absolute, X
-                Console.print("Unimplemented Opcode LDY Absolute, X");
-                emuCORE.isRunning = false;
+                cycle = ABSOLUTE_X.LDY();
                 break;
             /************** STA **************/
             case 0x85 : //Zero Page

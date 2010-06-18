@@ -54,4 +54,20 @@ public class INDIRECT_X
 
         CPU_REGISTER.PC += 2;
     }
+
+    public static void LDA()
+    {
+        int Value, addr, MSB, LSB;
+
+        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
+        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
+        addr = (MSB << 8) | ((LSB + CPU_REGISTER.X) & 0xFF);
+
+        Value =  CPU_MEMORY.read8Bit(addr);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        CPU_REGISTER.PC += 2;
+    }
 }

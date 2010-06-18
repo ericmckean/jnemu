@@ -158,4 +158,26 @@ public class CONVERTER
         return Integer.toHexString(i);
    }
 
+   public static char byteToChar(byte b)
+   {
+       int tmp;
+       char chr = '.';
+
+       tmp = (int)b;
+       if(tmp >= 0x00 && tmp <= 0x20)
+       {
+           chr = '.';
+       }
+       else if(tmp >= 0xcc80 && tmp <= 0xcd81)
+       {
+           chr = '.';
+       }
+       else
+       {
+           chr = (char)tmp;
+       }
+       
+       return chr;
+   }
+
 }

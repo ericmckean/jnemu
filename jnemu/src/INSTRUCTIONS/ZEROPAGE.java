@@ -155,4 +155,53 @@ public class ZEROPAGE
 
         CPU_REGISTER.PC += 2;
     }
+
+    public static void ROR()
+    {
+        int tmp, Value, addr, memValue;
+
+        addr = ADDRESS.get8BitAddressOperand();
+        memValue = CPU_MEMORY.read8Bit(addr);
+        tmp = CPU_REGISTER.getCarryFlag() << 7;
+        if((memValue & 1) == 1)
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+        else
+        {
+            CPU_REGISTER.clearCarryFlag();
+        }
+        Value = (memValue >> 1) | tmp;
+        CPU_MEMORY.write8Bit(addr, Value);
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void INC()
+    {
+        int Value, addr;
+
+        addr = ADDRESS.get8BitAddressOperand();
+        Value = CPU_MEMORY.read8Bit(addr) + 1;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+        CPU_MEMORY.write8Bit(addr, Value);
+
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void LDY()
+    {
+        int Value, addr;
+
+        addr = ADDRESS.get8BitAddressOperand();
+        Value =  CPU_MEMORY.read8Bit(addr);
+        CPU_REGISTER.Y = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        CPU_REGISTER.PC += 2;
+    }
 }
