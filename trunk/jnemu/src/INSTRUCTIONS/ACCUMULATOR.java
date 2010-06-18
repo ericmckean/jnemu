@@ -49,4 +49,25 @@ public class ACCUMULATOR
 
         CPU_REGISTER.PC += 1;
     }
+
+    public static void ROR()
+    {
+        int tmp, Value;
+
+        tmp = CPU_REGISTER.getCarryFlag() << 7;
+        if((CPU_REGISTER.A & 1) == 1)
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+        else
+        {
+            CPU_REGISTER.clearCarryFlag();
+        }
+        Value = (CPU_REGISTER.A >> 1) | tmp;
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        CPU_REGISTER.PC += 1;
+    }
 }
