@@ -1,17 +1,24 @@
 package INSTRUCTIONS;
 
-import jnemu.Console;
+import CPU.*;
 
 public class INTERRUPT
 {
     public static void NMI()
     {
-        //FIXME: needs nmi routine here..............
-        Console.print("[MSG] Execute NMI Interrupt...");
+        STACK.Push(CPU_REGISTER.PC & 0xFF); //LSB
+        STACK.Push(CPU_REGISTER.PC >> 8);   //MSB
+        STACK.Push(CPU_REGISTER.SR);
+
+        CPU_REGISTER.PC = CPU_MEMORY.getNMIVector();
     }
 
     public static void IRQ()
     {
-        //FIXME: needs irq routine here..............
+        STACK.Push(CPU_REGISTER.PC & 0xFF); //LSB
+        STACK.Push(CPU_REGISTER.PC >> 8);   //MSB
+        STACK.Push(CPU_REGISTER.SR);
+
+        CPU_REGISTER.PC = CPU_MEMORY.getIRQVector();
     }
 }

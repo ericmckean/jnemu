@@ -7,10 +7,14 @@ import CPU.cpuCORE;
 import CPU.CPU_REGISTER;
 import PPU.ppuCORE;
 import DEBUGGER.*;
+import INSTRUCTIONS.INTERRUPT;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class emuCORE
 {
     public static boolean isRunning = false;
+    public static Thread emuThread;
 
     public static void startEmulation()
     {
@@ -19,9 +23,8 @@ public class emuCORE
         
         if(ROMS.noSelectedFile == false)
         {
-            isRunning = true;
-            //Main.win.setTitle("JNemu - running");
-            //enable stop............
+            isRunning = false;
+            
             WinMain.myStop.setEnabled(false);
             WinMain.myStart.setEnabled(true);
 
@@ -44,9 +47,10 @@ public class emuCORE
             NesDebugger.REG_X.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.X));
             NesDebugger.REG_Y.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.Y));
             NesDebugger.REG_PC.setText(MISC_FUNCTIONS.forceTo16Bit(CPU_REGISTER.PC));
+
+            coreTHREAD core = new coreTHREAD();
+            emuThread = new Thread(core);
             
-            //Console.print("Start Core emulation...");
-            //RUN();
         }
     }
 
@@ -59,7 +63,7 @@ public class emuCORE
             ppuCORE.execPPU();
             if(ppuCORE.isNMI)
             {
-                //FIXME: Execute NMI (Non-Maskable Interrupt)
+                INTERRUPT.NMI();
             }
             updateDebugger();
         }
@@ -132,35 +136,51 @@ public class emuCORE
     public static void STOP()
     {
         Console.print("Stop Core emulation...");
-        isRunning = false;
         Main.win.setTitle("JNemu");
+        isRunning = false;
     }
 
     public static void GO()
     {
         Console.print("Start Core emulation...");
         isRunning = true;
-        RUN();
+        emuThread.start();
         Main.win.setTitle("JNemu - running");
     }
+}
 
-    private static void RUN()
+
+//*****************************************************
+//                   Core Thread
+//*****************************************************
+
+class coreTHREAD implements Runnable
+{
+    coreTHREAD()
     {
-        while(isRunning)
+        //do nothing as of now...
+    }
+    public void run()
+    {
+        try
         {
-            cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
-            ppuCORE.execPPU();
-
-            //****************************************
-            //             Cyclic Task
-            //****************************************
-            if(ppuCORE.isNMI)
+            while(emuCORE.isRunning)
             {
-                //FIXME: Execute NMI (Non-Maskable Interrupt)
-                Console.print("[emuCORE] NMI is not yet implemented.");
-                STOP();
+                cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
+                ppuCORE.execPPU();
+
+                //****************************************
+                //             Cyclic Task
+                //****************************************
+                if(ppuCORE.isNMI)
+                {
+                    INTERRUPT.NMI();
+                }
             }
         }
+        catch(Exception e)
+        {
+            Console.print("[coreTHREAD] " + e.toString());
+        }
     }
-
 }

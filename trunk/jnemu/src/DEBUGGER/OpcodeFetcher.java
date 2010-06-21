@@ -733,8 +733,8 @@ public class OpcodeFetcher
                 break;
             /************** BRK **************/
             case 0x00 :
-                size = 1;
-                addData(pc, MACHINE.getCode(size, pc) + "BRK");
+                size = 2;
+                addData(pc, MACHINE.getCode(size, pc) + "BRK $" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc + 1)));
                 break;
             default :
                 size = 1;
