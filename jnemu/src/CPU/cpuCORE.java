@@ -519,8 +519,8 @@ public class cpuCORE
                 break;
             /************** RTI **************/
             case 0x40 : //implied
-                Console.print("Unimplemented Opcode RTI implied");
-                emuCORE.isRunning = false;
+                IMPLIED.RTI();
+                cycle = 6;
                 break;
             /************** RTS **************/
             case 0x60 : //implied
@@ -694,8 +694,8 @@ public class cpuCORE
                 break;
             /************** BRK **************/
             case 0x00 :
-                Console.print("Unimplemented Opcode BRK");
-                emuCORE.isRunning = false;
+                IMPLIED.BRK();
+                cycle = 7;
                 break;
             /************** Unknown Opcode **************/
             default :

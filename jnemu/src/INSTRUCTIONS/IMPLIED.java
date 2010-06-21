@@ -1,5 +1,6 @@
 package INSTRUCTIONS;
 
+import CPU.CPU_MEMORY;
 import CPU.CPU_REGISTER;
 import CPU.FLAG;
 import CPU.STACK;
@@ -166,5 +167,28 @@ public class IMPLIED
         FLAG.CHECK_ZERO(CPU_REGISTER.Y);
         FLAG.CHECK_NEGATIVE(CPU_REGISTER.Y);
         CPU_REGISTER.PC += 1;
+    }
+
+    public static void RTI()
+    {
+        int MSB, LSB;
+
+        CPU_REGISTER.SR = STACK.Pull();
+        MSB = STACK.Pull();
+        LSB = STACK.Pull();
+        CPU_REGISTER.PC = (MSB << 8) | LSB;
+    }
+
+    public static void BRK()
+    {
+        int pc;
+
+        pc = CPU_REGISTER.PC + 2;
+        STACK.Push(pc & 0xFF); //LSB
+        STACK.Push(pc >> 8);   //MSB
+        STACK.Push(CPU_REGISTER.SR);
+
+        CPU_REGISTER.PC = CPU_MEMORY.getIRQVector();
+        CPU_REGISTER.setBRKFlag();
     }
 }
