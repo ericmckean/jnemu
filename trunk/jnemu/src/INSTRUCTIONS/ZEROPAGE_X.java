@@ -174,4 +174,63 @@ public class ZEROPAGE_X
 
         CPU_REGISTER.PC += 2;
     }
+
+    public static void AND()
+    {
+        int Value, addr;
+
+        addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF;
+        Value = CPU_REGISTER.A & CPU_MEMORY.read8Bit(addr);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void EOR()
+    {
+        int Value, addr;
+
+        addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF;
+        Value = CPU_REGISTER.A ^ CPU_MEMORY.read8Bit(addr);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void ORA()
+    {
+        int Value, addr;
+
+        addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF;
+        Value = CPU_REGISTER.A | CPU_MEMORY.read8Bit(addr);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void CMP()
+    {
+        int Value, addr;
+
+        addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF;
+        Value = CPU_MEMORY.read8Bit(addr);
+        //check for Carry Flag...
+        if(CPU_REGISTER.A >= Value)
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+        //Check for ZERO Flag...
+        if(CPU_REGISTER.A == Value)
+        {
+            CPU_REGISTER.setZeroFlag();
+        }
+
+        //Check for Negative Flag...
+        FLAG.CHECK_NEGATIVE(Value);
+
+        CPU_REGISTER.PC += 2;
+    }
 }

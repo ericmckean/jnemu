@@ -1,9 +1,9 @@
 package CPU;
 
 import java.util.Arrays;
-import MISC.CONVERTER;
 import PPU.PPU_REGISTER;
 import PPU.ppuCORE;
+import jnemu.*;
 
 public class CPU_MEMORY
 {

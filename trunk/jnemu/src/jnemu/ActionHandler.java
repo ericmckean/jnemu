@@ -51,14 +51,10 @@ public class ActionHandler implements ActionListener
         }
         else if(e.getActionCommand().equals("Start"))
         {
-            WinMain.myStart.setEnabled(false);
-            WinMain.myStop.setEnabled(true);
             emuCORE.GO();
         }
         else if(e.getActionCommand().equals("Stop"))
         {
-            WinMain.myStart.setEnabled(true);
-            WinMain.myStop.setEnabled(false);
             emuCORE.STOP();
         }
         else if(e.getActionCommand().equals("Option"))

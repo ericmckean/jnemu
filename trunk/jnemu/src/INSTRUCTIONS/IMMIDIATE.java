@@ -105,4 +105,70 @@ public class IMMIDIATE
         CPU_REGISTER.PC += 2;
     }
 
+    public static void EOR()
+    {
+        int Value;
+
+        Value = CPU_REGISTER.A ^ CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void ORA()
+    {
+        int Value;
+
+        Value = CPU_REGISTER.A | CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void CPX()
+    {
+        int Value;
+
+        Value = CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1);
+        //check for Carry Flag...
+        if(CPU_REGISTER.X >= Value)
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+        //Check for ZERO Flag...
+        if(CPU_REGISTER.X == Value)
+        {
+            CPU_REGISTER.setZeroFlag();
+        }
+
+        //Check for Negative Flag...
+        FLAG.CHECK_NEGATIVE(Value);
+
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void CPY()
+    {
+        int Value;
+
+        Value = CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1);
+        //check for Carry Flag...
+        if(CPU_REGISTER.Y >= Value)
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+        //Check for ZERO Flag...
+        if(CPU_REGISTER.Y == Value)
+        {
+            CPU_REGISTER.setZeroFlag();
+        }
+
+        //Check for Negative Flag...
+        FLAG.CHECK_NEGATIVE(Value);
+
+        CPU_REGISTER.PC += 2;
+    }
+
 }

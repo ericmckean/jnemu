@@ -104,4 +104,122 @@ public class INDIRECT_Y
         CPU_REGISTER.PC += 2;
         return cycle;
     }
+
+    public static int AND()
+    {
+        int Value, oldAddr, newAddr, MSB, LSB, cycle = 0;
+
+        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
+        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
+        oldAddr = ((MSB << 8) | LSB);
+        newAddr = ((MSB << 8) | LSB) + CPU_REGISTER.Y;
+
+        Value = CPU_REGISTER.A & CPU_MEMORY.read8Bit(newAddr);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        if(CPU_MEMORY.getPage(oldAddr) == CPU_MEMORY.getPage(newAddr))
+        {
+            cycle = 5;
+        }
+        else
+        {
+            cycle = 6;
+        }
+
+        CPU_REGISTER.PC += 2;
+        return cycle;
+    }
+
+    public static int EOR()
+    {
+        int Value, oldAddr, newAddr, MSB, LSB, cycle = 0;
+
+        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
+        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
+        oldAddr = ((MSB << 8) | LSB);
+        newAddr = ((MSB << 8) | LSB) + CPU_REGISTER.Y;
+
+        Value = CPU_REGISTER.A ^ CPU_MEMORY.read8Bit(newAddr);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        if(CPU_MEMORY.getPage(oldAddr) == CPU_MEMORY.getPage(newAddr))
+        {
+            cycle = 5;
+        }
+        else
+        {
+            cycle = 6;
+        }
+
+        CPU_REGISTER.PC += 2;
+        return cycle;
+    }
+
+    public static int ORA()
+    {
+        int Value, oldAddr, newAddr, MSB, LSB, cycle = 0;
+
+        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
+        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
+        oldAddr = ((MSB << 8) | LSB);
+        newAddr = ((MSB << 8) | LSB) + CPU_REGISTER.Y;
+
+        Value = CPU_REGISTER.A | CPU_MEMORY.read8Bit(newAddr);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        if(CPU_MEMORY.getPage(oldAddr) == CPU_MEMORY.getPage(newAddr))
+        {
+            cycle = 5;
+        }
+        else
+        {
+            cycle = 6;
+        }
+
+        CPU_REGISTER.PC += 2;
+        return cycle;
+    }
+
+    public static int CMP()
+    {
+        int Value, oldAddr, newAddr, MSB, LSB, cycle = 0;
+
+        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
+        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
+        oldAddr = ((MSB << 8) | LSB);
+        newAddr = ((MSB << 8) | LSB) + CPU_REGISTER.Y;
+
+        Value = CPU_MEMORY.read8Bit(newAddr);
+        //check for Carry Flag...
+        if(CPU_REGISTER.A >= Value)
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+        //Check for ZERO Flag...
+        if(CPU_REGISTER.A == Value)
+        {
+            CPU_REGISTER.setZeroFlag();
+        }
+
+        //Check for Negative Flag...
+        FLAG.CHECK_NEGATIVE(Value);
+
+        if(CPU_MEMORY.getPage(oldAddr) == CPU_MEMORY.getPage(newAddr))
+        {
+            cycle = 5;
+        }
+        else
+        {
+            cycle = 6;
+        }
+
+        CPU_REGISTER.PC += 2;
+        return cycle;
+    }
 }
