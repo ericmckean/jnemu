@@ -8,13 +8,12 @@ import CPU.CPU_REGISTER;
 import PPU.ppuCORE;
 import DEBUGGER.*;
 import INSTRUCTIONS.INTERRUPT;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class emuCORE
 {
     public static boolean isRunning = false;
     public static Thread emuThread;
+    static coreTHREAD core;
 
     public static void startEmulation()
     {
@@ -46,11 +45,7 @@ public class emuCORE
             NesDebugger.REG_A.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.A));
             NesDebugger.REG_X.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.X));
             NesDebugger.REG_Y.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.Y));
-            NesDebugger.REG_PC.setText(MISC_FUNCTIONS.forceTo16Bit(CPU_REGISTER.PC));
-
-            coreTHREAD core = new coreTHREAD();
-            emuThread = new Thread(core);
-            
+            NesDebugger.REG_PC.setText(MISC_FUNCTIONS.forceTo16Bit(CPU_REGISTER.PC));        
         }
     }
 
@@ -135,15 +130,22 @@ public class emuCORE
 
     public static void STOP()
     {
-        Console.print("Stop Core emulation...");
+        WinMain.myStart.setEnabled(true);
+        WinMain.myStop.setEnabled(false);
+        Console.print("Stopping Core emulation...");
         Main.win.setTitle("JNemu");
         isRunning = false;
+        emuThread.interrupt();
     }
 
     public static void GO()
     {
-        Console.print("Start Core emulation...");
+        WinMain.myStart.setEnabled(false);
+        WinMain.myStop.setEnabled(true);
+        Console.print("Starting Core emulation...");
         isRunning = true;
+        core = new coreTHREAD();
+        emuThread = new Thread(core);
         emuThread.start();
         Main.win.setTitle("JNemu - running");
     }
@@ -162,25 +164,35 @@ class coreTHREAD implements Runnable
     }
     public void run()
     {
-        try
+        while(emuCORE.isRunning)
         {
-            while(emuCORE.isRunning)
+            try
             {
                 cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
                 ppuCORE.execPPU();
-
-                //****************************************
-                //             Cyclic Task
-                //****************************************
-                if(ppuCORE.isNMI)
-                {
-                    INTERRUPT.NMI();
-                }
             }
-        }
-        catch(Exception e)
-        {
-            Console.print("[coreTHREAD] " + e.toString());
+            catch(Exception e)
+            {
+                Console.print("[coreTHREAD] " + e.toString());
+                emuCORE.STOP();
+            }
+
+            //****************************************
+            //             Cyclic Task
+            //****************************************
+            if(ppuCORE.isNMI)
+            {
+                INTERRUPT.NMI();
+            }
+            try
+            {
+                Thread.sleep(0);
+            }
+            catch(InterruptedException e)
+            {
+                Thread.currentThread().interrupt();
+                break;
+            }
         }
     }
 }

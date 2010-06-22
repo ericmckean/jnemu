@@ -215,4 +215,110 @@ public class ABSOLUTE_X
         CPU_REGISTER.PC += 3;
         return cycle;
     }
+
+    public static int AND()
+    {
+        int Value, oldAddr, newAddr, cycle = 0;
+
+        oldAddr = ADDRESS.get16BitAddressOperand();
+        newAddr = ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X;
+
+        Value = CPU_REGISTER.A & CPU_MEMORY.read8Bit(newAddr);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        if(CPU_MEMORY.getPage(newAddr) != CPU_MEMORY.getPage(oldAddr))
+        {
+            cycle = 5;
+        }
+        else
+        {
+            cycle = 4;
+        }
+        CPU_REGISTER.PC += 3;
+        return cycle;
+    }
+
+    public static int EOR()
+    {
+        int Value, oldAddr, newAddr, cycle = 0;
+
+        oldAddr = ADDRESS.get16BitAddressOperand();
+        newAddr = ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X;
+
+        Value = CPU_REGISTER.A ^ CPU_MEMORY.read8Bit(newAddr);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        if(CPU_MEMORY.getPage(newAddr) != CPU_MEMORY.getPage(oldAddr))
+        {
+            cycle = 5;
+        }
+        else
+        {
+            cycle = 4;
+        }
+        CPU_REGISTER.PC += 3;
+        return cycle;
+    }
+
+    public static int ORA()
+    {
+        int Value, oldAddr, newAddr, cycle = 0;
+
+        oldAddr = ADDRESS.get16BitAddressOperand();
+        newAddr = ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X;
+
+        Value = CPU_REGISTER.A | CPU_MEMORY.read8Bit(newAddr);
+        CPU_REGISTER.A = Value;
+        FLAG.CHECK_ZERO(Value);
+        FLAG.CHECK_NEGATIVE(Value);
+
+        if(CPU_MEMORY.getPage(newAddr) != CPU_MEMORY.getPage(oldAddr))
+        {
+            cycle = 5;
+        }
+        else
+        {
+            cycle = 4;
+        }
+        CPU_REGISTER.PC += 3;
+        return cycle;
+    }
+
+    public static int CMP()
+    {
+        int Value, oldAddr, newAddr, cycle = 0;
+
+        oldAddr = ADDRESS.get16BitAddressOperand();
+        newAddr = ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X;
+
+        Value = CPU_MEMORY.read8Bit(newAddr);
+        //check for Carry Flag...
+        if(CPU_REGISTER.A >= Value)
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+        //Check for ZERO Flag...
+        if(CPU_REGISTER.A == Value)
+        {
+            CPU_REGISTER.setZeroFlag();
+        }
+
+        //Check for Negative Flag...
+        FLAG.CHECK_NEGATIVE(Value);
+
+        if(CPU_MEMORY.getPage(newAddr) != CPU_MEMORY.getPage(oldAddr))
+        {
+            cycle = 5;
+        }
+        else
+        {
+            cycle = 4;
+        }
+        CPU_REGISTER.PC += 3;
+        return cycle;
+    }
 }
