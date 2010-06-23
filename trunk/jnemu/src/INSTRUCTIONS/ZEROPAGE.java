@@ -297,4 +297,33 @@ public class ZEROPAGE
 
         CPU_REGISTER.PC += 2;
     }
+
+    public static void BIT()
+    {
+        int Value, addr;
+
+        addr = ADDRESS.get8BitAddressOperand();
+        Value = CPU_REGISTER.A & CPU_MEMORY.read8Bit(addr);       
+        FLAG.CHECK_ZERO(Value);
+        //Overflow Flag
+        if((Value & 0x40) == 0x40)
+        {
+            CPU_REGISTER.setOverflowFlag();
+        }
+        else
+        {
+            CPU_REGISTER.clearOverflowFlag();
+        }
+        //Negative Flag
+        if((Value & 0x80) == 0x80)
+        {
+            CPU_REGISTER.setNegativeFlag();
+        }
+        else
+        {
+            CPU_REGISTER.clearNegativeFlag();
+        }
+
+        CPU_REGISTER.PC += 2;
+    }
 }

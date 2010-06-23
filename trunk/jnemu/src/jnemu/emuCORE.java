@@ -173,7 +173,17 @@ class coreTHREAD implements Runnable
             }
             catch(Exception e)
             {
-                Console.print("[coreTHREAD] " + e.toString());
+                StringBuilder msg;
+
+                for(int ctr=0; ctr<=(e.getStackTrace().length - 1);ctr++)
+                {
+                    msg = new StringBuilder(5);
+                    msg.append(e.toString() + ": ");
+                    msg.append(e.getStackTrace()[ctr].getFileName() + ": ");
+                    msg.append(e.getStackTrace()[ctr].getMethodName() + ": ");
+                    msg.append("Line " + e.getStackTrace()[ctr].getLineNumber());
+                    Console.print("[ERROR] " + msg.toString());
+                }
                 emuCORE.STOP();
             }
 

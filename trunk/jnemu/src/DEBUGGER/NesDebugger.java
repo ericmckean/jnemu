@@ -63,7 +63,11 @@ public class NesDebugger extends JDialog
         //JPanel wASM = new JPanel();
         //tab.add("Assembly",wASM);
 
-        //Disassembler............................
+        //******************************************************
+        //
+        //                  Disassembly TAB
+        //
+        //******************************************************
         JPanel wMEM = new JPanel();
         tab.add("Disassembly",wMEM);
         wMEM.setLayout(null);
@@ -254,26 +258,26 @@ public class NesDebugger extends JDialog
         MEM_2007.setBounds(350 + 50, 180, 60, 20);
         wMEM.add(MEM_2007);
 
-        //Assembly............................
-        JPanel wPPU = new JPanel();
-        tab.add("PPU",wPPU);
+        //******************************************************
+        //
+        //                  Memory Viewer TAB
+        //
+        //******************************************************
+        //JPanel wMemViewer = new JPanel();
+        //tab.add("CPU Memory",wMemViewer);
 
-        //PRG............................
-        JPanel wPRG = new JPanel();
-        tab.add("PRG",wPRG);
-
-        //CHR............................
-        JPanel wCHR = new JPanel();
-        tab.add("CHR",wCHR);
-        
-        //NES ROM............................
+        //******************************************************
+        //
+        //                    NES ROM TAB
+        //
+        //******************************************************
         JPanel wROM = new JPanel();
         tab.add("NES ROM",wROM);
         wROM.setLayout(null);
 
         jt = new JTextPane();
         jt.setEditable(false);
-        jt.setBackground(Color.lightGray);
+        jt.setBackground(Color.white);
         JScrollPane sp = new JScrollPane(jt);
         sp.setBounds(0, 0, scWidth - 10, scHeight - 55);
         wROM.add(sp);
