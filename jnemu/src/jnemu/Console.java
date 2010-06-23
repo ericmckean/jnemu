@@ -12,6 +12,7 @@ public class Console extends JDialog
     int scHeight = 500;
     private static JTextPane txt;
     private static StringBuilder sb;
+    public static SimpleAttributeSet sa;
 
     Console()
     {
@@ -26,14 +27,16 @@ public class Console extends JDialog
         /*********************** Console output area ************************/
         txt = new JTextPane();
         txt.setEditable(false);
+        txt.setDoubleBuffered(true);
+        txt.setBackground(Color.white);
         JScrollPane jp = new JScrollPane(txt);
         jp.setLocation(0,0);
         add(jp);
 
-        SimpleAttributeSet sa = new SimpleAttributeSet();
+        sa = new SimpleAttributeSet();
         StyleConstants.setAlignment(sa, StyleConstants.ALIGN_LEFT);
+        StyleConstants.setForeground(sa, Color.darkGray);
         txt.setParagraphAttributes(sa, true);
-
         sb = new StringBuilder();
 
         /******************************* OnClose *********************************/
@@ -50,10 +53,9 @@ public class Console extends JDialog
 
     public static void print(String str)
     {
-        sb.append(str);
-        sb.append("\n");
+        sb.append(str + "\n");
         txt.setText(sb.toString());
-        
+        txt.setCaretPosition(txt.getText().length());
     }
 
     public static void clearConsole()

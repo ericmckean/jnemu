@@ -8,7 +8,6 @@ package CPU;
 
 import jnemu.Console;
 import INSTRUCTIONS.*;
-import jnemu.emuCORE;
 
 public class cpuCORE
 {
@@ -579,12 +578,12 @@ public class cpuCORE
                 break;
             /************** BIT **************/
             case 0x24 : //zeropage
-                Console.print("Unimplemented Opcode BIT zeropage");
-                emuCORE.isRunning = false;
+                ZEROPAGE.BIT();
+                cycle = 3;
                 break;
             case 0x2C : //absolute
-                Console.print("Unimplemented Opcode BIT absolute");
-                emuCORE.isRunning = false;
+                ABSOLUTE.BIT();
+                cycle = 4;
                 break;
             /*
              *        Uncategorized Instructions
