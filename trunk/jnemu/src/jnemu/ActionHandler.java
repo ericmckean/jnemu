@@ -2,6 +2,8 @@ package jnemu;
 
 import CARTRIDGE.GAME;
 import CARTRIDGE.ROMS;
+import CPU.CPU_MEMORY;
+import DEBUGGER.NesDebugger;
 import MISC.INOUT;
 
 import java.awt.event.ActionEvent;
@@ -79,6 +81,38 @@ public class ActionHandler implements ActionListener
         else if(e.getActionCommand().equals("Refresh"))
         {
             emuCORE.updateDebugger();
+        }
+        else if(e.getSource().equals(NesDebugger.mv_btn))
+        {
+            int mStart = 0, mEnd = 0;
+            String c;
+
+            c = NesDebugger.mv_txt.getSelectedItem().toString();
+
+            if(c.equals("Zero Page $0000-$00FF"))
+            {
+                mStart = 0x0000;
+                mEnd = 0x00FF;
+                NesDebugger.mv.setText(CPU_MEMORY.getMemContent(mStart, mEnd));
+            }
+            else if(c.equals("Stack $0100-$01FF"))
+            {
+                mStart = 0x0100;
+                mEnd = 0x01FF;
+                NesDebugger.mv.setText(CPU_MEMORY.getMemContent(mStart, mEnd));
+            }
+            else if(c.equals("RAM $02FF-$07FF"))
+            {
+                mStart = 0x0200;
+                mEnd = 0x07FF;
+                NesDebugger.mv.setText(CPU_MEMORY.getMemContent(mStart, mEnd));
+            }
+            else if(c.equals("SRAM $6000-$7FFF"))
+            {
+                mStart = 0x6000;
+                mEnd = 0x7FFF;
+                NesDebugger.mv.setText(CPU_MEMORY.getMemContent(mStart, mEnd));
+            }
         }
        
     }

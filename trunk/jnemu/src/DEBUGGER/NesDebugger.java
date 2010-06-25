@@ -9,7 +9,7 @@ import jnemu.ActionHandler;
 
 public class NesDebugger extends JDialog
 {
-    int scWidth = 600 - 30;
+    int scWidth = 700 - 30;
     int scHeight = 400;
 
     public static JTextPane jt;
@@ -41,6 +41,10 @@ public class NesDebugger extends JDialog
 
     public static JLabel CPU_CYCLE;
     public static JLabel PPU_SCANLINE;
+
+    public static JTextPane mv;
+    public static JButton mv_btn;
+    public static JComboBox mv_txt;
 
     public NesDebugger()
     {
@@ -76,7 +80,7 @@ public class NesDebugger extends JDialog
         REG_Viewer.setBackground(Color.white);
         
         JScrollPane mem_sp = new JScrollPane(REG_Viewer);
-        mem_sp.setBounds(0, 0, scWidth - 250, scHeight - 55);
+        mem_sp.setBounds(0, 0, 320, 345);
         wMEM.add(mem_sp);
 
         JButton DISASM_REFRESH = new JButton("Refresh");
@@ -263,8 +267,31 @@ public class NesDebugger extends JDialog
         //                  Memory Viewer TAB
         //
         //******************************************************
-        //JPanel wMemViewer = new JPanel();
-        //tab.add("CPU Memory",wMemViewer);
+        JPanel wMemViewer = new JPanel();
+        tab.add("CPU Memory",wMemViewer);
+        wMemViewer.setLayout(null);
+
+        mv = new JTextPane();
+        mv.setEditable(false);
+        mv.setBackground(Color.white);
+        JScrollPane _mv = new JScrollPane(mv);
+        _mv.setBounds(0, 40, scWidth - 10, (scHeight - 55) - 40);
+        wMemViewer.add(_mv);
+
+        String mv_cont[] = {"Zero Page $0000-$00FF","Stack $0100-$01FF","RAM $02FF-$07FF","SRAM $6000-$7FFF"};
+        mv_txt = new JComboBox(mv_cont);
+        mv_txt.setBounds(80, 10, 400, 20);
+        wMemViewer.add(mv_txt);
+
+        mv_btn = new JButton("Show");
+        mv_btn.setBounds(490, 10, 70, 20);
+        mv_btn.addActionListener(new ActionHandler());
+        wMemViewer.add(mv_btn);
+
+        SimpleAttributeSet mv_sa = new SimpleAttributeSet();
+        StyleConstants.setAlignment(mv_sa, StyleConstants.ALIGN_JUSTIFIED);
+        mv.setParagraphAttributes(mv_sa, true);
+
 
         //******************************************************
         //
