@@ -20,7 +20,52 @@ public class CONVERTER
        return tmp.toString();
    }
 
+   public static String intTo8BitStringHex(int b)
+   {
+       StringBuilder tmp = new StringBuilder();
+       String x;
+
+       x = Integer.toHexString(b & 0xff);
+       if(x.length() < 2)
+       {
+           tmp.append("0");
+           tmp.append(x);
+       }
+       else
+       {
+           tmp.append(x);
+       }
+       return tmp.toString();
+   }
+
    public static String byteTo16BitStringHex(byte b)
+   {
+       StringBuilder tmp = new StringBuilder();
+       String x;
+
+       x = Integer.toHexString(b & 0xffff);
+       switch(x.length())
+       {
+           case 1 :
+               tmp.append("000");
+               tmp.append(x);
+               break;
+           case 2 :
+               tmp.append("00");
+               tmp.append(x);
+               break;
+           case 3 :
+               tmp.append("0");
+               tmp.append(x);
+               break;
+           default :
+               tmp.append(x);
+               break;
+       }
+       return tmp.toString();
+   }
+
+   public static String intTo16BitStringHex(int b)
    {
        StringBuilder tmp = new StringBuilder();
        String x;
@@ -177,6 +222,28 @@ public class CONVERTER
            chr = (char)tmp;
        }
        
+       return chr;
+   }
+
+   public static char intToChar(int b)
+   {
+       int tmp;
+       char chr = '.';
+
+       tmp = (int)b;
+       if(tmp >= 0x00 && tmp <= 0x20)
+       {
+           chr = '.';
+       }
+       else if(tmp >= 0xcc80 && tmp <= 0xcd81)
+       {
+           chr = '.';
+       }
+       else
+       {
+           chr = (char)tmp;
+       }
+
        return chr;
    }
 

@@ -108,23 +108,19 @@ public class ROMS
     private static void showInDebugger(byte[] bytes)
     {
         int length = (int)bytes.length;
-        int ctr, ctr2, lineCTR;
+        int ctr, ctr2;
         String Spacer = " ";
         String Spacer3 = "   ";
-        String Spacer2 = "  :  ";
-        int BASE = 12;
+        int BASE = 16;
 
-        DecimalFormat df = new DecimalFormat("0000000");
         DecimalFormat dfUpper = new DecimalFormat("00");
         
         StringBuilder temp = new StringBuilder();
         StringBuilder unicode = new StringBuilder(50);
         
         ctr2 = 0;
-        lineCTR = 0;
 
         //Upper counter...........................
-        temp.append("Offset      ");
         for(int upperCTR=0; upperCTR < BASE; upperCTR++)
         {
             temp.append(dfUpper.format(upperCTR));
@@ -133,9 +129,6 @@ public class ROMS
         temp.append("\n");
         temp.append("\n");
 
-        //Left counter.............................
-        temp.append(df.format(lineCTR));
-        temp.append(Spacer2);
         //Content..................................
         for(ctr=0; ctr<length; ctr++)
         {
@@ -154,10 +147,7 @@ public class ROMS
                 temp.append(unicode.toString());
                 unicode.delete(0, unicode.length());
                 temp.append("\n");
-                lineCTR += BASE;
                 ctr2 = 0;
-                temp.append(df.format(lineCTR));
-                temp.append(Spacer2);
             }
             
         }
