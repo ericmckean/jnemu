@@ -51,9 +51,10 @@ public class IMPLIED
 
     public static void RTS()
     {
-        int addr;
-        addr = STACK.Pull();
-        addr += (STACK.Pull() << 8) + 1;
+        int addr, LSB, MSB;
+        LSB = STACK.Pull();
+        MSB = STACK.Pull();
+        addr = (MSB << 8) | LSB;
         CPU_REGISTER.PC = addr;
     }
 
