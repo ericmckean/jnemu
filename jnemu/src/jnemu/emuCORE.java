@@ -8,6 +8,7 @@ import CPU.CPU_REGISTER;
 import PPU.ppuCORE;
 import DEBUGGER.*;
 import INSTRUCTIONS.INTERRUPT;
+import MISC.CONVERTER;
 
 public class emuCORE
 {
@@ -158,14 +159,30 @@ public class emuCORE
 
 class coreTHREAD implements Runnable
 {
+    int pc;
     coreTHREAD()
     {
-        //do nothing as of now...
+        try
+        {
+            pc = CONVERTER.stringHexToInt(NesDebugger.codeBreak.getText()); //Stop point...
+        }
+        catch(Exception e)
+        {
+            Console.print("[ERROR] " + e.toString());
+        }
     }
     public void run()
     {
         while(emuCORE.isRunning)
         {
+            if(NesDebugger.codeCheck.isSelected())
+            {
+                if(CPU_REGISTER.PC == pc)
+                {
+                    emuCORE.STOP();
+                }
+            }
+
             try
             {
                 cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));

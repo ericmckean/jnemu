@@ -94,7 +94,17 @@ public class CONVERTER
 
    public static int stringHexToInt(String str)
    {
-       return Integer.parseInt(str,16);
+       int tmp = 0;
+
+       try
+       {
+           tmp = Integer.parseInt(str,16);
+       }
+       catch(Exception e)
+       {
+           tmp = 0;
+       }
+       return tmp;
    }
 
    public static String byteToStringInt(byte b)

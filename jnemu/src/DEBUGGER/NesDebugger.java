@@ -46,6 +46,9 @@ public class NesDebugger extends JDialog
     public static JButton mv_btn;
     public static JComboBox mv_txt;
 
+    public static JTextField codeBreak;
+    public static JCheckBox codeCheck;
+
     public NesDebugger()
     {
         /********************** Main Window ***********************/
@@ -261,6 +264,18 @@ public class NesDebugger extends JDialog
         MEM_2007 = new JLabel("00");
         MEM_2007.setBounds(350 + 50, 180, 60, 20);
         wMEM.add(MEM_2007);
+
+        codeBreak = new JTextField();
+        codeBreak.setBounds(370, 280, 50, 20);
+        wMEM.add(codeBreak);
+
+        codeCheck = new JCheckBox();
+        codeCheck.setBounds(350, 280, 20, 20);
+        wMEM.add(codeCheck);
+
+        JLabel breakLabel = new JLabel("Break Point");
+        breakLabel.setBounds(430, 280, 120, 20);
+        wMEM.add(breakLabel);
 
         //******************************************************
         //

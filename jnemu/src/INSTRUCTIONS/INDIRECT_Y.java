@@ -12,7 +12,7 @@ public class INDIRECT_Y
 
         LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
         MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
-        addr = ((MSB << 8) | LSB) + CPU_REGISTER.Y;
+        addr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
 
         CPU_MEMORY.write8Bit(addr, CPU_REGISTER.A);
         CPU_REGISTER.PC += 2;
@@ -25,7 +25,7 @@ public class INDIRECT_Y
         MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
         LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
         oldAddr = ((MSB << 8) | LSB);
-        newAddr = ((MSB << 8) | LSB) + CPU_REGISTER.Y;
+        newAddr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
 
         Value = CPU_MEMORY.read8Bit(newAddr);
         tmp = CPU_REGISTER.A + Value;
@@ -55,7 +55,7 @@ public class INDIRECT_Y
         MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
         LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
         oldAddr = ((MSB << 8) | LSB);
-        newAddr = ((MSB << 8) | LSB) + CPU_REGISTER.Y;
+        newAddr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
 
         Value = CPU_MEMORY.read8Bit(newAddr);
         tmp = CPU_REGISTER.A - Value;
@@ -85,7 +85,7 @@ public class INDIRECT_Y
         MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
         LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
         oldAddr = ((MSB << 8) | LSB);
-        newAddr = ((MSB << 8) | LSB) + CPU_REGISTER.Y;
+        newAddr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
 
         Value =  CPU_MEMORY.read8Bit(newAddr);
         CPU_REGISTER.A = Value;
@@ -112,7 +112,7 @@ public class INDIRECT_Y
         MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
         LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
         oldAddr = ((MSB << 8) | LSB);
-        newAddr = ((MSB << 8) | LSB) + CPU_REGISTER.Y;
+        newAddr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
 
         Value = CPU_REGISTER.A & CPU_MEMORY.read8Bit(newAddr);
         CPU_REGISTER.A = Value;
@@ -139,7 +139,7 @@ public class INDIRECT_Y
         MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
         LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
         oldAddr = ((MSB << 8) | LSB);
-        newAddr = ((MSB << 8) | LSB) + CPU_REGISTER.Y;
+        newAddr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
 
         Value = CPU_REGISTER.A ^ CPU_MEMORY.read8Bit(newAddr);
         CPU_REGISTER.A = Value;
@@ -166,7 +166,7 @@ public class INDIRECT_Y
         MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
         LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
         oldAddr = ((MSB << 8) | LSB);
-        newAddr = ((MSB << 8) | LSB) + CPU_REGISTER.Y;
+        newAddr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
 
         Value = CPU_REGISTER.A | CPU_MEMORY.read8Bit(newAddr);
         CPU_REGISTER.A = Value;
@@ -193,7 +193,7 @@ public class INDIRECT_Y
         MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
         LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
         oldAddr = ((MSB << 8) | LSB);
-        newAddr = ((MSB << 8) | LSB) + CPU_REGISTER.Y;
+        newAddr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
 
         Value = CPU_MEMORY.read8Bit(newAddr);
         //check for Carry Flag...
