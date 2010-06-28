@@ -41,7 +41,7 @@ public class emuCORE
             Console.print("Initializing ppu...");
             ppuCORE.init();
 
-            OpcodeFetcher.loadOpcode(CPU_MEMORY.getResetVector());
+            OpcodeFetcher.loadOpcode(CPU_REGISTER.PC);
             //Show data on the debugger.................
             NesDebugger.REG_A.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.A));
             NesDebugger.REG_X.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.X));
