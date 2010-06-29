@@ -2,7 +2,7 @@ package CARTRIDGE;
 
 import jnemu.Console;
 
-public class GAME
+public class ROM_INFO
 {
     public static int MAPPER_NUMBER;
     public static String TVSystem;

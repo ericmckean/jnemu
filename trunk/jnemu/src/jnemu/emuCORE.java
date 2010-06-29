@@ -1,6 +1,6 @@
 package jnemu;
 
-import CARTRIDGE.ROMS;
+import CARTRIDGE.ROM_IO;
 import CARTRIDGE.MAPPER;
 import CPU.CPU_MEMORY;
 import CPU.cpuCORE;
@@ -21,25 +21,23 @@ public class emuCORE
         //if the file is loaded to the cartridge, start emulation.
         //else dont do anything...................................
         
-        if(ROMS.noSelectedFile == false)
+        if(ROM_IO.noSelectedFile == false)
         {
             isRunning = false;
             
             WinMain.myStop.setEnabled(false);
             WinMain.myStart.setEnabled(true);
 
-            //initialize Nes Components..
-            Console.print("Initializing cpu memory...");
-            CPU_MEMORY.init();
-
-             //init mapper.....
-            MAPPER.init();
-
+            //initialize Nes Components..     
             Console.print("Initializing cpu...");
+            CPU_MEMORY.init();
             cpuCORE.init();
 
             Console.print("Initializing ppu...");
             ppuCORE.init();
+
+            //init mapper.....
+            MAPPER.init();
 
             OpcodeFetcher.loadOpcode(CPU_REGISTER.PC);
             //Show data on the debugger.................

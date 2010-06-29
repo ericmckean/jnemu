@@ -1,7 +1,7 @@
 package jnemu;
 
-import CARTRIDGE.GAME;
-import CARTRIDGE.ROMS;
+import CARTRIDGE.ROM_INFO;
+import CARTRIDGE.ROM_IO;
 import CPU.CPU_MEMORY;
 import DEBUGGER.NesDebugger;
 import MISC.INOUT;
@@ -21,10 +21,10 @@ public class ActionHandler implements ActionListener
         else if(e.getActionCommand().equals("Open Rom"))
         {
             //load roms to cartridge
-            ROMS.loadNesROM(INOUT.getFilePath());
-            if(ROMS.isLoaded)
+            ROM_IO.loadNesROM(INOUT.getFilePath());
+            if(ROM_IO.isLoaded)
             {
-                switch (GAME.MAPPER_NUMBER)
+                switch (ROM_INFO.MAPPER_NUMBER)
                 {
                     case 0 : emuCORE.startEmulation();break;
                     default : Console.print("[ERROR] Unsupported mapper.");break;
