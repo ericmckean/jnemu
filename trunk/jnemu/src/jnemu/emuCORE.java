@@ -16,7 +16,7 @@ public class emuCORE
     public static Thread emuThread;
     static coreTHREAD core;
 
-    public static void startEmulation()
+    public static void init()
     {
         //if the file is loaded to the cartridge, start emulation.
         //else dont do anything...................................
@@ -28,16 +28,22 @@ public class emuCORE
             WinMain.myStop.setEnabled(false);
             WinMain.myStart.setEnabled(true);
 
-            //initialize Nes Components..     
-            Console.print("Initializing cpu...");
-            CPU_MEMORY.init();
-            cpuCORE.init();
-
+                
+            //**************************************
+            //              Init PPU
+            //**************************************
             Console.print("Initializing ppu...");
             ppuCORE.init();
 
+            //**************************************
+            //         Init CPU and MAPPER
+            //**************************************
+            Console.print("Initializing cpu...");
+            CPU_MEMORY.init();
             //init mapper.....
             MAPPER.init();
+            //Init CPU REGISTER...
+            CPU_REGISTER.init();
 
             OpcodeFetcher.loadOpcode(CPU_REGISTER.PC);
             //Show data on the debugger.................

@@ -12,17 +12,6 @@ import INSTRUCTIONS.*;
 public class cpuCORE
 {
     public static int CYCLE; //cycle counter..................
-    
-    public static void init()
-    {
-        CPU_REGISTER.A = 0;
-        CPU_REGISTER.SP = 0;
-        CPU_REGISTER.PC = CPU_MEMORY.getResetVector();
-        CPU_REGISTER.X = 0;
-        CPU_REGISTER.Y = 0;
-        CPU_REGISTER.SR = 0;
-        cpuCORE.CYCLE = 0;
-    }
 
     public static int exec(int opcode)
     {
