@@ -9,6 +9,17 @@ public class CPU_REGISTER
     public static int SP; //stack pointer
     public static int SR; //status register
 
+    public static void init()
+    {
+        CPU_REGISTER.A = 0;
+        CPU_REGISTER.SP = 0;
+        CPU_REGISTER.PC = CPU_MEMORY.getResetVector();
+        CPU_REGISTER.X = 0;
+        CPU_REGISTER.Y = 0;
+        CPU_REGISTER.SR = 0;
+        cpuCORE.CYCLE = 0;
+    }
+
     //carry flag........................
     public static void setCarryFlag()
     {

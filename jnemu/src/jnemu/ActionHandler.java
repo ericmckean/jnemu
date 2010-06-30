@@ -26,7 +26,7 @@ public class ActionHandler implements ActionListener
             {
                 switch (ROM_INFO.MAPPER_NUMBER)
                 {
-                    case 0 : emuCORE.startEmulation();break;
+                    case 0 : emuCORE.init();break;
                     default : Console.print("[ERROR] Unsupported mapper.");break;
                 }
             }
