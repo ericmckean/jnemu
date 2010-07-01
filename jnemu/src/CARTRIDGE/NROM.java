@@ -54,21 +54,13 @@ public class NROM
                 //Do nothing....
                 break;
             case 1 :
-                //Load Pattern Table 0....
-                Console.print("Loading Pattern Table 0...");
+                //Load Pattern Table....
+                Console.print("Loading Pattern Table...");
                 for(int ctr=0x0000; ctr<=0x0FFF; ctr++)
                 {
                     PPU_MEMORY.writePPUMemory(ctr, ROM_INFO.VRomBank_8KB[i][0]);
                     i++;
                 }
-                //Load Pattern Table 0 at Pattern Table 1's location....
-                i=0;
-                for(int ctr=0x1000; ctr<=0x1FFF; ctr++)
-                {
-                    PPU_MEMORY.writePPUMemory(ctr, ROM_INFO.VRomBank_8KB[i][0]);
-                    i++;
-                }
-                break;
         }
     }
 }
