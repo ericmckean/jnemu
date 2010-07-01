@@ -8,7 +8,7 @@ public class PPU_MEMORY
 
     public static void init()
     {
-        PPU_MEMORY_MAP = new int[0x100][0x100];
+        PPU_MEMORY_MAP = new int[0x40][0x100];
     }
 
     public static int readPPUMemory(int address)
