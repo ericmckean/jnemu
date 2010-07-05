@@ -283,7 +283,7 @@ public class NesDebugger extends JDialog
         //
         //******************************************************
         JPanel wMemViewer = new JPanel();
-        tab.add("CPU Memory",wMemViewer);
+        tab.add("CPU / PPU Memory",wMemViewer);
         wMemViewer.setLayout(null);
 
         mv = new JTextPane();
@@ -293,7 +293,15 @@ public class NesDebugger extends JDialog
         _mv.setBounds(0, 40, scWidth - 10, (scHeight - 55) - 40);
         wMemViewer.add(_mv);
 
-        String mv_cont[] = {"Zero Page $0000-$00FF","Stack $0100-$01FF","RAM $02FF-$07FF","SRAM $6000-$7FFF"};
+        String[] mv_cont = new String[7];
+        mv_cont[0] = "Zero Page $0000-$00FF";
+        mv_cont[1] = "Stack $0100-$01FF";
+        mv_cont[2] = "RAM $02FF-$07FF";
+        mv_cont[3] = "SRAM $6000-$7FFF";
+        mv_cont[4] = "Pattern Table 0";
+        mv_cont[5] = "Pattern Table 1";
+        mv_cont[6] = "Name Tables";
+
         mv_txt = new JComboBox(mv_cont);
         mv_txt.setBounds(80, 10, 400, 20);
         wMemViewer.add(mv_txt);
