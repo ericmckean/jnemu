@@ -5,6 +5,7 @@ import CARTRIDGE.ROM_IO;
 import CPU.CPU_MEMORY;
 import DEBUGGER.NesDebugger;
 import MISC.INOUT;
+import PPU.PPU_MEMORY;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -112,6 +113,24 @@ public class ActionHandler implements ActionListener
                 mStart = 0x6000;
                 mEnd = 0x7FFF;
                 NesDebugger.mv.setText(CPU_MEMORY.getMemContent(mStart, mEnd));
+            }
+            else if(c.equals("Pattern Table 0"))
+            {
+                mStart = 0x0000;
+                mEnd = 0x0FFF;
+                NesDebugger.mv.setText(PPU_MEMORY.getMemContent(mStart, mEnd));
+            }
+            else if(c.equals("Pattern Table 1"))
+            {
+                mStart = 0x1000;
+                mEnd = 0x1FFF;
+                NesDebugger.mv.setText(PPU_MEMORY.getMemContent(mStart, mEnd));
+            }
+            else if(c.equals("Name Tables"))
+            {
+                mStart = 0x2000;
+                mEnd = 0x2FFF;
+                NesDebugger.mv.setText(PPU_MEMORY.getMemContent(mStart, mEnd));
             }
         }
        

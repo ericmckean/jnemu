@@ -173,7 +173,7 @@ public class CPU_MEMORY
 
             ctr2 = 0;
 
-            for(ctr=start; ctr<= end; ctr++)
+            for(ctr=start; ctr<= (end + 1); ctr++)
             {
                 ctr2 += 1;
                 tmp = CPU_MEMORY.fastRead8Bit(ctr);
