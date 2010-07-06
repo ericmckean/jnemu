@@ -27,23 +27,26 @@ public class emuCORE
             
             WinMain.myStop.setEnabled(false);
             WinMain.myStart.setEnabled(true);
+            
+            //**************************************
+            //              Init CPU
+            //**************************************
+            Console.print("Initializing CPU...");
+            CPU_MEMORY.init();
+            //Init CPU REGISTER...
+            CPU_REGISTER.init();
 
-                
             //**************************************
             //              Init PPU
             //**************************************
-            Console.print("Initializing ppu...");
+            Console.print("Initializing PPU...");
             ppuCORE.init();
 
-            //**************************************
-            //         Init CPU and MAPPER
-            //**************************************
-            Console.print("Initializing cpu...");
-            CPU_MEMORY.init();
             //init mapper.....
             MAPPER.init();
-            //Init CPU REGISTER...
-            CPU_REGISTER.init();
+
+            //Jump to Reset Vector.....
+            CPU_REGISTER.PC = CPU_MEMORY.getResetVector();
 
             OpcodeFetcher.loadOpcode(CPU_REGISTER.PC);
             //Show data on the debugger.................

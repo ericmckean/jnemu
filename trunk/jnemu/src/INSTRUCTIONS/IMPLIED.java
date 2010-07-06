@@ -56,6 +56,8 @@ public class IMPLIED
         MSB = STACK.Pull();
         addr = (MSB << 8) | LSB;
         CPU_REGISTER.PC = addr;
+        CPU_REGISTER.PC++;
+        CPU_REGISTER.PC &= 0xFFFF;
     }
 
     public static void INX()
