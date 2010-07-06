@@ -42,12 +42,11 @@ public class ABSOLUTE
 
     public static void JSR()
     {
-        //FIXME: address - 1????
         int pc;
 
-        pc = CPU_REGISTER.PC;
-        STACK.Push(pc >> 8);   //MSB
-        STACK.Push(pc & 0xFF); //LSB
+        pc = CPU_REGISTER.PC + 2;
+        STACK.Push((pc >> 8) & 0xFF);   //MSB
+        STACK.Push(pc & 0xFF);          //LSB
         CPU_REGISTER.PC = ADDRESS.get16BitAddressOperand();
     }
 
