@@ -77,6 +77,11 @@ public class CPU_MEMORY
     {
         int page;
         page = address >> 8;
+
+        if(address == 0x2006)
+        {
+            ppuCORE.isAccesingPPUADDR = true;
+        }
         MEMORY_MAP[page][address & 0xFF] = value;
         //***************************************************
         //                MEMORY Mirroring
@@ -173,7 +178,7 @@ public class CPU_MEMORY
 
             ctr2 = 0;
 
-            for(ctr=start; ctr<= (end + 1); ctr++)
+            for(ctr=start; ctr<=end; ctr++)
             {
                 ctr2 += 1;
                 tmp = CPU_MEMORY.fastRead8Bit(ctr);

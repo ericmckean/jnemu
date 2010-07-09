@@ -4,15 +4,24 @@ import CPU.cpuCORE;
 
 public class ppuCORE
 {
-    public static int SCANLINE; //scanline counter............
+    public static int SCANLINE; //Scanline counter............
     public static boolean VBlankPremEnd;
     public static boolean isNMI;
-
+    static int PPU_ADDR; //Address form PPUADDR ($2006)...
+    static int MSB, LSB;
+    public static boolean isFirstWrite;
+    public static boolean isAccesingPPUADDR;
+    
     public static void init()
     {
         SCANLINE = 0;
         VBlankPremEnd = false;
         isNMI = false;
+        PPU_ADDR = 0;
+        MSB = 0;
+        LSB = 0;
+        isFirstWrite = true;
+        isAccesingPPUADDR = false;
         PPU_MEMORY.init();
     }
 
@@ -21,8 +30,32 @@ public class ppuCORE
         SCANLINE = (int) ((double) cpuCORE.CYCLE / 113.6666666666667);
         if(SCANLINE >= 240 && SCANLINE < 261)
         {
+            //*******************************************
+            //              VBLANK State
+            //*******************************************
             PPU_REGISTER.setVBlankFlag();
-            //check for NMI here............
+            //******************************************
+            //        Read / Write During VBlank
+            //              $2006 - $2007
+            //******************************************
+            if(isAccesingPPUADDR)
+            {
+                if(isFirstWrite)
+                {
+                    MSB = PPU_REGISTER.getPPUAddr();
+                    isFirstWrite = false;
+                }
+                else
+                {
+                    LSB = PPU_REGISTER.getPPUAddr();
+                    PPU_ADDR = (MSB << 8) | LSB; //get the actual PPU address..
+                    isFirstWrite = true;
+                    isAccesingPPUADDR = false;
+                }
+            }
+            //******************************************
+            //               NMI Section
+            //******************************************
             if(PPU_REGISTER.getNMIFlag() == 1)
             {
                 //Generate NMI...............
@@ -35,7 +68,6 @@ public class ppuCORE
                 //prematurely terminated as it will cause an infinite loop..
                 VBlankPremEnd = false;
                 isNMI = false;
-                //FIXME: needs more routine here...
             }
         }
         else if(SCANLINE == 262)
@@ -46,6 +78,10 @@ public class ppuCORE
         }
         else
         {
+            //*******************************************
+            //             Rendering State
+            //*******************************************
+            
             //FIXME: needs more routine here...
         }
     }
