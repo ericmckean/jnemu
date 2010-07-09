@@ -74,7 +74,7 @@ public class PPU_MEMORY
 
             ctr2 = 0;
 
-            for(ctr=start; ctr<= (end + 1); ctr++)
+            for(ctr=start; ctr<=end; ctr++)
             {
                 ctr2 += 1;
                 tmp = PPU_MEMORY.readPPUMemory(ctr);

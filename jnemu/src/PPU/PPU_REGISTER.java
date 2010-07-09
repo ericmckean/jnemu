@@ -64,4 +64,25 @@ public class PPU_REGISTER
         tmp = (tmp & 0x80) >> 0x07;
         return tmp;
     }
+
+    //********************************************************
+    //                   PPUADDR - $2006
+    //********************************************************
+    public static int getPPUAddr()
+    {
+        return CPU_MEMORY.fastRead8Bit(0x2006);
+    }
+
+    //********************************************************
+    //                   PPUDATA - $2007
+    //********************************************************
+    public static int getPPUData()
+    {
+        return CPU_MEMORY.fastRead8Bit(0x2007);
+    }
+
+    public static void setPPUData(int Value)
+    {
+        CPU_MEMORY.write8Bit(0x2007, Value);
+    }
 }
