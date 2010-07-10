@@ -10,7 +10,7 @@ public class PPU_MEMORY
 
     public static void init()
     {
-        PPU_MEMORY_MAP = new int[0x40][0x100];
+        PPU_MEMORY_MAP = new int[0x100][0x100];
     }
 
     public static int readPPUMemory(int address)
@@ -32,20 +32,20 @@ public class PPU_MEMORY
             if(address >= 0x2000 && address <= 0x2eff)
             {
                 //Mirrors of Name Tables....
-                PPU_MEMORY_MAP[page + 0x1000][address & 0xff] = value;
+                PPU_MEMORY_MAP[page + 0x10][address & 0xff] = value;
             }
             else if(address >= 0x3f00 && address <= 0x3f1f)
             {
                 //Mirrors of palette....
-                PPU_MEMORY_MAP[page + 0x0020][address & 0xff] = value;
-                PPU_MEMORY_MAP[page + 0x0040][address & 0xff] = value;
-                PPU_MEMORY_MAP[page + 0x0060][address & 0xff] = value;
-                PPU_MEMORY_MAP[page + 0x0080][address & 0xff] = value;
+                PPU_MEMORY_MAP[page + 0x20][address & 0xff] = value;
+                PPU_MEMORY_MAP[page + 0x40][address & 0xff] = value;
+                PPU_MEMORY_MAP[page + 0x60][address & 0xff] = value;
+                PPU_MEMORY_MAP[page + 0x80][address & 0xff] = value;
             }
         }
         catch(Exception e)
         {
-            Console.print("[ERROR] " + e.toString());
+            Console.print("[ERROR] PPU MEM WRITE - $" + Integer.toHexString(address) + " : " + e.toString());
         }
     }
 

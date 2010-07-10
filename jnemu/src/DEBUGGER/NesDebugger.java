@@ -293,7 +293,7 @@ public class NesDebugger extends JDialog
         _mv.setBounds(0, 40, scWidth - 10, (scHeight - 55) - 40);
         wMemViewer.add(_mv);
 
-        String[] mv_cont = new String[7];
+        String[] mv_cont = new String[8];
         mv_cont[0] = "Zero Page $0000-$00FF";
         mv_cont[1] = "Stack $0100-$01FF";
         mv_cont[2] = "RAM $02FF-$07FF";
@@ -301,6 +301,7 @@ public class NesDebugger extends JDialog
         mv_cont[4] = "Pattern Table 0";
         mv_cont[5] = "Pattern Table 1";
         mv_cont[6] = "Name Tables";
+        mv_cont[7] = "Palette";
 
         mv_txt = new JComboBox(mv_cont);
         mv_txt.setBounds(80, 10, 400, 20);
