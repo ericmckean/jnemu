@@ -85,4 +85,14 @@ public class PPU_REGISTER
     {
         CPU_MEMORY.write8Bit(0x2007, Value);
     }
+    //********************************************************
+    //                   VRam Address increment
+    //********************************************************
+    public static int getVramAddressInc()
+    {
+        int tmp;
+        tmp = CPU_MEMORY.fastRead8Bit(0x2006);
+        tmp |= 0x04;
+        return tmp >> 2;
+    }
 }

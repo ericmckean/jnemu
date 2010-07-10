@@ -237,21 +237,15 @@ public class CONVERTER
 
    public static char intToChar(int b)
    {
-       int tmp;
        char chr = '.';
 
-       tmp = (int)b;
-       if(tmp >= 0x00 && tmp <= 0x20)
+       if(b >= 0x21 && b <= 0x7e)
        {
-           chr = '.';
-       }
-       else if(tmp >= 0xcc80 && tmp <= 0xcd81)
-       {
-           chr = '.';
+           chr = (char)b;
        }
        else
        {
-           chr = (char)tmp;
+           chr = '.';
        }
 
        return chr;

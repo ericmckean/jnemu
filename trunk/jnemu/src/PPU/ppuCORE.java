@@ -1,6 +1,7 @@
 package PPU;
 
 import CPU.cpuCORE;
+import jnemu.Console;
 
 public class ppuCORE
 {
@@ -11,6 +12,7 @@ public class ppuCORE
     static int MSB, LSB;
     public static boolean isFirstWrite;
     public static boolean isAccesingPPUADDR;
+    public static boolean isWritingPPUDATA;
     
     public static void init()
     {
@@ -21,7 +23,8 @@ public class ppuCORE
         MSB = 0;
         LSB = 0;
         isFirstWrite = true;
-        isAccesingPPUADDR = false;
+        isAccesingPPUADDR = true;
+        isWritingPPUDATA = false;
         PPU_MEMORY.init();
     }
 
@@ -49,9 +52,36 @@ public class ppuCORE
                 {
                     LSB = PPU_REGISTER.getPPUAddr();
                     PPU_ADDR = (MSB << 8) | LSB; //get the actual PPU address..
+                    //FIXME: put value of memory is PPUDATA according to
+                    //PPUADDR's address content for reading purposes....
+                    Console.print("[PPU_ADDR] " + Integer.toHexString(PPU_ADDR));
                     isFirstWrite = true;
                     isAccesingPPUADDR = false;
                 }
+            }
+
+            if(isWritingPPUDATA)
+            {
+                //FIXME: write the value of PPUDATA to PPU memory according to
+                //PPUADDR's address content...
+                PPU_MEMORY.writePPUMemory(PPU_ADDR, PPU_REGISTER.getPPUData());
+                if(PPU_REGISTER.getVramAddressInc() == 0)
+                {
+                    PPU_ADDR++;
+                    if(PPU_ADDR > 0x3fff)
+                    {
+                        PPU_ADDR = 0x2000;
+                    }
+                }
+                else
+                {
+                    PPU_ADDR += 32;
+                    if(PPU_ADDR > 0x3fff)
+                    {
+                        PPU_ADDR = 0x2000;
+                    }
+                }
+                isWritingPPUDATA = false;
             }
             //******************************************
             //               NMI Section

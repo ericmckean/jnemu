@@ -132,6 +132,12 @@ public class ActionHandler implements ActionListener
                 mEnd = 0x2FFF;
                 NesDebugger.mv.setText(PPU_MEMORY.getMemContent(mStart, mEnd));
             }
+            else if(c.equals("Palette"))
+            {
+                mStart = 0x3F00;
+                mEnd = 0x3F20;
+                NesDebugger.mv.setText(PPU_MEMORY.getMemContent(mStart, mEnd));
+            }
         }
        
     }

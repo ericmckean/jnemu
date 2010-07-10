@@ -2,6 +2,7 @@ package jnemu;
 import CPU.CPU_MEMORY;
 import CPU.CPU_REGISTER;
 import DEBUGGER.NesDebugger;
+import MISC.CONVERTER;
 import PPU.ppuCORE;
 public class Main
 {

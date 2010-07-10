@@ -82,6 +82,10 @@ public class CPU_MEMORY
         {
             ppuCORE.isAccesingPPUADDR = true;
         }
+        else if(address == 0x2007)
+        {
+            ppuCORE.isWritingPPUDATA = true;
+        }
         MEMORY_MAP[page][address & 0xFF] = value;
         //***************************************************
         //                MEMORY Mirroring
