@@ -91,8 +91,8 @@ public class PPU_REGISTER
     public static int getVramAddressInc()
     {
         int tmp;
-        tmp = CPU_MEMORY.fastRead8Bit(0x2006);
-        tmp |= 0x04;
+        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp &= 0x04;
         return tmp >> 2;
     }
 }

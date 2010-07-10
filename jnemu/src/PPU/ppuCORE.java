@@ -1,7 +1,6 @@
 package PPU;
 
 import CPU.cpuCORE;
-import jnemu.Console;
 
 public class ppuCORE
 {
@@ -54,7 +53,8 @@ public class ppuCORE
                     PPU_ADDR = (MSB << 8) | LSB; //get the actual PPU address..
                     //FIXME: put value of memory is PPUDATA according to
                     //PPUADDR's address content for reading purposes....
-                    Console.print("[PPU_ADDR] " + Integer.toHexString(PPU_ADDR));
+                    //Console.print("[PPU_ADDR] " + Integer.toHexString(PPU_ADDR));
+                    PPU_REGISTER.setPPUData(PPU_MEMORY.readPPUMemory(PPU_ADDR));
                     isFirstWrite = true;
                     isAccesingPPUADDR = false;
                 }
@@ -64,22 +64,17 @@ public class ppuCORE
             {
                 //FIXME: write the value of PPUDATA to PPU memory according to
                 //PPUADDR's address content...
+                //Console.print("[$2007] " + Integer.toHexString(PPU_REGISTER.getPPUData()));
                 PPU_MEMORY.writePPUMemory(PPU_ADDR, PPU_REGISTER.getPPUData());
                 if(PPU_REGISTER.getVramAddressInc() == 0)
                 {
                     PPU_ADDR++;
-                    if(PPU_ADDR > 0x3fff)
-                    {
-                        PPU_ADDR = 0x2000;
-                    }
+                    PPU_ADDR &= 0x3fff;
                 }
                 else
                 {
                     PPU_ADDR += 32;
-                    if(PPU_ADDR > 0x3fff)
-                    {
-                        PPU_ADDR = 0x2000;
-                    }
+                    PPU_ADDR &= 0x3fff;
                 }
                 isWritingPPUDATA = false;
             }
