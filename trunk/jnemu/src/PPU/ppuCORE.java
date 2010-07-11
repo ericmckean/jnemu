@@ -1,6 +1,8 @@
 package PPU;
 
 import CPU.cpuCORE;
+import jnemu.Console;
+import jnemu.emuCORE;
 
 public class ppuCORE
 {
@@ -108,6 +110,11 @@ public class ppuCORE
             //*******************************************
             
             //FIXME: needs more routine here...
+            Console.print("[BaseNameTableAddr] " + Integer.toHexString(PPU_REGISTER.getBaseNameTableAddr()));
+            Console.print("[BgPatternTableAddr] " + Integer.toHexString(PPU_REGISTER.getBgPatternTableAddr()));
+            Console.print("[SprPatternTableAddr] " + Integer.toHexString(PPU_REGISTER.getSprPatternTableAddr()));
+            Console.print("[SprSize] " + Integer.toHexString(PPU_REGISTER.getSprSize()));
+            emuCORE.STOP();
         }
     }
 }

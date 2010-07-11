@@ -53,7 +53,7 @@ public class emuCORE
             NesDebugger.REG_A.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.A));
             NesDebugger.REG_X.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.X));
             NesDebugger.REG_Y.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.Y));
-            NesDebugger.REG_PC.setText(MISC_FUNCTIONS.forceTo16Bit(CPU_REGISTER.PC));        
+            NesDebugger.REG_PC.setText(MISC_FUNCTIONS.forceTo16Bit(CPU_REGISTER.PC));
         }
     }
 

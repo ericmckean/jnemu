@@ -95,4 +95,91 @@ public class PPU_REGISTER
         tmp &= 0x04;
         return tmp >> 2;
     }
+
+    //*********************************************************
+    //                 Base Name Table Address
+    //*********************************************************
+
+    public static int getBaseNameTableAddr()
+    {
+        int tmp, addr = 0;
+
+        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp &= 0x03;
+        switch(tmp)
+        {
+            case 0 :
+                addr = 0x2000;
+                break;
+            case 1 :
+                addr = 0x2400;
+                break;
+            case 2 :
+                addr = 0x2800;
+                break;
+            case 3 :
+                addr = 0x2C00;
+                break;
+        }
+        return addr;
+    }
+
+    //*********************************************************
+    //            Background Pattern Table Address
+    //*********************************************************
+
+    public static int getBgPatternTableAddr()
+    {
+        int tmp, addr = 0;
+
+        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp &= 0x10;
+        switch(tmp)
+        {
+            case 0 :
+                addr = 0x0000;
+                break;
+            case 1 :
+                addr = 0x1000;
+                break;
+        }
+        return addr;
+    }
+
+    //*********************************************************
+    //              Sprite Pattern Table Address
+    //*********************************************************
+
+    public static int getSprPatternTableAddr()
+    {
+        int tmp, addr = 0;
+
+        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp &= 0x08;
+        switch(tmp)
+        {
+            case 0 :
+                addr = 0x0000;
+                break;
+            case 1 :
+                addr = 0x1000;
+                break;
+        }
+        return addr;
+    }
+
+    //*********************************************************
+    //                      Sprite Size
+    //*********************************************************
+
+    public static int getSprSize()
+    {
+        // 0 for 8x8, 1 for 8x16..........................
+        int tmp;
+
+        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp &= 0x20;
+        return tmp;
+    }
+
 }
