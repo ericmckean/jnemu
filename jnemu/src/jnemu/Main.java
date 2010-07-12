@@ -1,14 +1,14 @@
 package jnemu;
 import CPU.CPU_MEMORY;
 import CPU.CPU_REGISTER;
-import DEBUGGER.NesDebugger;
+import DEBUGGER.NES_DEBUGGER;
 import MISC.CONVERTER;
 import PPU.ppuCORE;
 public class Main
 {
     public static WinMain win;
     public static NesController cont;
-    public static NesDebugger deb;
+    public static NES_DEBUGGER deb;
     public static NesGraphics graph;
     public static NesSound sound;
     public static About about;
@@ -24,7 +24,7 @@ public class Main
         cont.setVisible(false);
 
         //Load Debugger Window..
-        deb = new NesDebugger();
+        deb = new NES_DEBUGGER();
         deb.setVisible(false);
 
         //Load Graphics Window..

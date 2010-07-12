@@ -182,4 +182,22 @@ public class PPU_REGISTER
         return tmp;
     }
 
+    //*********************************************************
+    //                           OAM
+    //*********************************************************
+
+    public static int getOAMADDR()
+    {
+        return CPU_MEMORY.fastRead8Bit(0x2003);
+    }
+
+    public static int getOAMDATA()
+    {
+        return CPU_MEMORY.fastRead8Bit(0x2004);
+    }
+
+    public static void setOAM_DMA(int Value)
+    {
+        CPU_MEMORY.write8Bit(0x4014, Value);
+    }
 }

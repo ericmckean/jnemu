@@ -1,5 +1,6 @@
-package CARTRIDGE;
+package MAPPER;
 
+import CARTRIDGE.ROM_INFO;
 import jnemu.*;
 import CPU.*;
 import PPU.*;

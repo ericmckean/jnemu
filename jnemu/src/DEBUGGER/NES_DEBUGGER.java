@@ -7,7 +7,7 @@ import javax.swing.text.*;
 import jnemu.Key_Listener;
 import jnemu.ActionHandler;
 
-public class NesDebugger extends JDialog
+public class NES_DEBUGGER extends JDialog
 {
     int scWidth = 700 - 30;
     int scHeight = 400;
@@ -49,7 +49,7 @@ public class NesDebugger extends JDialog
     public static JTextField codeBreak;
     public static JCheckBox codeCheck;
 
-    public NesDebugger()
+    public NES_DEBUGGER()
     {
         /********************** Main Window ***********************/
         setTitle("Debugger");
@@ -293,15 +293,18 @@ public class NesDebugger extends JDialog
         _mv.setBounds(0, 40, scWidth - 10, (scHeight - 55) - 40);
         wMemViewer.add(_mv);
 
-        String[] mv_cont = new String[8];
+        String[] mv_cont = new String[11];
         mv_cont[0] = "Zero Page $0000-$00FF";
         mv_cont[1] = "Stack $0100-$01FF";
         mv_cont[2] = "RAM $02FF-$07FF";
         mv_cont[3] = "SRAM $6000-$7FFF";
-        mv_cont[4] = "Pattern Table 0";
-        mv_cont[5] = "Pattern Table 1";
-        mv_cont[6] = "Name Tables";
-        mv_cont[7] = "Palette";
+        mv_cont[4] = "PRG-ROM Bank 1 $8000-$BFFF";
+        mv_cont[5] = "PRG-ROM Bank 2 $C000-$FFFF";
+        mv_cont[6] = "Pattern Table 0";
+        mv_cont[7] = "Pattern Table 1";
+        mv_cont[8] = "Name Tables";
+        mv_cont[9] = "Palette";
+        mv_cont[10] = "OAM";
 
         mv_txt = new JComboBox(mv_cont);
         mv_txt.setBounds(80, 10, 400, 20);

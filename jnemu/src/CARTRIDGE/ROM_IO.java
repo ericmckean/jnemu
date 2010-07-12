@@ -1,7 +1,7 @@
 package CARTRIDGE;
 
 import jnemu.Console;
-import DEBUGGER.NesDebugger;
+import DEBUGGER.NES_DEBUGGER;
 import MISC.CONVERTER;
 import MISC.INOUT;
 
@@ -151,7 +151,7 @@ public class ROM_IO
             }
             
         }
-        NesDebugger.jt.setText(temp.toString());
+        NES_DEBUGGER.jt.setText(temp.toString());
     }
 
     private static void checkNesROM(byte[] bytes)
