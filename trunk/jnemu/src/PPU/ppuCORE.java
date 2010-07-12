@@ -1,8 +1,6 @@
 package PPU;
 
 import CPU.cpuCORE;
-import jnemu.Console;
-import jnemu.emuCORE;
 
 public class ppuCORE
 {
@@ -12,8 +10,12 @@ public class ppuCORE
     static int PPU_ADDR; //Address form PPUADDR ($2006)...
     static int MSB, LSB;
     public static boolean isFirstWrite;
-    public static boolean isAccesingPPUADDR;
+    public static boolean isAccessingPPUADDR;
     public static boolean isWritingPPUDATA;
+    public static boolean isReadingPPUDATA;
+    public static boolean isAccessingOAMADDR;
+    public static boolean isWritingOAMDATA;
+    static int OAM_ADDR;
     
     public static void init()
     {
@@ -24,9 +26,13 @@ public class ppuCORE
         MSB = 0;
         LSB = 0;
         isFirstWrite = true;
-        isAccesingPPUADDR = true;
+        isAccessingPPUADDR = true;
         isWritingPPUDATA = false;
+        isReadingPPUDATA = false;
+        isAccessingOAMADDR = false;
+        isWritingOAMDATA = false;
         PPU_MEMORY.init();
+        OAM.init();
     }
 
     public static void execPPU()
@@ -42,7 +48,7 @@ public class ppuCORE
             //        Read / Write During VBlank
             //              $2006 - $2007
             //******************************************
-            if(isAccesingPPUADDR)
+            if(isAccessingPPUADDR)
             {
                 if(isFirstWrite)
                 {
@@ -58,7 +64,7 @@ public class ppuCORE
                     //Console.print("[PPU_ADDR] " + Integer.toHexString(PPU_ADDR));
                     PPU_REGISTER.setPPUData(PPU_MEMORY.readPPUMemory(PPU_ADDR));
                     isFirstWrite = true;
-                    isAccesingPPUADDR = false;
+                    isAccessingPPUADDR = false;
                 }
             }
 
@@ -80,6 +86,40 @@ public class ppuCORE
                 }
                 isWritingPPUDATA = false;
             }
+            else if(isReadingPPUDATA)
+            {
+                PPU_REGISTER.setPPUData(PPU_MEMORY.readPPUMemory(PPU_ADDR));
+                if(PPU_REGISTER.getVramAddressInc() == 0)
+                {
+                    PPU_ADDR++;
+                    PPU_ADDR &= 0x3fff;
+                }
+                else
+                {
+                    PPU_ADDR += 32;
+                    PPU_ADDR &= 0x3fff;
+                }
+                isReadingPPUDATA = false;
+            }
+
+            //******************************************
+            //      OAM Read / Write During VBlank
+            //              $2003 - $2004
+            //******************************************
+            if(isAccessingOAMADDR)
+            {
+                OAM_ADDR = PPU_REGISTER.getOAMADDR();
+                PPU_REGISTER.setOAM_DMA(OAM.readOAM(OAM_ADDR));
+                isAccessingOAMADDR = false;
+            }
+            else if(isWritingOAMDATA)
+            {
+                OAM.writeOAM(OAM_ADDR, PPU_REGISTER.getOAMDATA());
+                OAM_ADDR++;
+                OAM_ADDR &= 0xff;
+                isWritingOAMDATA = false;
+            }
+            
             //******************************************
             //               NMI Section
             //******************************************
@@ -110,11 +150,11 @@ public class ppuCORE
             //*******************************************
             
             //FIXME: needs more routine here...
-            Console.print("[BaseNameTableAddr] " + Integer.toHexString(PPU_REGISTER.getBaseNameTableAddr()));
-            Console.print("[BgPatternTableAddr] " + Integer.toHexString(PPU_REGISTER.getBgPatternTableAddr()));
-            Console.print("[SprPatternTableAddr] " + Integer.toHexString(PPU_REGISTER.getSprPatternTableAddr()));
-            Console.print("[SprSize] " + Integer.toHexString(PPU_REGISTER.getSprSize()));
-            emuCORE.STOP();
+            //Console.print("[BaseNameTableAddr] " + Integer.toHexString(PPU_REGISTER.getBaseNameTableAddr()));
+            //Console.print("[BgPatternTableAddr] " + Integer.toHexString(PPU_REGISTER.getBgPatternTableAddr()));
+            //Console.print("[SprPatternTableAddr] " + Integer.toHexString(PPU_REGISTER.getSprPatternTableAddr()));
+            //Console.print("[SprSize] " + Integer.toHexString(PPU_REGISTER.getSprSize()));
+            //emuCORE.STOP();
         }
     }
 }

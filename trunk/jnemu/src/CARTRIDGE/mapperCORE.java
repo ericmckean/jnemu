@@ -1,6 +1,8 @@
 package CARTRIDGE;
 
-public class MAPPER
+import MAPPER.*;
+
+public class mapperCORE
 {
     public static void init()
     {

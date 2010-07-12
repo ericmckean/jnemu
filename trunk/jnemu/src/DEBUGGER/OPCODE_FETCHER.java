@@ -3,7 +3,7 @@ package DEBUGGER;
 import MISC.MACHINE;
 import CPU.*;
 
-public class OpcodeFetcher 
+public class OPCODE_FETCHER
 {
     public static void loadOpcode(int address)
     {
@@ -11,7 +11,7 @@ public class OpcodeFetcher
         int pc = address;
 
         //clear the listbox...
-        NesDebugger.REG_Viewer.removeAll();
+        NES_DEBUGGER.REG_Viewer.removeAll();
 
         for(ctr=0; ctr<=100; ctr++)
         {
@@ -42,7 +42,7 @@ public class OpcodeFetcher
                 tmp.append(Integer.toHexString(Address));
                 break;
         }
-        NesDebugger.REG_Viewer.add("$" + tmp.toString().toUpperCase() + " :  " + value);
+        NES_DEBUGGER.REG_Viewer.add("$" + tmp.toString().toUpperCase() + " :  " + value);
     }
 
     public static int getOpcode(int pc)

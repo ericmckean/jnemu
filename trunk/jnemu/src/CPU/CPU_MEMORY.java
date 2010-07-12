@@ -61,6 +61,10 @@ public class CPU_MEMORY
             //Force ending of VBlank when CPU reads at $2002 during VBlank state...
             ppuCORE.VBlankPremEnd = true;
         }
+        else if(address == 0x2007)
+        {
+            ppuCORE.isReadingPPUDATA = true;
+        }
         return MEMORY_MAP[address >> 8][address & 0xFF] & 0xFF;
     }
 
@@ -80,11 +84,19 @@ public class CPU_MEMORY
 
         if(address == 0x2006)
         {
-            ppuCORE.isAccesingPPUADDR = true;
+            ppuCORE.isAccessingPPUADDR = true;
         }
         else if(address == 0x2007)
         {
             ppuCORE.isWritingPPUDATA = true;
+        }
+        else if(address == 0x2003)
+        {
+            ppuCORE.isAccessingOAMADDR = true;
+        }
+        else if(address == 0x2004)
+        {
+            ppuCORE.isWritingOAMDATA = true;
         }
         MEMORY_MAP[page][address & 0xFF] = value;
         //***************************************************
