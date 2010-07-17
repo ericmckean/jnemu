@@ -12,7 +12,7 @@ public class CPU_REGISTER
     public static void init()
     {
         CPU_REGISTER.A = 0;
-        CPU_REGISTER.SP = 0;
+        CPU_REGISTER.SP = 0xFD;
         CPU_REGISTER.PC = 0;
         CPU_REGISTER.X = 0;
         CPU_REGISTER.Y = 0;
