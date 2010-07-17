@@ -8,6 +8,7 @@ import CPU.CPU_REGISTER;
 import PPU.ppuCORE;
 import DEBUGGER.*;
 import INSTRUCTIONS.INTERRUPT;
+import LOGS.LOGGER;
 import MISC.CONVERTER;
 
 public class emuCORE
@@ -46,7 +47,7 @@ public class emuCORE
             mapperCORE.init();
 
             //Jump to Reset Vector.....
-            CPU_REGISTER.PC = CPU_MEMORY.getResetVector();
+            CPU_REGISTER.PC = 0xC000; //CPU_MEMORY.getResetVector();
 
             OPCODE_FETCHER.loadOpcode(CPU_REGISTER.PC);
             //Show data on the debugger.................
@@ -167,6 +168,8 @@ public class emuCORE
 class coreTHREAD implements Runnable
 {
     int pc;
+    StringBuilder LogTmp = new StringBuilder(50);
+    
     coreTHREAD()
     {
         try
@@ -192,7 +195,35 @@ class coreTHREAD implements Runnable
 
             try
             {
+                LogTmp.append("<tr><td>");
+                LogTmp.append("$");
+                LogTmp.append(Integer.toHexString(CPU_REGISTER.PC));
+                LogTmp.append("</td><td>");
+                LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC)));
+                LogTmp.append(" ");
+                LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 1)));
+                LogTmp.append(" ");
+                LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 2)));
+                LogTmp.append("</td>");
                 cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
+                LogTmp.append("<td>");
+                LogTmp.append("A : ");
+                LogTmp.append(Integer.toHexString(CPU_REGISTER.A));
+                LogTmp.append(" | ");
+                LogTmp.append("X : ");
+                LogTmp.append(Integer.toHexString(CPU_REGISTER.X));
+                LogTmp.append(" | ");
+                LogTmp.append("Y : ");
+                LogTmp.append(Integer.toHexString(CPU_REGISTER.Y));
+                LogTmp.append(" | ");
+                LogTmp.append("SP : ");
+                LogTmp.append(Integer.toHexString(CPU_REGISTER.SP));
+                LogTmp.append(" | ");
+                LogTmp.append("SR : ");
+                LogTmp.append(Integer.toHexString(CPU_REGISTER.SR));
+                LogTmp.append("</td></tr>");
+                LOGGER.write(LogTmp.toString());
+                LogTmp.delete(0,LogTmp.length());
                 ppuCORE.execPPU();
             }
             catch(Exception e)

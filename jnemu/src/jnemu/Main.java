@@ -1,9 +1,12 @@
 package jnemu;
+import CONFIG.cfgCORE;
 import CPU.CPU_MEMORY;
 import CPU.CPU_REGISTER;
 import DEBUGGER.NES_DEBUGGER;
+import LOGS.LOGGER;
 import MISC.CONVERTER;
 import PPU.ppuCORE;
+
 public class Main
 {
     public static WinMain win;
@@ -55,7 +58,18 @@ public class Main
         
         //Clear the Console......
         Console.clearConsole();
-        
+
+        //**************************************
+        //           Init CPU Logger
+        //**************************************
+        Console.print("Initializing Config...");
+        cfgCORE.init();
+
+        //**************************************
+        //           Init CPU Logger
+        //**************************************
+        Console.print("Initializing LOGGER...");
+        LOGGER.init();
     }
 
 }
