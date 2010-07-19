@@ -116,7 +116,7 @@ public class IMPLIED
 
     public static void PHP()
     {
-        STACK.Push(CPU_REGISTER.SR);
+        STACK.Push((CPU_REGISTER.SR | 0x30)); //Set Bit 5 and 4 during push...
         CPU_REGISTER.PC += 1;
     }
 
