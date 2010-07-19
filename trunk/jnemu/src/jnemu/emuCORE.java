@@ -2,6 +2,7 @@ package jnemu;
 
 import CARTRIDGE.ROM_IO;
 import CARTRIDGE.mapperCORE;
+import CONFIG.LOG_CFG;
 import CPU.CPU_MEMORY;
 import CPU.cpuCORE;
 import CPU.CPU_REGISTER;
@@ -195,35 +196,42 @@ class coreTHREAD implements Runnable
 
             try
             {
-                LogTmp.append("<tr><td>");
-                LogTmp.append("$");
-                LogTmp.append(Integer.toHexString(CPU_REGISTER.PC));
-                LogTmp.append("</td><td>");
-                LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC)));
-                LogTmp.append(" ");
-                LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 1)));
-                LogTmp.append(" ");
-                LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 2)));
-                LogTmp.append("</td>");
-                cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
-                LogTmp.append("<td>");
-                LogTmp.append("A : ");
-                LogTmp.append(Integer.toHexString(CPU_REGISTER.A));
-                LogTmp.append(" | ");
-                LogTmp.append("X : ");
-                LogTmp.append(Integer.toHexString(CPU_REGISTER.X));
-                LogTmp.append(" | ");
-                LogTmp.append("Y : ");
-                LogTmp.append(Integer.toHexString(CPU_REGISTER.Y));
-                LogTmp.append(" | ");
-                LogTmp.append("SP : ");
-                LogTmp.append(Integer.toHexString(CPU_REGISTER.SP));
-                LogTmp.append(" | ");
-                LogTmp.append("SR : ");
-                LogTmp.append(Integer.toHexString(CPU_REGISTER.SR));
-                LogTmp.append("</td></tr>");
-                LOGGER.write(LogTmp.toString());
-                LogTmp.delete(0,LogTmp.length());
+                if(LOG_CFG.enableOpcodeLog)
+                {
+                    LogTmp.append("<tr><td>");
+                    LogTmp.append("$");
+                    LogTmp.append(Integer.toHexString(CPU_REGISTER.PC));
+                    LogTmp.append("</td><td>");
+                    LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC)));
+                    LogTmp.append(" ");
+                    LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 1)));
+                    LogTmp.append(" ");
+                    LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 2)));
+                    LogTmp.append("</td>");
+                    cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
+                    LogTmp.append("<td>");
+                    LogTmp.append("A : ");
+                    LogTmp.append(Integer.toHexString(CPU_REGISTER.A));
+                    LogTmp.append(" | ");
+                    LogTmp.append("X : ");
+                    LogTmp.append(Integer.toHexString(CPU_REGISTER.X));
+                    LogTmp.append(" | ");
+                    LogTmp.append("Y : ");
+                    LogTmp.append(Integer.toHexString(CPU_REGISTER.Y));
+                    LogTmp.append(" | ");
+                    LogTmp.append("SP : ");
+                    LogTmp.append(Integer.toHexString(CPU_REGISTER.SP));
+                    LogTmp.append(" | ");
+                    LogTmp.append("SR : ");
+                    LogTmp.append(Integer.toHexString(CPU_REGISTER.SR));
+                    LogTmp.append("</td></tr>");
+                    LOGGER.write(LogTmp.toString());
+                    LogTmp.delete(0,LogTmp.length());
+                }
+                else
+                {
+                    cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
+                }
                 ppuCORE.execPPU();
             }
             catch(Exception e)
