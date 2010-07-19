@@ -14,7 +14,7 @@ public class ABSOLUTE_X
         newAddr =  (oldAddr + CPU_REGISTER.X) & 0xFFFF;
 
         Value = CPU_MEMORY.read8Bit(newAddr);
-        tmp = CPU_REGISTER.A + Value;
+        tmp = CPU_REGISTER.A + Value + CPU_REGISTER.getCarryFlag();
         FLAG.CHECK_OVERFLOW(CPU_REGISTER.A, Value, tmp);
         FLAG.CHECK_ZERO(tmp);
         FLAG.CHECK_NEGATIVE(tmp);

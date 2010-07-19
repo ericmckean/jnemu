@@ -12,7 +12,7 @@ public class ZEROPAGE_X
         int tmp, Value;
 
         Value = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF);
-        tmp = CPU_REGISTER.A + Value;
+        tmp = CPU_REGISTER.A + Value + CPU_REGISTER.getCarryFlag();
         FLAG.CHECK_OVERFLOW(CPU_REGISTER.A, Value, tmp);
         FLAG.CHECK_ZERO(tmp);
         FLAG.CHECK_NEGATIVE(tmp);

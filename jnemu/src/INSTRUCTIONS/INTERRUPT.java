@@ -17,7 +17,7 @@ public class INTERRUPT
     {
         STACK.Push(CPU_REGISTER.PC & 0xFF); //LSB
         STACK.Push(CPU_REGISTER.PC >> 8);   //MSB
-        STACK.Push((CPU_REGISTER.SR | 0x30)); //Set Bit 4 and 5 during push...
+        STACK.Push(CPU_REGISTER.SR); 
 
         CPU_REGISTER.PC = CPU_MEMORY.getIRQVector();
     }
