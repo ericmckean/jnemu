@@ -106,7 +106,7 @@ public class PPU_MEMORY
                         x.append(UTF8.toString());
                         UTF8.delete(0, UTF8.length());
                         x.append("\n");
-                        x.append("$" + CONVERTER.intTo16BitStringHex(ctr));
+                        x.append("$" + CONVERTER.intTo16BitStringHex(ctr + 1));
                         x.append(space2);
                     }
                     else
@@ -118,7 +118,7 @@ public class PPU_MEMORY
                         x.append(UTF8.toString());
                         UTF8.delete(0, UTF8.length());
                         x.append("\n");
-                        x.append("$" + CONVERTER.intTo16BitStringHex(ctr));
+                        x.append("$" + CONVERTER.intTo16BitStringHex(ctr + 1));
                         x.append(space2);
                     }
                     ctr2 = 0;
