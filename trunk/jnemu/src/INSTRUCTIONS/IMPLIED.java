@@ -130,7 +130,7 @@ public class IMPLIED
 
     public static void PLP()
     {
-        CPU_REGISTER.SR = STACK.Pull();
+        CPU_REGISTER.SR = (STACK.Pull() & 0xef);
         CPU_REGISTER.PC += 1;
     }
 
@@ -189,9 +189,8 @@ public class IMPLIED
         pc = CPU_REGISTER.PC + 2;
         STACK.Push(pc & 0xFF); //LSB
         STACK.Push(pc >> 8);   //MSB
-        STACK.Push(CPU_REGISTER.SR);
+        STACK.Push((CPU_REGISTER.SR | 0x30)); //Set Bit 4 and 5 during push...
 
         CPU_REGISTER.PC = CPU_MEMORY.getIRQVector();
-        CPU_REGISTER.setBRKFlag();
     }
 }

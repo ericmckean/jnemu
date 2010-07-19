@@ -26,7 +26,7 @@ public class INDIRECT_X
         addr = (MSB << 8) | ((LSB + CPU_REGISTER.X) & 0xFF);
 
         Value = CPU_MEMORY.read8Bit(addr);
-        tmp = CPU_REGISTER.A + Value;
+        tmp = CPU_REGISTER.A + Value + CPU_REGISTER.getCarryFlag();
         FLAG.CHECK_OVERFLOW(CPU_REGISTER.A, Value, tmp);
         FLAG.CHECK_ZERO(tmp);
         FLAG.CHECK_NEGATIVE(tmp);
