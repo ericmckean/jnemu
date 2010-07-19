@@ -7,6 +7,7 @@ public class LOG_CFG
     private static String LogFileName;
     private static Level LogLevel;
     public static boolean enableLog;
+    public static boolean enableOpcodeLog;
 
     public static void setLogFileName(String Name)
     {
