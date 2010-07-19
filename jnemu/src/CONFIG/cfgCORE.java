@@ -9,6 +9,6 @@ public class cfgCORE
         LOG_CFG.setLogFileName("opcode.htm");
         LOG_CFG.setLogLevel(Level.INFO);
         LOG_CFG.enableLog = false;
-        LOG_CFG.enableOpcodeLog = false;
+        LOG_CFG.enableOpcodeLog = true;
     }
 }

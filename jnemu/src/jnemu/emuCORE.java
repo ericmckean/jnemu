@@ -207,9 +207,7 @@ class coreTHREAD implements Runnable
                     LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 1)));
                     LogTmp.append(" ");
                     LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 2)));
-                    LogTmp.append("</td>");
-                    cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
-                    LogTmp.append("<td>");
+                    LogTmp.append("</td><td>");
                     LogTmp.append("A : ");
                     LogTmp.append(Integer.toHexString(CPU_REGISTER.A));
                     LogTmp.append(" | ");
@@ -228,10 +226,7 @@ class coreTHREAD implements Runnable
                     LOGGER.write(LogTmp.toString());
                     LogTmp.delete(0,LogTmp.length());
                 }
-                else
-                {
-                    cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
-                }
+                cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
                 ppuCORE.execPPU();
             }
             catch(Exception e)
