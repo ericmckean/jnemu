@@ -8,7 +8,8 @@ public class INTERRUPT
     {
         STACK.Push(CPU_REGISTER.PC & 0xFF); //LSB
         STACK.Push(CPU_REGISTER.PC >> 8);   //MSB
-        STACK.Push(CPU_REGISTER.SR);
+        CPU_REGISTER.setInterruptFlag();
+        STACK.Push((CPU_REGISTER.SR & 0xef));
 
         CPU_REGISTER.PC = CPU_MEMORY.getNMIVector();
     }
@@ -17,7 +18,8 @@ public class INTERRUPT
     {
         STACK.Push(CPU_REGISTER.PC & 0xFF); //LSB
         STACK.Push(CPU_REGISTER.PC >> 8);   //MSB
-        STACK.Push(CPU_REGISTER.SR); 
+        CPU_REGISTER.setInterruptFlag();
+        STACK.Push((CPU_REGISTER.SR & 0xef));
 
         CPU_REGISTER.PC = CPU_MEMORY.getIRQVector();
     }
