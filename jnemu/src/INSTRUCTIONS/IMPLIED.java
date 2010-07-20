@@ -130,7 +130,7 @@ public class IMPLIED
 
     public static void PLP()
     {
-        CPU_REGISTER.SR = (STACK.Pull() & 0xef);
+        CPU_REGISTER.SR = ((STACK.Pull() | 0x20) & 0xef); //Enable bit 5 disable bit 4...
         CPU_REGISTER.PC += 1;
     }
 
@@ -176,7 +176,7 @@ public class IMPLIED
     {
         int MSB, LSB;
 
-        CPU_REGISTER.SR = STACK.Pull();
+        CPU_REGISTER.SR = (STACK.Pull() & 0xef);
         MSB = STACK.Pull();
         LSB = STACK.Pull();
         CPU_REGISTER.PC = (MSB << 8) | LSB;
