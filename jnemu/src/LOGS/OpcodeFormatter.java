@@ -37,7 +37,7 @@ class OpcodeFormatter extends Formatter
         tmp.append("<td width='100'>");
         tmp.append("<b>CODE</b>");
         tmp.append("</td>");
-        tmp.append("<td width='250'>");
+        tmp.append("<td width='400'>");
         tmp.append("<b>REGISTER</b>");
         tmp.append("</td></tr>");
         return tmp.toString();

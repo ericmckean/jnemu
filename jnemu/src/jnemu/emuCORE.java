@@ -17,6 +17,7 @@ public class emuCORE
     public static boolean isRunning = false;
     public static Thread emuThread;
     static coreTHREAD core;
+    public static int MasterCycle;
 
     public static void init()
     {
@@ -217,16 +218,23 @@ class coreTHREAD implements Runnable
                     LogTmp.append("Y : ");
                     LogTmp.append(Integer.toHexString(CPU_REGISTER.Y));
                     LogTmp.append(" | ");
+                    LogTmp.append("SR : ");
+                    LogTmp.append(Integer.toHexString(CPU_REGISTER.SR));
+                    LogTmp.append(" | ");
                     LogTmp.append("SP : ");
                     LogTmp.append(Integer.toHexString(CPU_REGISTER.SP));
                     LogTmp.append(" | ");
-                    LogTmp.append("SR : ");
-                    LogTmp.append(Integer.toHexString(CPU_REGISTER.SR));
+                    LogTmp.append("CYC : ");
+                    LogTmp.append(ppuCORE.PpuCycle);
+                    LogTmp.append(" | ");
+                    LogTmp.append("SL : ");
+                    LogTmp.append(ppuCORE.SCANLINE);
                     LogTmp.append("</td></tr>");
                     LOGGER.write(LogTmp.toString());
                     LogTmp.delete(0,LogTmp.length());
                 }
                 cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
+                emuCORE.MasterCycle = cpuCORE.CYCLE * 15; //NTSC NES...
                 ppuCORE.execPPU();
             }
             catch(Exception e)
