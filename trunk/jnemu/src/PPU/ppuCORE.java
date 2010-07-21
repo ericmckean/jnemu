@@ -1,6 +1,7 @@
 package PPU;
 
 import CPU.cpuCORE;
+import jnemu.emuCORE;
 
 public class ppuCORE
 {
@@ -16,6 +17,7 @@ public class ppuCORE
     public static boolean isAccessingOAMADDR;
     public static boolean isWritingOAMDATA;
     static int OAM_ADDR;
+    public static int PpuCycle;
     
     public static void init()
     {
@@ -31,14 +33,19 @@ public class ppuCORE
         isReadingPPUDATA = false;
         isAccessingOAMADDR = false;
         isWritingOAMDATA = false;
+        PpuCycle = 0;
         PPU_MEMORY.init();
         OAM.init();
     }
 
     public static void execPPU()
     {
-        SCANLINE = (int) ((double) cpuCORE.CYCLE / 113.6666666666667);
-        if(SCANLINE >= 240 && SCANLINE < 261)
+        //**********************************************
+        //         1 CPU Cycle = 3 PPU Cycle
+        //**********************************************
+        PpuCycle = emuCORE.MasterCycle / 5; //Get the actual PPU Cycle...
+        SCANLINE = PpuCycle / 341;
+        if(SCANLINE >= 240 && SCANLINE <= 261)
         {
             //*******************************************
             //              VBLANK State
@@ -150,11 +157,6 @@ public class ppuCORE
             //*******************************************
             
             //FIXME: needs more routine here...
-            //Console.print("[BaseNameTableAddr] " + Integer.toHexString(PPU_REGISTER.getBaseNameTableAddr()));
-            //Console.print("[BgPatternTableAddr] " + Integer.toHexString(PPU_REGISTER.getBgPatternTableAddr()));
-            //Console.print("[SprPatternTableAddr] " + Integer.toHexString(PPU_REGISTER.getSprPatternTableAddr()));
-            //Console.print("[SprSize] " + Integer.toHexString(PPU_REGISTER.getSprSize()));
-            //emuCORE.STOP();
         }
     }
 }
