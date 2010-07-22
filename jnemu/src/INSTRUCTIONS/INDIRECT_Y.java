@@ -188,7 +188,7 @@ public class INDIRECT_Y
 
     public static int CMP()
     {
-        int Value, oldAddr, newAddr, MSB, LSB, cycle = 0;
+        int Value, oldAddr, newAddr, MSB, LSB, cycle = 0, tmp;
 
         MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
         LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
@@ -196,6 +196,7 @@ public class INDIRECT_Y
         newAddr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
 
         Value = CPU_MEMORY.read8Bit(newAddr);
+        tmp = CPU_REGISTER.A - Value;
         //check for Carry Flag...
         if(CPU_REGISTER.A >= Value)
         {
@@ -208,7 +209,7 @@ public class INDIRECT_Y
         }
 
         //Check for Negative Flag...
-        FLAG.CHECK_NEGATIVE(Value);
+        FLAG.CHECK_NEGATIVE(tmp);
 
         if(CPU_MEMORY.getPage(oldAddr) == CPU_MEMORY.getPage(newAddr))
         {

@@ -245,10 +245,11 @@ public class ABSOLUTE
 
     public static void CMP()
     {
-        int Value, addr;
+        int Value, addr, tmp;
 
         addr = ADDRESS.get16BitAddressOperand();
         Value = CPU_MEMORY.read8Bit(addr);
+        tmp = CPU_REGISTER.A - Value;
         //check for Carry Flag...
         if(CPU_REGISTER.A >= Value)
         {
@@ -261,7 +262,7 @@ public class ABSOLUTE
         }
 
         //Check for Negative Flag...
-        FLAG.CHECK_NEGATIVE(Value);
+        FLAG.CHECK_NEGATIVE(tmp);
 
         CPU_REGISTER.PC += 3;
     }
@@ -314,13 +315,14 @@ public class ABSOLUTE
 
     public static void BIT()
     {
-        int Value, addr;
+        int Value, addr, mem;
 
         addr = ADDRESS.get16BitAddressOperand();
-        Value = CPU_REGISTER.A & CPU_MEMORY.read8Bit(addr);
+        mem = CPU_MEMORY.read8Bit(addr);
+        Value = CPU_REGISTER.A & mem;
         FLAG.CHECK_ZERO(Value);
         //Overflow Flag
-        if((Value & 0x40) == 0x40)
+        if((mem & 0x40) == 0x40)
         {
             CPU_REGISTER.setOverflowFlag();
         }
@@ -329,7 +331,7 @@ public class ABSOLUTE
             CPU_REGISTER.clearOverflowFlag();
         }
         //Negative Flag
-        if((Value & 0x80) == 0x80)
+        if((mem & 0x80) == 0x80)
         {
             CPU_REGISTER.setNegativeFlag();
         }

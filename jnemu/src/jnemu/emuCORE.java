@@ -200,8 +200,7 @@ class coreTHREAD implements Runnable
                 if(LOG_CFG.enableOpcodeLog)
                 {
                     LogTmp.append("<tr><td>");
-                    LogTmp.append("$");
-                    LogTmp.append(Integer.toHexString(CPU_REGISTER.PC));
+                    LogTmp.append(Integer.toHexString(CPU_REGISTER.PC).toUpperCase());
                     LogTmp.append("</td><td>");
                     LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC)));
                     LogTmp.append(" ");
@@ -209,25 +208,25 @@ class coreTHREAD implements Runnable
                     LogTmp.append(" ");
                     LogTmp.append(Integer.toHexString(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 2)));
                     LogTmp.append("</td><td>");
-                    LogTmp.append("A : ");
+                    LogTmp.append("A:");
                     LogTmp.append(Integer.toHexString(CPU_REGISTER.A));
-                    LogTmp.append(" | ");
-                    LogTmp.append("X : ");
+                    LogTmp.append(" ");
+                    LogTmp.append("X:");
                     LogTmp.append(Integer.toHexString(CPU_REGISTER.X));
-                    LogTmp.append(" | ");
-                    LogTmp.append("Y : ");
+                    LogTmp.append(" ");
+                    LogTmp.append("Y:");
                     LogTmp.append(Integer.toHexString(CPU_REGISTER.Y));
-                    LogTmp.append(" | ");
-                    LogTmp.append("SR : ");
+                    LogTmp.append(" ");
+                    LogTmp.append("SR:");
                     LogTmp.append(Integer.toHexString(CPU_REGISTER.SR));
-                    LogTmp.append(" | ");
-                    LogTmp.append("SP : ");
+                    LogTmp.append(" ");
+                    LogTmp.append("SP:");
                     LogTmp.append(Integer.toHexString(CPU_REGISTER.SP));
-                    LogTmp.append(" | ");
-                    LogTmp.append("CYC : ");
+                    LogTmp.append(" ");
+                    LogTmp.append("CYC:");
                     LogTmp.append(ppuCORE.PpuCycle);
-                    LogTmp.append(" | ");
-                    LogTmp.append("SL : ");
+                    LogTmp.append(" ");
+                    LogTmp.append("SL:");
                     LogTmp.append(ppuCORE.SCANLINE);
                     LogTmp.append("</td></tr>");
                     LOGGER.write(LogTmp.toString());

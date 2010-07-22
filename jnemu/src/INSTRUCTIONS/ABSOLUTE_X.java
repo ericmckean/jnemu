@@ -290,12 +290,13 @@ public class ABSOLUTE_X
 
     public static int CMP()
     {
-        int Value, oldAddr, newAddr, cycle = 0;
+        int Value, oldAddr, newAddr, cycle = 0, tmp;
 
         oldAddr = ADDRESS.get16BitAddressOperand();
         newAddr = ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X;
 
         Value = CPU_MEMORY.read8Bit(newAddr);
+        tmp = CPU_REGISTER.A - Value;
         //check for Carry Flag...
         if(CPU_REGISTER.A >= Value)
         {
@@ -308,7 +309,7 @@ public class ABSOLUTE_X
         }
 
         //Check for Negative Flag...
-        FLAG.CHECK_NEGATIVE(Value);
+        FLAG.CHECK_NEGATIVE(tmp);
 
         if(CPU_MEMORY.getPage(newAddr) != CPU_MEMORY.getPage(oldAddr))
         {

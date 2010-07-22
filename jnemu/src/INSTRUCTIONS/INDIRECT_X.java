@@ -118,13 +118,14 @@ public class INDIRECT_X
 
     public static void CMP()
     {
-        int Value, addr, MSB, LSB;
+        int Value, addr, MSB, LSB, tmp;
 
         MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
         LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
         addr = (MSB << 8) | ((LSB + CPU_REGISTER.X) & 0xFF);
         
         Value = CPU_MEMORY.read8Bit(addr);
+        tmp = CPU_REGISTER.A - Value;
         //check for Carry Flag...
         if(CPU_REGISTER.A >= Value)
         {
@@ -137,7 +138,7 @@ public class INDIRECT_X
         }
 
         //Check for Negative Flag...
-        FLAG.CHECK_NEGATIVE(Value);
+        FLAG.CHECK_NEGATIVE(tmp);
 
         CPU_REGISTER.PC += 2;
     }

@@ -213,10 +213,11 @@ public class ZEROPAGE_X
 
     public static void CMP()
     {
-        int Value, addr;
+        int Value, addr, tmp;
 
         addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xFF;
         Value = CPU_MEMORY.read8Bit(addr);
+        tmp = CPU_REGISTER.A - Value;
         //check for Carry Flag...
         if(CPU_REGISTER.A >= Value)
         {
@@ -229,7 +230,7 @@ public class ZEROPAGE_X
         }
 
         //Check for Negative Flag...
-        FLAG.CHECK_NEGATIVE(Value);
+        FLAG.CHECK_NEGATIVE(tmp);
 
         CPU_REGISTER.PC += 2;
     }

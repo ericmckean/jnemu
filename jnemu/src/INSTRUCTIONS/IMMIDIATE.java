@@ -59,9 +59,10 @@ public class IMMIDIATE
 
     public static void CMP()
     {
-        int Value;
+        int Value, tmp;
         
         Value = CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1);
+        tmp = CPU_REGISTER.A - Value;
         //check for Carry Flag...
         if(CPU_REGISTER.A >= Value)
         {
@@ -74,7 +75,7 @@ public class IMMIDIATE
         }
 
         //Check for Negative Flag...
-        FLAG.CHECK_NEGATIVE(Value);
+        FLAG.CHECK_NEGATIVE(tmp);
 
         CPU_REGISTER.PC += 2;
     }
