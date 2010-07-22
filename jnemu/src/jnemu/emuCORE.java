@@ -49,7 +49,7 @@ public class emuCORE
             mapperCORE.init();
 
             //Jump to Reset Vector.....
-            CPU_REGISTER.PC = 0xC000; //CPU_MEMORY.getResetVector();
+            CPU_REGISTER.PC = 0xC000;//CPU_MEMORY.getResetVector();
 
             OPCODE_FETCHER.loadOpcode(CPU_REGISTER.PC);
             //Show data on the debugger.................
