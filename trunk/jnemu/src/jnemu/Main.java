@@ -63,7 +63,7 @@ public class Main
         //           Init CPU Logger
         //**************************************
         Console.print("Initializing Config...");
-        cfgCORE.init();
+        cfgCORE.initDefault();
 
         //**************************************
         //           Init CPU Logger

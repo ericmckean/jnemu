@@ -4,7 +4,7 @@ import java.util.logging.Level;
 
 public class cfgCORE
 {
-    public static void init()
+    public static void initDefault()
     {
         LOG_CFG.setLogFileName("opcode.htm");
         LOG_CFG.setLogLevel(Level.INFO);

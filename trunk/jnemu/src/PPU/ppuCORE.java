@@ -1,3 +1,19 @@
+/*
+ *
+ *  +------------------------------------------------------------------------+
+ *  |    PPU Cycle   |                    PPU is doing???                    |
+ *  +----------------+-------------------------------------------------------+
+ *  |    256-319:    |  Grab pattern slivers for the eight frontmost sprites |
+ *  |                |  in range.                                            |
+ *  +----------------+-------------------------------------------------------+
+ *  |    320-335:    |  Grab map entries and pattern slivers for the first   |
+ *  |                |  two columns of the next scanline.                    |
+ *  +----------------+-------------------------------------------------------+
+ *  |    336-340:    |  Freeze, but this is still considered rendering.      |
+ *  +------------------------------------------------------------------------+
+ */
+
+
 package PPU;
 
 import CPU.cpuCORE;
@@ -44,119 +60,123 @@ public class ppuCORE
         //         1 CPU Cycle = 3 PPU Cycle
         //**********************************************
         PpuCycle = emuCORE.MasterCycle / 5; //Get the actual PPU Cycle...
-        SCANLINE = PpuCycle / 341;
-        if(SCANLINE >= 240 && SCANLINE <= 261)
+        if(PpuCycle > 341)
         {
-            //*******************************************
-            //              VBLANK State
-            //*******************************************
-            PPU_REGISTER.setVBlankFlag();
-            //******************************************
-            //        Read / Write During VBlank
-            //              $2006 - $2007
-            //******************************************
-            if(isAccessingPPUADDR)
+            SCANLINE++;
+            PpuCycle = 1;
+            cpuCORE.CYCLE = 0;
+            if(SCANLINE >= 240 && SCANLINE <= 261)
             {
-                if(isFirstWrite)
+                //*******************************************
+                //              VBlank Period
+                //*******************************************
+                PPU_REGISTER.setVBlankFlag();
+                //******************************************
+                //        Read / Write During VBlank
+                //              $2006 - $2007
+                //******************************************
+                if(isAccessingPPUADDR)
                 {
-                    MSB = PPU_REGISTER.getPPUAddr();
-                    isFirstWrite = false;
+                    if(isFirstWrite)
+                    {
+                        MSB = PPU_REGISTER.getPPUAddr();
+                        isFirstWrite = false;
+                    }
+                    else
+                    {
+                        LSB = PPU_REGISTER.getPPUAddr();
+                        PPU_ADDR = (MSB << 8) | LSB; //get the actual PPU address..
+                        //FIXME: put value of memory is PPUDATA according to
+                        //PPUADDR's address content for reading purposes....
+                        //Console.print("[PPU_ADDR] " + Integer.toHexString(PPU_ADDR));
+                        PPU_REGISTER.setPPUData(PPU_MEMORY.readPPUMemory(PPU_ADDR));
+                        isFirstWrite = true;
+                        isAccessingPPUADDR = false;
+                    }
                 }
-                else
+
+                if(isWritingPPUDATA)
                 {
-                    LSB = PPU_REGISTER.getPPUAddr();
-                    PPU_ADDR = (MSB << 8) | LSB; //get the actual PPU address..
-                    //FIXME: put value of memory is PPUDATA according to
-                    //PPUADDR's address content for reading purposes....
-                    //Console.print("[PPU_ADDR] " + Integer.toHexString(PPU_ADDR));
+                    //FIXME: write the value of PPUDATA to PPU memory according to
+                    //PPUADDR's address content...
+                    //Console.print("[$2007] " + Integer.toHexString(PPU_REGISTER.getPPUData()));
+                    PPU_MEMORY.writePPUMemory(PPU_ADDR, PPU_REGISTER.getPPUData());
+                    if(PPU_REGISTER.getVramAddressInc() == 0)
+                    {
+                        PPU_ADDR++;
+                        PPU_ADDR &= 0x3fff;
+                    }
+                    else
+                    {
+                        PPU_ADDR += 32;
+                        PPU_ADDR &= 0x3fff;
+                    }
+                    isWritingPPUDATA = false;
+                }
+                else if(isReadingPPUDATA)
+                {
                     PPU_REGISTER.setPPUData(PPU_MEMORY.readPPUMemory(PPU_ADDR));
-                    isFirstWrite = true;
-                    isAccessingPPUADDR = false;
+                    if(PPU_REGISTER.getVramAddressInc() == 0)
+                    {
+                        PPU_ADDR++;
+                        PPU_ADDR &= 0x3fff;
+                    }
+                    else
+                    {
+                        PPU_ADDR += 32;
+                        PPU_ADDR &= 0x3fff;
+                    }
+                    isReadingPPUDATA = false;
                 }
-            }
 
-            if(isWritingPPUDATA)
-            {
-                //FIXME: write the value of PPUDATA to PPU memory according to
-                //PPUADDR's address content...
-                //Console.print("[$2007] " + Integer.toHexString(PPU_REGISTER.getPPUData()));
-                PPU_MEMORY.writePPUMemory(PPU_ADDR, PPU_REGISTER.getPPUData());
-                if(PPU_REGISTER.getVramAddressInc() == 0)
+                //******************************************
+                //      OAM Read / Write During VBlank
+                //              $2003 - $2004
+                //******************************************
+                if(isAccessingOAMADDR)
                 {
-                    PPU_ADDR++;
-                    PPU_ADDR &= 0x3fff;
+                    OAM_ADDR = PPU_REGISTER.getOAMADDR();
+                    PPU_REGISTER.setOAM_DMA(OAM.readOAM(OAM_ADDR));
+                    isAccessingOAMADDR = false;
                 }
-                else
+                else if(isWritingOAMDATA)
                 {
-                    PPU_ADDR += 32;
-                    PPU_ADDR &= 0x3fff;
+                    OAM.writeOAM(OAM_ADDR, PPU_REGISTER.getOAMDATA());
+                    OAM_ADDR++;
+                    OAM_ADDR &= 0xff;
+                    isWritingOAMDATA = false;
                 }
-                isWritingPPUDATA = false;
-            }
-            else if(isReadingPPUDATA)
-            {
-                PPU_REGISTER.setPPUData(PPU_MEMORY.readPPUMemory(PPU_ADDR));
-                if(PPU_REGISTER.getVramAddressInc() == 0)
-                {
-                    PPU_ADDR++;
-                    PPU_ADDR &= 0x3fff;
-                }
-                else
-                {
-                    PPU_ADDR += 32;
-                    PPU_ADDR &= 0x3fff;
-                }
-                isReadingPPUDATA = false;
-            }
 
-            //******************************************
-            //      OAM Read / Write During VBlank
-            //              $2003 - $2004
-            //******************************************
-            if(isAccessingOAMADDR)
-            {
-                OAM_ADDR = PPU_REGISTER.getOAMADDR();
-                PPU_REGISTER.setOAM_DMA(OAM.readOAM(OAM_ADDR));
-                isAccessingOAMADDR = false;
+                //******************************************
+                //               NMI Section
+                //******************************************
+                if(PPU_REGISTER.getNMIFlag() == 1)
+                {
+                    //Generate NMI...............
+                    isNMI = true;
+                }
+                else if(VBlankPremEnd) //check for VBlank Premature termination...
+                {
+                    PPU_REGISTER.clearVBlankFlag();
+                    //Don't forget to set VBlankPremEnd to false after VBlank is
+                    //prematurely terminated as it will cause an infinite loop..
+                    VBlankPremEnd = false;
+                    isNMI = false;
+                }
             }
-            else if(isWritingOAMDATA)
-            {
-                OAM.writeOAM(OAM_ADDR, PPU_REGISTER.getOAMDATA());
-                OAM_ADDR++;
-                OAM_ADDR &= 0xff;
-                isWritingOAMDATA = false;
-            }
-            
-            //******************************************
-            //               NMI Section
-            //******************************************
-            if(PPU_REGISTER.getNMIFlag() == 1)
-            {
-                //Generate NMI...............
-                isNMI = true;
-            }
-            else if(VBlankPremEnd) //check for VBlank Premature termination...
+            else if(SCANLINE == 262)
             {
                 PPU_REGISTER.clearVBlankFlag();
-                //Don't forget to set VBlankPremEnd to false after VBlank is
-                //prematurely terminated as it will cause an infinite loop..
-                VBlankPremEnd = false;
-                isNMI = false;
+                PpuCycle = 0;
+                emuCORE.MasterCycle = 0;
             }
         }
-        else if(SCANLINE == 262)
+        else if(PpuCycle >= 256 && PpuCycle <= 340)
         {
-            PPU_REGISTER.clearVBlankFlag();
-            cpuCORE.CYCLE -= 29780; //262 scanline...
-            SCANLINE = 0;
-        }
-        else
-        {
-            //*******************************************
-            //             Rendering State
-            //*******************************************
+            //********************************
+            //         HBlank Period
+            //********************************
             
-            //FIXME: needs more routine here...
         }
     }
 }
