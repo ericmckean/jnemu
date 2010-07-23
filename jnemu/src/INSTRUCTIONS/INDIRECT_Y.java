@@ -29,11 +29,11 @@ public class INDIRECT_Y
 
         Value = CPU_MEMORY.read8Bit(newAddr);
         tmp = CPU_REGISTER.A + Value + CPU_REGISTER.getCarryFlag();
-        FLAG.CHECK_OVERFLOW(CPU_REGISTER.A, Value, tmp);
-        FLAG.CHECK_ZERO(tmp);
-        FLAG.CHECK_NEGATIVE(tmp);
+        FLAG.CHECK_OVERFLOW(CPU_REGISTER.A, Value, (tmp & 0xff));
+        FLAG.CHECK_ZERO(tmp & 0xff);
+        FLAG.CHECK_NEGATIVE(tmp & 0xff);
         FLAG.CHECK_CARRY(tmp);
-        CPU_REGISTER.A = tmp & 0xFF;
+        CPU_REGISTER.A = tmp & 0xff;
 
         if(CPU_MEMORY.getPage(oldAddr) == CPU_MEMORY.getPage(newAddr))
         {
@@ -196,18 +196,26 @@ public class INDIRECT_Y
         newAddr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
 
         Value = CPU_MEMORY.read8Bit(newAddr);
-        tmp = CPU_REGISTER.A - Value;
         //check for Carry Flag...
         if(CPU_REGISTER.A >= Value)
         {
             CPU_REGISTER.setCarryFlag();
+        }
+        else
+        {
+            CPU_REGISTER.clearCarryFlag();
         }
         //Check for ZERO Flag...
         if(CPU_REGISTER.A == Value)
         {
             CPU_REGISTER.setZeroFlag();
         }
+        else
+        {
+            CPU_REGISTER.clearZeroFlag();
+        }
 
+        tmp = CPU_REGISTER.A - Value;
         //Check for Negative Flag...
         FLAG.CHECK_NEGATIVE(tmp);
 
