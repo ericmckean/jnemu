@@ -14,15 +14,15 @@ public class FLAG
         }
     }
 
-    public static void CHECK_CARRY_SBC(int i)
+    public static void CHECK_CARRY_SBC(int i, int i2)
     {
-        if((i >> 8) != 0)
+        if((i-i2) >= 0)
         {
-            CPU_REGISTER.clearCarryFlag();
+            CPU_REGISTER.setCarryFlag();
         }
         else
         {
-            CPU_REGISTER.setCarryFlag();
+            CPU_REGISTER.clearCarryFlag();
         }
     }
 
@@ -57,6 +57,22 @@ public class FLAG
             CPU_REGISTER.setOverflowFlag();
         }
         else if((Value1 & 0x80) != 0 && (Value2 & 0x80) != 0 && (Result & 0x80) != 0x80)
+        {
+            CPU_REGISTER.setOverflowFlag();
+        }
+        else
+        {
+            CPU_REGISTER.clearOverflowFlag();
+        }
+    }
+
+    public static void CHECK_OVERFLOW_SBC(int Value1, int Value2)
+    {
+        if((Value1 & 0x80) != 0 && (Value2 & 0x80) == 0)
+        {
+            CPU_REGISTER.setOverflowFlag();
+        }
+        else if((Value1 & 0x80) == 0 && (Value2 & 0x80) != 0)
         {
             CPU_REGISTER.setOverflowFlag();
         }

@@ -38,8 +38,6 @@ public class IMPLIED
     public static void TXS()
     {
         CPU_REGISTER.SP = CPU_REGISTER.X;
-        FLAG.CHECK_ZERO(CPU_REGISTER.SP);
-        FLAG.CHECK_NEGATIVE(CPU_REGISTER.SP);
         CPU_REGISTER.PC += 1;
     }
 
@@ -176,9 +174,9 @@ public class IMPLIED
     {
         int MSB, LSB;
 
-        CPU_REGISTER.SR = (STACK.Pull() & 0xef);
-        MSB = STACK.Pull();
+        CPU_REGISTER.SR = (STACK.Pull() & 0xef) | 0x20;
         LSB = STACK.Pull();
+        MSB = STACK.Pull();
         CPU_REGISTER.PC = (MSB << 8) | LSB;
     }
 

@@ -10,8 +10,16 @@ public class ACCUMULATOR
     {
         int Value;
 
-        Value = (CPU_REGISTER.A << 1) | CPU_REGISTER.getCarryFlag();
-        FLAG.CHECK_CARRY(CPU_REGISTER.A);
+        Value = ((CPU_REGISTER.A << 1) | ((CPU_REGISTER.getCarryFlag()==1) ? 1:0)) & 0xff;
+        //Carry Flag...
+        if((CPU_REGISTER.A & 0x80) == 0x80)
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+        else
+        {
+            CPU_REGISTER.clearCarryFlag();
+        }
         CPU_REGISTER.A = Value;
         FLAG.CHECK_NEGATIVE(Value);
         FLAG.CHECK_ZERO(Value);
@@ -42,8 +50,16 @@ public class ACCUMULATOR
         int Value;
 
         Value = CPU_REGISTER.A;
-        FLAG.CHECK_CARRY(Value);
-        CPU_REGISTER.A = Value << 1;
+        //Carry Flag...
+        if((Value & 0x80) == 0x80)
+        {
+            CPU_REGISTER.setCarryFlag();
+        }
+        else
+        {
+            CPU_REGISTER.clearCarryFlag();
+        }
+        CPU_REGISTER.A = (Value << 1) & 0xff;
         FLAG.CHECK_ZERO(CPU_REGISTER.A);
         FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
 
