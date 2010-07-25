@@ -159,7 +159,7 @@ public class ZEROPAGE_X
         int Value, addr;
 
         addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff;
-        Value = CPU_MEMORY.read8Bit(addr) + 1;
+        Value = (CPU_MEMORY.read8Bit(addr) + 1) & 0xff;
         FLAG.CHECK_ZERO(Value);
         FLAG.CHECK_NEGATIVE(Value);
         CPU_MEMORY.write8Bit(addr, Value);

@@ -8,10 +8,11 @@ public class INDIRECT_X
 {
     public static void STA()
     {
-        int addr, MSB, LSB;
-        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
-        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
-        addr = (MSB << 8) | ((LSB + CPU_REGISTER.X) & 0xFF);
+        int addr, LSB, MSB;
+
+        LSB = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff);
+        MSB = CPU_MEMORY.read8Bit(((CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1) + CPU_REGISTER.X) + 1) & 0xff);
+        addr = MSB * 0x100 + LSB;
         
         CPU_MEMORY.write8Bit(addr, CPU_REGISTER.A);
         CPU_REGISTER.PC += 2;
@@ -19,11 +20,11 @@ public class INDIRECT_X
 
     public static void ADC()
     {
-        int tmp, Value, addr, MSB, LSB;
+        int Value, addr, LSB, MSB, tmp;
 
-        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
-        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
-        addr = (MSB << 8) | ((LSB + CPU_REGISTER.X) & 0xFF);
+        LSB = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff);
+        MSB = CPU_MEMORY.read8Bit(((CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1) + CPU_REGISTER.X) + 1) & 0xff);
+        addr = MSB * 0x100 + LSB;
 
         Value = CPU_MEMORY.read8Bit(addr);
         tmp = CPU_REGISTER.A + Value + CPU_REGISTER.getCarryFlag();
@@ -38,11 +39,11 @@ public class INDIRECT_X
 
     public static void SBC()
     {
-        int tmp, Value, addr, MSB, LSB;
+        int Value, addr, LSB, MSB, tmp;
 
-        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
-        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
-        addr = (MSB << 8) | ((LSB + CPU_REGISTER.X) & 0xFF);
+        LSB = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff);
+        MSB = CPU_MEMORY.read8Bit(((CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1) + CPU_REGISTER.X) + 1) & 0xff);
+        addr = MSB * 0x100 + LSB;
 
         Value = CPU_MEMORY.read8Bit(addr);
         tmp = CPU_REGISTER.A - Value - ((CPU_REGISTER.getCarryFlag()==1) ? 0 : 1);
@@ -57,11 +58,11 @@ public class INDIRECT_X
 
     public static void LDA()
     {
-        int Value, addr, MSB, LSB;
+        int Value, addr, LSB, MSB;
 
-        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
-        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
-        addr = (MSB << 8) | ((LSB + CPU_REGISTER.X) & 0xFF);
+        LSB = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff);
+        MSB = CPU_MEMORY.read8Bit(((CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1) + CPU_REGISTER.X) + 1) & 0xff);
+        addr = MSB * 0x100 + LSB;
 
         Value =  CPU_MEMORY.read8Bit(addr);
         CPU_REGISTER.A = Value;
@@ -73,11 +74,11 @@ public class INDIRECT_X
 
     public static void AND()
     {
-        int Value, addr, MSB, LSB;
+        int Value, addr, LSB, MSB;
 
-        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
-        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
-        addr = (MSB << 8) | ((LSB + CPU_REGISTER.X) & 0xFF);
+        LSB = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff);
+        MSB = CPU_MEMORY.read8Bit(((CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1) + CPU_REGISTER.X) + 1) & 0xff);
+        addr = MSB * 0x100 + LSB;
         
         Value = CPU_REGISTER.A & CPU_MEMORY.read8Bit(addr);
         CPU_REGISTER.A = Value;
@@ -88,11 +89,11 @@ public class INDIRECT_X
 
     public static void EOR()
     {
-        int Value, addr, MSB, LSB;
+        int Value, addr, LSB, MSB;
 
-        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
-        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
-        addr = (MSB << 8) | ((LSB + CPU_REGISTER.X) & 0xFF);
+        LSB = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff);
+        MSB = CPU_MEMORY.read8Bit(((CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1) + CPU_REGISTER.X) + 1) & 0xff);
+        addr = MSB * 0x100 + LSB;
 
         Value = CPU_REGISTER.A ^ CPU_MEMORY.read8Bit(addr);
         CPU_REGISTER.A = Value;
@@ -103,11 +104,11 @@ public class INDIRECT_X
 
     public static void ORA()
     {
-        int Value, addr, MSB, LSB;
+        int Value, addr, LSB, MSB;
 
-        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
-        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
-        addr = (MSB << 8) | ((LSB + CPU_REGISTER.X) & 0xFF);
+        LSB = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff);
+        MSB = CPU_MEMORY.read8Bit(((CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1) + CPU_REGISTER.X) + 1) & 0xff);
+        addr = MSB * 0x100 + LSB;
 
         Value = CPU_REGISTER.A | CPU_MEMORY.read8Bit(addr);
         CPU_REGISTER.A = Value;
@@ -118,11 +119,11 @@ public class INDIRECT_X
 
     public static void CMP()
     {
-        int Value, addr, MSB, LSB, tmp;
+        int Value, addr, LSB, MSB, tmp;
 
-        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
-        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
-        addr = (MSB << 8) | ((LSB + CPU_REGISTER.X) & 0xFF);
+       LSB = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff);
+        MSB = CPU_MEMORY.read8Bit(((CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1) + CPU_REGISTER.X) + 1) & 0xff);
+        addr = MSB * 0x100 + LSB;
         
         Value = CPU_MEMORY.read8Bit(addr);
         //check for Carry Flag...

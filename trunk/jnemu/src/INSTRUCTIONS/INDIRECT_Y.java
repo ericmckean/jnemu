@@ -3,6 +3,7 @@ package INSTRUCTIONS;
 import CPU.CPU_MEMORY;
 import CPU.CPU_REGISTER;
 import CPU.FLAG;
+import jnemu.Console;
 
 public class INDIRECT_Y
 {
@@ -82,12 +83,13 @@ public class INDIRECT_Y
     {
         int Value, MSB, LSB, oldAddr, newAddr, cycle = 0;
 
-        MSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand() + 1);
+        MSB = CPU_MEMORY.fastRead8Bit((ADDRESS.get8BitAddressOperand() + 1) & 0xff);
         LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
         oldAddr = ((MSB << 8) | LSB);
-        newAddr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
+        newAddr = (oldAddr + CPU_REGISTER.Y) & 0xffff;
 
         Value =  CPU_MEMORY.read8Bit(newAddr);
+        Console.print(Integer.toHexString(CPU_REGISTER.PC) + ": " + Integer.toHexString(newAddr) + " : " + Integer.toHexString(Value));
         CPU_REGISTER.A = Value;
         FLAG.CHECK_ZERO(Value);
         FLAG.CHECK_NEGATIVE(Value);

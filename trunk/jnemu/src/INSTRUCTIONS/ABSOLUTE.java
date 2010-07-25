@@ -192,7 +192,7 @@ public class ABSOLUTE
         int Value, addr;
 
         addr = ADDRESS.get16BitAddressOperand();
-        Value = CPU_MEMORY.read8Bit(addr) + 1;
+        Value = (CPU_MEMORY.read8Bit(addr) + 1) & 0xff;
         FLAG.CHECK_ZERO(Value);
         FLAG.CHECK_NEGATIVE(Value);
         CPU_MEMORY.write8Bit(addr, Value);
