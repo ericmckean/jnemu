@@ -89,7 +89,7 @@ public class INDIRECT_Y
         newAddr = (oldAddr + CPU_REGISTER.Y) & 0xffff;
 
         Value =  CPU_MEMORY.read8Bit(newAddr);
-        Console.print(Integer.toHexString(CPU_REGISTER.PC) + ": " + Integer.toHexString(newAddr) + " : " + Integer.toHexString(Value));
+
         CPU_REGISTER.A = Value;
         FLAG.CHECK_ZERO(Value);
         FLAG.CHECK_NEGATIVE(Value);
