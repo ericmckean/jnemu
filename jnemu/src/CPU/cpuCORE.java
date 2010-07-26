@@ -673,6 +673,115 @@ public class cpuCORE
                 IMPLIED.BRK();
                 cycle = 7;
                 break;
+            /*
+             *               Unofficial Opcode
+             */
+            /************** DOP (Double NOP) **************/
+            case 0x04 :
+                UNOFFICIAL.DOP();
+                cycle = 3;
+                break;
+            case 0x14 :
+                UNOFFICIAL.DOP();
+                cycle = 4;
+                break;
+            case 0x34 :
+                UNOFFICIAL.DOP();
+                cycle = 4;
+                break;
+            case 0x44 :
+                UNOFFICIAL.DOP();
+                cycle = 3;
+                break;
+            case 0x54 :
+                UNOFFICIAL.DOP();
+                cycle = 4;
+                break;
+            case 0x64 :
+                UNOFFICIAL.DOP();
+                cycle = 3;
+                break;
+            case 0x74 :
+                UNOFFICIAL.DOP();
+                cycle = 4;
+                break;
+            case 0x80 :
+                UNOFFICIAL.DOP();
+                cycle = 2;
+                break;
+            case 0x82 :
+                UNOFFICIAL.DOP();
+                cycle = 2;
+                break;
+            case 0x89 :
+                UNOFFICIAL.DOP();
+                cycle = 2;
+                break;
+            case 0xC2 :
+                UNOFFICIAL.DOP();
+                cycle = 2;
+                break;
+            case 0xD4 :
+                UNOFFICIAL.DOP();
+                cycle = 4;
+                break;
+            case 0xE2 :
+                UNOFFICIAL.DOP();
+                cycle = 2;
+                break;
+            case 0xF4 :
+                UNOFFICIAL.DOP();
+                cycle = 4;
+                break;
+            /************** *NOP **************/
+            case 0x1A :
+                UNOFFICIAL._NOP();
+                cycle = 2;
+                break;
+            case 0x3A :
+                UNOFFICIAL._NOP();
+                cycle = 2;
+                break;
+            case 0x5A :
+                UNOFFICIAL._NOP();
+                cycle = 2;
+                break;
+            case 0x7A :
+                UNOFFICIAL._NOP();
+                cycle = 2;
+                break;
+            case 0xDA :
+                UNOFFICIAL._NOP();
+                cycle = 2;
+                break;
+            case 0xFA :
+                UNOFFICIAL._NOP();
+                cycle = 2;
+                break;
+            /************** TRIPPLE NOP (TOP) **************/
+            case 0x0C :
+                break;
+            case 0x1C :
+                break;
+            case 0x3C :
+                break;
+            case 0x5C :
+                break;
+            case 0x7C :
+                break;
+            case 0xDC :
+                break;
+            case 0xFC :
+                break;
+            /************** AAC **************/
+            case 0x0B :
+                UNOFFICIAL.AAC();
+                cycle = 2;
+                break;
+            case 0x2B :
+                UNOFFICIAL.AAC();
+                cycle = 2;
+                break;
             /************** Unknown Opcode **************/
             default :
                 Console.print("[WARNING] Unknown Opcode " + Integer.toHexString(opcode) + " at " + Integer.toHexString(CPU_REGISTER.PC) + ". Executing NOP.");
