@@ -3,7 +3,6 @@ package INSTRUCTIONS;
 import CPU.CPU_MEMORY;
 import CPU.CPU_REGISTER;
 import CPU.FLAG;
-import jnemu.Console;
 
 public class INDIRECT_Y
 {
