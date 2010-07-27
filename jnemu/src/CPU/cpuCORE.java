@@ -760,18 +760,26 @@ public class cpuCORE
                 break;
             /************** TRIPPLE NOP (TOP) **************/
             case 0x0C :
+                UNOFFICIAL.TOP();
+                cycle = 4;
                 break;
             case 0x1C :
+                cycle = UNOFFICIAL._TOP();
                 break;
             case 0x3C :
+                cycle = UNOFFICIAL._TOP();
                 break;
             case 0x5C :
+                cycle = UNOFFICIAL._TOP();
                 break;
             case 0x7C :
+                cycle = UNOFFICIAL._TOP();
                 break;
             case 0xDC :
+                cycle = UNOFFICIAL._TOP();
                 break;
             case 0xFC :
+                cycle = UNOFFICIAL._TOP();
                 break;
             /************** AAC **************/
             case 0x0B :
@@ -781,6 +789,47 @@ public class cpuCORE
             case 0x2B :
                 UNOFFICIAL.AAC();
                 cycle = 2;
+                break;
+            /************** AAX **************/
+            case 0x87 :
+                UNOFFICIAL.ZP_AAX();
+                cycle = 3;
+                break;
+            case 0x97 :
+                UNOFFICIAL.ZP_Y_AAX();
+                cycle = 4;
+                break;
+            case 0x83 :
+                UNOFFICIAL.IND_X_AAX();
+                cycle = 6;
+                break;
+            case 0x8F :
+                UNOFFICIAL.ABS_AAX();
+                cycle = 4;
+                break;
+            /************** ARR **************/
+            case 0x6B :
+                UNOFFICIAL.ARR();
+                cycle = 2;
+                break;
+            /************** ASR **************/
+            case 0x4B :
+                UNOFFICIAL.ASR();
+                cycle = 2;
+                break;
+            /************** ATX **************/
+            case 0xAB :
+                UNOFFICIAL.ATX();
+                cycle = 2;
+                break;
+            /************** AXA **************/
+            case 0x9F :
+                UNOFFICIAL.ABS_Y_AXA();
+                cycle = 5;
+                break;
+            case 0x93 :
+                UNOFFICIAL.IND_Y_AXA();
+                cycle = 6;
                 break;
             /************** Unknown Opcode **************/
             default :
