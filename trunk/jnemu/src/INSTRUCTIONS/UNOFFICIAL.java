@@ -221,4 +221,384 @@ public class UNOFFICIAL
         CPU_MEMORY.write8Bit(addr, CPU_REGISTER.X);
         CPU_REGISTER.PC += 2;
     }
+
+    //****************************************
+    //                  AXS
+    //****************************************
+
+    public static void AXS()//Immidiate
+    {
+        int tmp;
+
+        CPU_REGISTER.X &= CPU_REGISTER.A;
+        tmp = CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1);
+        CPU_REGISTER.X -= tmp;
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.X);
+        FLAG.CHECK_ZERO(CPU_REGISTER.X);
+        FLAG.CHECK_CARRY_SBC(CPU_REGISTER.X, tmp);
+        CPU_REGISTER.PC += 2;
+    }
+
+    //****************************************
+    //                  DCP
+    //****************************************
+
+    public static void ZP_DCP()//Zero page
+    {
+        int addr, tmp, Value;
+
+        addr = ADDRESS.get8BitAddressOperand();
+        Value = CPU_MEMORY.read8Bit(addr);
+        tmp = Value--;
+        CPU_MEMORY.write8Bit(addr, tmp);
+        FLAG.CHECK_CARRY_SBC(Value, 1);
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void ZP_X_DCP()//Zero page, X
+    {
+        int addr, tmp, Value;
+
+        addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff;
+        Value = CPU_MEMORY.read8Bit(addr);
+        tmp = Value--;
+        CPU_MEMORY.write8Bit(addr, tmp);
+        FLAG.CHECK_CARRY_SBC(Value, 1);
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void ABS_DCP()//Absolute
+    {
+        int addr, tmp, Value;
+
+        addr = ADDRESS.get16BitAddressOperand();
+        Value = CPU_MEMORY.read8Bit(addr);
+        tmp = Value--;
+        CPU_MEMORY.write8Bit(addr, tmp);
+        FLAG.CHECK_CARRY_SBC(Value, 1);
+        CPU_REGISTER.PC += 3;
+    }
+
+    public static void ABS_X_DCP()//Absolute, X
+    {
+        int addr, tmp, Value;
+
+        addr = (ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X) & 0xffff;
+        Value = CPU_MEMORY.read8Bit(addr);
+        tmp = Value--;
+        CPU_MEMORY.write8Bit(addr, tmp);
+        FLAG.CHECK_CARRY_SBC(Value, 1);
+        CPU_REGISTER.PC += 3;
+    }
+
+    public static void ABS_Y_DCP()//Absolute, Y
+    {
+        int addr, tmp, Value;
+
+        addr = (ADDRESS.get16BitAddressOperand() + CPU_REGISTER.Y) & 0xffff;
+        Value = CPU_MEMORY.read8Bit(addr);
+        tmp = Value--;
+        CPU_MEMORY.write8Bit(addr, tmp);
+        FLAG.CHECK_CARRY_SBC(Value, 1);
+        CPU_REGISTER.PC += 3;
+    }
+
+    public static void IND_X_DCP()//Indirect X
+    {
+        int addr, tmp, Value, MSB, LSB;
+
+        LSB = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff);
+        MSB = CPU_MEMORY.read8Bit(((CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1) + CPU_REGISTER.X) + 1) & 0xff);
+        addr = MSB * 0x100 + LSB;
+
+        Value = CPU_MEMORY.read8Bit(addr);
+        tmp = Value--;
+        CPU_MEMORY.write8Bit(addr, tmp);
+        FLAG.CHECK_CARRY_SBC(Value, 1);
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void IND_Y_DCP()//Indirect Y
+    {
+        int addr, tmp, Value, MSB, LSB;
+
+        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
+        MSB = CPU_MEMORY.fastRead8Bit((ADDRESS.get8BitAddressOperand() + 1) & 0xff);
+        addr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
+
+        Value = CPU_MEMORY.read8Bit(addr);
+        tmp = Value--;
+        CPU_MEMORY.write8Bit(addr, tmp);
+        FLAG.CHECK_CARRY_SBC(Value, 1);
+        CPU_REGISTER.PC += 2;
+    }
+
+    //****************************************
+    //                  ISC
+    //****************************************
+
+    public static void ZP_ISC()//Zero page
+    {
+        int tmp, Value, addr;
+
+        addr = ADDRESS.get8BitAddressOperand();
+        Value = CPU_MEMORY.read8Bit(addr);
+        Value++;
+        tmp = CPU_REGISTER.A - Value - ((CPU_REGISTER.getCarryFlag()==1) ? 0 : 1);
+
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
+        FLAG.CHECK_OVERFLOW(Value, tmp, CPU_REGISTER.A);
+        FLAG.CHECK_ZERO(CPU_REGISTER.A);
+        FLAG.CHECK_CARRY_SBC(CPU_REGISTER.A, Value);
+
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void ZP_X_ISC()//Zero page, X
+    {
+        int tmp, Value, addr;
+
+        addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff;
+        Value = CPU_MEMORY.read8Bit(addr);
+        Value++;
+        tmp = CPU_REGISTER.A - Value - ((CPU_REGISTER.getCarryFlag()==1) ? 0 : 1);
+
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
+        FLAG.CHECK_OVERFLOW(Value, tmp, CPU_REGISTER.A);
+        FLAG.CHECK_ZERO(CPU_REGISTER.A);
+        FLAG.CHECK_CARRY_SBC(CPU_REGISTER.A, Value);
+
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void ABS_ISC()//Absolute
+    {
+        int tmp, Value, addr;
+
+        addr = ADDRESS.get16BitAddressOperand();
+        Value = CPU_MEMORY.read8Bit(addr);
+        Value++;
+        tmp = CPU_REGISTER.A - Value - ((CPU_REGISTER.getCarryFlag()==1) ? 0 : 1);
+
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
+        FLAG.CHECK_OVERFLOW(Value, tmp, CPU_REGISTER.A);
+        FLAG.CHECK_ZERO(CPU_REGISTER.A);
+        FLAG.CHECK_CARRY_SBC(CPU_REGISTER.A, Value);
+
+        CPU_REGISTER.PC += 3;
+    }
+
+    public static void ABS_X_ISC()//Absolute X
+    {
+        int tmp, Value, addr;
+
+        addr = (ADDRESS.get16BitAddressOperand() + CPU_REGISTER.X) & 0xffff;
+        Value = CPU_MEMORY.read8Bit(addr);
+        Value++;
+        tmp = CPU_REGISTER.A - Value - ((CPU_REGISTER.getCarryFlag()==1) ? 0 : 1);
+
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
+        FLAG.CHECK_OVERFLOW(Value, tmp, CPU_REGISTER.A);
+        FLAG.CHECK_ZERO(CPU_REGISTER.A);
+        FLAG.CHECK_CARRY_SBC(CPU_REGISTER.A, Value);
+
+        CPU_REGISTER.PC += 3;
+    }
+
+    public static void ABS_Y_ISC()//Absolute Y
+    {
+        int tmp, Value, addr;
+
+        addr = (ADDRESS.get16BitAddressOperand() + CPU_REGISTER.Y) & 0xffff;
+        Value = CPU_MEMORY.read8Bit(addr);
+        Value++;
+        tmp = CPU_REGISTER.A - Value - ((CPU_REGISTER.getCarryFlag()==1) ? 0 : 1);
+
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
+        FLAG.CHECK_OVERFLOW(Value, tmp, CPU_REGISTER.A);
+        FLAG.CHECK_ZERO(CPU_REGISTER.A);
+        FLAG.CHECK_CARRY_SBC(CPU_REGISTER.A, Value);
+
+        CPU_REGISTER.PC += 3;
+    }
+
+    public static void IND_X_ISC()//Indirect X
+    {
+        int tmp, Value, addr, MSB, LSB;
+
+        LSB = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff);
+        MSB = CPU_MEMORY.read8Bit(((CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1) + CPU_REGISTER.X) + 1) & 0xff);
+        addr = MSB * 0x100 + LSB;
+        
+        Value = CPU_MEMORY.read8Bit(addr);
+        Value++;
+        tmp = CPU_REGISTER.A - Value - ((CPU_REGISTER.getCarryFlag()==1) ? 0 : 1);
+
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
+        FLAG.CHECK_OVERFLOW(Value, tmp, CPU_REGISTER.A);
+        FLAG.CHECK_ZERO(CPU_REGISTER.A);
+        FLAG.CHECK_CARRY_SBC(CPU_REGISTER.A, Value);
+
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void IND_Y_ISC()//Indirect Y
+    {
+        int tmp, Value, addr, MSB, LSB;
+
+        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
+        MSB = CPU_MEMORY.fastRead8Bit((ADDRESS.get8BitAddressOperand() + 1) & 0xff);
+        addr = (((MSB << 8) | LSB) + CPU_REGISTER.Y) & 0xffff;
+
+        Value = CPU_MEMORY.read8Bit(addr);
+        Value++;
+        tmp = CPU_REGISTER.A - Value - ((CPU_REGISTER.getCarryFlag()==1) ? 0 : 1);
+
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
+        FLAG.CHECK_OVERFLOW(Value, tmp, CPU_REGISTER.A);
+        FLAG.CHECK_ZERO(CPU_REGISTER.A);
+        FLAG.CHECK_CARRY_SBC(CPU_REGISTER.A, Value);
+
+        CPU_REGISTER.PC += 2;
+    }
+
+    //****************************************
+    //                  LAR
+    //****************************************
+
+    public static int LAR()// Absolute, Y
+    {
+        int oldAddr,newAddr, tmp, retCycle;
+
+        oldAddr = ADDRESS.get16BitAddressOperand();
+        newAddr = (oldAddr + CPU_REGISTER.Y) & 0xffff;
+
+        tmp = CPU_MEMORY.read8Bit(newAddr);
+        CPU_REGISTER.A = tmp & CPU_REGISTER.SP;
+        FLAG.CHECK_NEGATIVE(CPU_REGISTER.A);
+        FLAG.CHECK_ZERO(CPU_REGISTER.A);
+
+        if(CPU_MEMORY.getPage(oldAddr) != CPU_MEMORY.getPage(newAddr))
+        {
+            retCycle = 5;
+        }
+        else
+        {
+            retCycle = 4;
+        }
+        CPU_REGISTER.PC += 3;
+        return retCycle;
+    }
+
+    //****************************************
+    //                  LAX
+    //****************************************
+
+    public static void ZP_LAX()//Zero page
+    {
+        int tmp, addr;
+
+        addr = ADDRESS.get8BitAddressOperand();
+        tmp = CPU_MEMORY.read8Bit(addr);
+        CPU_REGISTER.A = tmp;
+        CPU_REGISTER.X = tmp;
+        FLAG.CHECK_NEGATIVE(tmp);
+        FLAG.CHECK_ZERO(tmp);
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void ZP_Y_LAX()//Zero page, Y
+    {
+        int tmp, addr;
+
+        addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.Y) & 0xff;
+        tmp = CPU_MEMORY.read8Bit(addr);
+        CPU_REGISTER.A = tmp;
+        CPU_REGISTER.X = tmp;
+        FLAG.CHECK_NEGATIVE(tmp);
+        FLAG.CHECK_ZERO(tmp);
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static void ABS_LAX()//Absolute
+    {
+        int tmp, addr;
+
+        addr = ADDRESS.get16BitAddressOperand();
+        tmp = CPU_MEMORY.read8Bit(addr);
+        CPU_REGISTER.A = tmp;
+        CPU_REGISTER.X = tmp;
+        FLAG.CHECK_NEGATIVE(tmp);
+        FLAG.CHECK_ZERO(tmp);
+        CPU_REGISTER.PC += 3;
+    }
+
+    public static int ABS_Y_LAX()//Absolute Y
+    {
+        int tmp, retCycle, oldAddr, newAddr;
+
+        oldAddr = ADDRESS.get16BitAddressOperand();
+        newAddr = (oldAddr + CPU_REGISTER.Y) & 0xffff;
+
+        tmp = CPU_MEMORY.read8Bit(newAddr);
+        CPU_REGISTER.A = tmp;
+        CPU_REGISTER.X = tmp;
+        FLAG.CHECK_NEGATIVE(tmp);
+        FLAG.CHECK_ZERO(tmp);
+
+        if(CPU_MEMORY.getPage(oldAddr) != CPU_MEMORY.getPage(newAddr))
+        {
+            retCycle = 5;
+        }
+        else
+        {
+            retCycle = 4;
+        }
+        CPU_REGISTER.PC += 3;
+
+        return retCycle;
+    }
+
+    public static void IND_X_LAX()//Indirect X
+    {
+        int tmp, addr, MSB, LSB;
+
+        LSB = CPU_MEMORY.read8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.X) & 0xff);
+        MSB = CPU_MEMORY.read8Bit(((CPU_MEMORY.read8Bit(CPU_REGISTER.PC + 1) + CPU_REGISTER.X) + 1) & 0xff);
+        addr = MSB * 0x100 + LSB;
+        
+        tmp = CPU_MEMORY.read8Bit(addr);
+        CPU_REGISTER.A = tmp;
+        CPU_REGISTER.X = tmp;
+        FLAG.CHECK_NEGATIVE(tmp);
+        FLAG.CHECK_ZERO(tmp);
+        CPU_REGISTER.PC += 2;
+    }
+
+    public static int IND_Y_LAX()//Indirect Y
+    {
+        int tmp, oldAddr, newAddr, MSB, LSB, retCycle;
+
+        LSB = CPU_MEMORY.fastRead8Bit(ADDRESS.get8BitAddressOperand());
+        MSB = CPU_MEMORY.fastRead8Bit((ADDRESS.get8BitAddressOperand() + 1) & 0xff);
+        oldAddr = ((MSB << 8) | LSB);
+        newAddr = (oldAddr + CPU_REGISTER.Y) & 0xffff;
+
+        tmp = CPU_MEMORY.read8Bit(newAddr);
+        CPU_REGISTER.A = tmp;
+        CPU_REGISTER.X = tmp;
+        FLAG.CHECK_NEGATIVE(tmp);
+        FLAG.CHECK_ZERO(tmp);
+
+        if(CPU_MEMORY.getPage(oldAddr) != CPU_MEMORY.getPage(newAddr))
+        {
+            retCycle = 6;
+        }
+        else
+        {
+            retCycle = 5;
+        }
+        CPU_REGISTER.PC += 2;
+        return retCycle;
+    }
 }
