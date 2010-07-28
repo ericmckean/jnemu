@@ -831,6 +831,129 @@ public class cpuCORE
                 UNOFFICIAL.IND_Y_AXA();
                 cycle = 6;
                 break;
+            /************** AXA **************/
+            case 0xCB :
+                UNOFFICIAL.AXS();
+                cycle = 2;
+                break;
+            /************** DCP **************/
+            case 0xC7 :
+                UNOFFICIAL.ZP_DCP();
+                cycle = 5;
+                break;
+            case 0xD7 :
+                UNOFFICIAL.ZP_X_DCP();
+                cycle = 6;
+                break;
+            case 0xCF :
+                UNOFFICIAL.ABS_DCP();
+                cycle = 6;
+                break;
+            case 0xDF :
+                UNOFFICIAL.ABS_X_DCP();
+                cycle = 7;
+                break;
+            case 0xDB :
+                UNOFFICIAL.ABS_Y_DCP();
+                cycle = 7;
+                break;
+            case 0xC3 :
+                UNOFFICIAL.IND_X_DCP();
+                cycle = 8;
+                break;
+            case 0xD3 :
+                UNOFFICIAL.IND_Y_DCP();
+                cycle = 8;
+                break;
+            /************** ISC **************/
+            case 0xE7 :
+                UNOFFICIAL.ZP_ISC();
+                cycle = 5;
+                break;
+            case 0xF7 :
+                UNOFFICIAL.ZP_X_ISC();
+                cycle = 6;
+                break;
+            case 0xEF :
+                UNOFFICIAL.ABS_ISC();
+                cycle = 6;
+                break;
+            case 0xFF :
+                UNOFFICIAL.ABS_X_ISC();
+                cycle = 7;
+                break;
+            case 0xFB :
+                UNOFFICIAL.ABS_Y_ISC();
+                cycle = 7;
+                break;
+            case 0xE3 :
+                UNOFFICIAL.IND_X_ISC();
+                cycle = 8;
+                break;
+            case 0xF3 :
+                UNOFFICIAL.IND_Y_ISC();
+                cycle = 8;
+                break;
+            /*************** KIL ***************/
+            //       PROCESSOR LOCK UP
+            // NOTE: Stops the Program Counter
+            /***********************************/
+            case 0x02 :
+                break;
+            case 0x12 :
+                break;
+            case 0x22 :
+                break;
+            case 0x32 :
+                break;
+            case 0x42 :
+                break;
+            case 0x52 :
+                break;
+            case 0x62 :
+                break;
+            case 0x72 :
+                break;
+            case 0x92 :
+                break;
+            case 0xB2 :
+                break;
+            case 0xD2 :
+                break;
+            case 0xF2 :
+                break;
+            /*************** LAR ***************/
+            case 0xBB :
+                cycle = UNOFFICIAL.LAR();
+                break;
+            /*************** LAX ***************/
+            case 0xA7 :
+                UNOFFICIAL.ZP_LAX();
+                cycle = 3;
+                break;
+            case 0xB7 :
+                UNOFFICIAL.ZP_Y_LAX();
+                cycle = 4;
+                break;
+            case 0xAF :
+                UNOFFICIAL.ABS_LAX();
+                cycle = 4;
+                break;
+            case 0xBF :
+                cycle = UNOFFICIAL.ABS_Y_LAX();
+                break;
+            case 0xA3 :
+                UNOFFICIAL.IND_X_LAX();
+                cycle = 6;
+                break;
+            case 0xB3 :
+                cycle = UNOFFICIAL.IND_Y_LAX();
+                break;
+            /*************** SBC ***************/
+            case 0xEB :
+                IMMIDIATE.SBC();
+                cycle = 2;
+                break;
             /************** Unknown Opcode **************/
             default :
                 Console.print("[WARNING] Unknown Opcode " + Integer.toHexString(opcode) + " at " + Integer.toHexString(CPU_REGISTER.PC) + ". Executing NOP.");
