@@ -831,7 +831,7 @@ public class cpuCORE
                 UNOFFICIAL.IND_Y_AXA();
                 cycle = 6;
                 break;
-            /************** AXA **************/
+            /************** AXS **************/
             case 0xCB :
                 UNOFFICIAL.AXS();
                 cycle = 2;
@@ -953,6 +953,145 @@ public class cpuCORE
             case 0xEB :
                 IMMIDIATE.SBC();
                 cycle = 2;
+                break;
+            /*************** RLA ***************/
+            case 0x27 :
+                UNOFFICIAL.ZP_RLA();
+                cycle = 5;
+                break;
+            case 0x37 :
+                UNOFFICIAL.ZP_X_RLA();
+                cycle = 6;
+                break;
+            case 0x2F :
+                UNOFFICIAL.ABS_RLA();
+                cycle = 6;
+                break;
+            case 0x3F :
+                UNOFFICIAL.ABS_X_RLA();
+                cycle = 7;
+                break;
+            case 0x3B :
+                UNOFFICIAL.ABS_Y_RLA();
+                cycle = 7;
+                break;
+            case 0x23 :
+                UNOFFICIAL.IND_X_RLA();
+                cycle = 8;
+                break;
+            case 0x33 :
+                UNOFFICIAL.IND_Y_RLA();
+                cycle = 8;
+                break;
+            /*************** RRA ***************/
+            case 0x67 :
+                UNOFFICIAL.ZP_RRA();
+                cycle = 5;
+                break;
+            case 0x77 :
+                UNOFFICIAL.ZP_X_RRA();
+                cycle = 6;
+                break;
+            case 0x6F :
+                UNOFFICIAL.ABS_RRA();
+                cycle = 6;
+                break;
+            case 0x7F :
+                UNOFFICIAL.ABS_X_RRA();
+                cycle = 7;
+                break;
+            case 0x7B :
+                UNOFFICIAL.ABS_Y_RRA();
+                cycle = 7;
+                break;
+            case 0x63 :
+                UNOFFICIAL.IND_X_RRA();
+                cycle = 8;
+                break;
+            case 0x73 :
+                UNOFFICIAL.IND_Y_RRA();
+                cycle = 8;
+                break;
+            /*************** SLO ***************/
+            case 0x07 :
+                UNOFFICIAL.ZP_SLO();
+                cycle = 5;
+                break;
+            case 0x17 :
+                UNOFFICIAL.ZP_X_SLO();
+                cycle = 6;
+                break;
+            case 0x0F :
+                UNOFFICIAL.ABS_SLO();
+                cycle = 6;
+                break;
+            case 0x1F :
+                UNOFFICIAL.ABS_X_SLO();
+                cycle = 7;
+                break;
+            case 0x1B :
+                UNOFFICIAL.ABS_Y_SLO();
+                cycle = 7;
+                break;
+            case 0x03 :
+                UNOFFICIAL.IND_X_SLO();
+                cycle = 8;
+                break;
+            case 0x13 :
+                UNOFFICIAL.IND_Y_SLO();
+                cycle = 8;
+                break;
+            /*************** SRE ***************/
+            case 0x47 :
+                UNOFFICIAL.ZP_SRE();
+                cycle = 5;
+                break;
+            case 0x57 :
+                UNOFFICIAL.ZP_X_SRE();
+                cycle = 6;
+                break;
+            case 0x4F :
+                UNOFFICIAL.ABS_SRE();
+                cycle = 6;
+                break;
+            case 0x5F :
+                UNOFFICIAL.ABS_X_SRE();
+                cycle = 7;
+                break;
+            case 0x5B :
+                UNOFFICIAL.ABS_Y_SRE();
+                cycle = 7;
+                break;
+            case 0x43 :
+                UNOFFICIAL.IND_X_SRE();
+                cycle = 8;
+                break;
+            case 0x53 :
+                UNOFFICIAL.IND_Y_SRE();
+                cycle = 8;
+                break;
+            /*************** SXA ***************/
+            case 0x9E :
+                UNOFFICIAL.SXA();
+                cycle = 5;
+                break;
+            /*************** SYA ***************/
+            case 0x9C :
+                UNOFFICIAL.SYA();
+                cycle = 5;
+                break;
+            /*************** XAA ***************/
+            //FIXME: Exact operation unknown. Read the referenced documents
+            //       for more information and observations.
+
+            case 0x8B :
+                CPU_REGISTER.PC += 2;
+                cycle = 2;
+                break;
+            /*************** XAS ***************/
+            case 0x9B :
+                UNOFFICIAL.XAS();
+                cycle = 5;
                 break;
             /************** Unknown Opcode **************/
             default :
