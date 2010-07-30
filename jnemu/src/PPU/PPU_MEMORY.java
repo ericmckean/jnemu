@@ -15,7 +15,8 @@ public class PPU_MEMORY
 
     public static int readPPUMemory(int address)
     {
-        return PPU_MEMORY_MAP[address >> 8][address & 0xff];
+        int addr = address;
+        return PPU_MEMORY_MAP[addr >> 8][addr & 0xff];
     }
 
     public static void writePPUMemory(int address, int value)
@@ -47,6 +48,21 @@ public class PPU_MEMORY
         {
             Console.print("[ERROR] PPU MEM WRITE - $" + Integer.toHexString(address) + " : " + e.toString());
         }
+    }
+
+    public static int getActualPpuMemoryAddr(int addr)
+    {
+        int tmp = 0;
+
+        if(addr >= 0x3f00 && addr <= 0x3fff)
+        {
+            tmp = addr; //Palette fetching
+        }
+        else
+        {
+            tmp = (addr & 0xfff) | 0x2000; //Nametable fetching
+        }
+        return tmp;
     }
 
     public static String getMemContent(int start, int end)
