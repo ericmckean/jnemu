@@ -17,7 +17,6 @@ public class emuCORE
     public static boolean isRunning = false;
     public static Thread emuThread;
     static coreTHREAD core;
-    public static int MasterCycle;
 
     public static void init()
     {
@@ -49,7 +48,7 @@ public class emuCORE
             mapperCORE.init();
 
             //Jump to Reset Vector.....
-            CPU_REGISTER.PC = CPU_MEMORY.getResetVector();
+            CPU_REGISTER.PC = 0xC000;//CPU_MEMORY.getResetVector();
 
             OPCODE_FETCHER.loadOpcode(CPU_REGISTER.PC);
             //Show data on the debugger.................
@@ -233,7 +232,6 @@ class coreTHREAD implements Runnable
                     LogTmp.delete(0,LogTmp.length());
                 }
                 cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
-                emuCORE.MasterCycle = cpuCORE.CYCLE * 15; //NTSC NES...
                 ppuCORE.execPPU();
             }
             catch(Exception e)

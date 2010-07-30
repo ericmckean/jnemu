@@ -17,15 +17,13 @@
 package PPU;
 
 import CPU.cpuCORE;
-import jnemu.emuCORE;
 
 public class ppuCORE
 {
     public static int SCANLINE; //Scanline counter............
     public static boolean VBlankPremEnd;
     public static boolean isNMI;
-    static int PPU_ADDR; //Address form PPUADDR ($2006)...
-    static int MSB, LSB;
+    public static int PPU_ADDR; //Address form PPUADDR ($2006)...
     public static boolean isFirstWrite;
     public static boolean isAccessingPPUADDR;
     public static boolean isWritingPPUDATA;
@@ -41,8 +39,6 @@ public class ppuCORE
         VBlankPremEnd = false;
         isNMI = false;
         PPU_ADDR = 0;
-        MSB = 0;
-        LSB = 0;
         isFirstWrite = true;
         isAccessingPPUADDR = true;
         isWritingPPUDATA = false;
@@ -59,8 +55,8 @@ public class ppuCORE
         //**********************************************
         //         1 CPU Cycle = 3 PPU Cycle
         //**********************************************
-        PpuCycle = emuCORE.MasterCycle / 5; //Get the actual PPU Cycle...
-        if(PpuCycle > 341)
+        PpuCycle = cpuCORE.CYCLE * 3; //Get the actual PPU Cycle...
+        if(PpuCycle >= 341)
         {
             SCANLINE++;
             PpuCycle = 1;
@@ -75,59 +71,8 @@ public class ppuCORE
                 //        Read / Write During VBlank
                 //              $2006 - $2007
                 //******************************************
-                if(isAccessingPPUADDR)
-                {
-                    if(isFirstWrite)
-                    {
-                        MSB = PPU_REGISTER.getPPUAddr();
-                        isFirstWrite = false;
-                    }
-                    else
-                    {
-                        LSB = PPU_REGISTER.getPPUAddr();
-                        PPU_ADDR = (MSB << 8) | LSB; //get the actual PPU address..
-                        //FIXME: put value of memory is PPUDATA according to
-                        //PPUADDR's address content for reading purposes....
-                        //Console.print("[PPU_ADDR] " + Integer.toHexString(PPU_ADDR));
-                        PPU_REGISTER.setPPUData(PPU_MEMORY.readPPUMemory(PPU_ADDR));
-                        isFirstWrite = true;
-                        isAccessingPPUADDR = false;
-                    }
-                }
-
-                if(isWritingPPUDATA)
-                {
-                    //FIXME: write the value of PPUDATA to PPU memory according to
-                    //PPUADDR's address content...
-                    //Console.print("[$2007] " + Integer.toHexString(PPU_REGISTER.getPPUData()));
-                    PPU_MEMORY.writePPUMemory(PPU_ADDR, PPU_REGISTER.getPPUData());
-                    if(PPU_REGISTER.getVramAddressInc() == 0)
-                    {
-                        PPU_ADDR++;
-                        PPU_ADDR &= 0x3fff;
-                    }
-                    else
-                    {
-                        PPU_ADDR += 32;
-                        PPU_ADDR &= 0x3fff;
-                    }
-                    isWritingPPUDATA = false;
-                }
-                else if(isReadingPPUDATA)
-                {
-                    PPU_REGISTER.setPPUData(PPU_MEMORY.readPPUMemory(PPU_ADDR));
-                    if(PPU_REGISTER.getVramAddressInc() == 0)
-                    {
-                        PPU_ADDR++;
-                        PPU_ADDR &= 0x3fff;
-                    }
-                    else
-                    {
-                        PPU_ADDR += 32;
-                        PPU_ADDR &= 0x3fff;
-                    }
-                    isReadingPPUDATA = false;
-                }
+                NAME_TABLE.readNameTable();
+                NAME_TABLE.fetchNameTable();
 
                 //******************************************
                 //      OAM Read / Write During VBlank
@@ -162,13 +107,14 @@ public class ppuCORE
                     //prematurely terminated as it will cause an infinite loop..
                     VBlankPremEnd = false;
                     isNMI = false;
+                    //Clear the PPUSCROLL and PPUADDR address latch...
+                    PPU_ADDR = 0;
                 }
             }
-            else if(SCANLINE == 260)
+            else if(SCANLINE == 261)
             {
                 PPU_REGISTER.clearVBlankFlag();
                 PpuCycle = 0;
-                emuCORE.MasterCycle = 0;
                 SCANLINE = -1;
             }
         }
@@ -177,60 +123,8 @@ public class ppuCORE
             //********************************
             //         HBlank Period
             //********************************
-
-            if(isAccessingPPUADDR)
-            {
-                if(isFirstWrite)
-                {
-                    MSB = PPU_REGISTER.getPPUAddr();
-                    isFirstWrite = false;
-                }
-                else
-                {
-                    LSB = PPU_REGISTER.getPPUAddr();
-                    PPU_ADDR = (MSB << 8) | LSB; //get the actual PPU address..
-                    //FIXME: put value of memory is PPUDATA according to
-                    //PPUADDR's address content for reading purposes....
-                    //Console.print("[PPU_ADDR] " + Integer.toHexString(PPU_ADDR));
-                    PPU_REGISTER.setPPUData(PPU_MEMORY.readPPUMemory(PPU_ADDR));
-                    isFirstWrite = true;
-                    isAccessingPPUADDR = false;
-                }
-            }
-
-            if(isWritingPPUDATA)
-            {
-                //FIXME: write the value of PPUDATA to PPU memory according to
-                //PPUADDR's address content...
-                //Console.print("[$2007] " + Integer.toHexString(PPU_REGISTER.getPPUData()));
-                PPU_MEMORY.writePPUMemory(PPU_ADDR, PPU_REGISTER.getPPUData());
-                if(PPU_REGISTER.getVramAddressInc() == 0)
-                {
-                    PPU_ADDR++;
-                    PPU_ADDR &= 0x3fff;
-                }
-                else
-                {
-                    PPU_ADDR += 32;
-                    PPU_ADDR &= 0x3fff;
-                }
-                isWritingPPUDATA = false;
-            }
-            else if(isReadingPPUDATA)
-            {
-                PPU_REGISTER.setPPUData(PPU_MEMORY.readPPUMemory(PPU_ADDR));
-                if(PPU_REGISTER.getVramAddressInc() == 0)
-                {
-                    PPU_ADDR++;
-                    PPU_ADDR &= 0x3fff;
-                }
-                else
-                {
-                    PPU_ADDR += 32;
-                    PPU_ADDR &= 0x3fff;
-                }
-                isReadingPPUDATA = false;
-            }
+            NAME_TABLE.readNameTable();
+            NAME_TABLE.fetchNameTable();
 
             //******************************************
             //      OAM Read / Write During HBlank
