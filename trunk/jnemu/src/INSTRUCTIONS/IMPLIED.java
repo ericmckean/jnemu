@@ -128,7 +128,7 @@ public class IMPLIED
 
     public static void PLP()
     {
-        CPU_REGISTER.SR = ((STACK.Pull() | 0x20) & 0xef); //Enable bit 5 disable bit 4...
+        CPU_REGISTER.SR = (STACK.Pull() & 0xef) | 0x20; //Enable bit 5 disable bit 4...
         CPU_REGISTER.PC += 1;
     }
 
@@ -185,8 +185,8 @@ public class IMPLIED
         int pc;
 
         pc = CPU_REGISTER.PC + 2;
-        STACK.Push(pc & 0xFF); //LSB
         STACK.Push(pc >> 8);   //MSB
+        STACK.Push(pc & 0xff); //LSB
         STACK.Push((CPU_REGISTER.SR | 0x30)); //Set Bit 4 and 5 during push...
 
         CPU_REGISTER.PC = CPU_MEMORY.getIRQVector();

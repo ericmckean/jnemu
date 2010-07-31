@@ -98,15 +98,75 @@ public class CPU_MEMORY
         {
             ppuCORE.isWritingOAMDATA = true;
         }
-        MEMORY_MAP[page][address & 0xFF] = value;
+        MEMORY_MAP[page][address & 0xff] = value;
         //***************************************************
         //                MEMORY Mirroring
         //***************************************************
         if(page >= 0 && page <= 7) //Mirror from page 0-7 (3x)
         {
-            MEMORY_MAP[page + 8][address & 0xFF] = value;     //Mirror 1
-            MEMORY_MAP[page + 16][address & 0xFF] = value;    //Mirror 2
-            MEMORY_MAP[page + 24][address & 0xFF] = value;    //Mirror 3
+            MEMORY_MAP[page + 8][address & 0xff] = value;     //Mirror 1
+            MEMORY_MAP[page + 16][address & 0xff] = value;    //Mirror 2
+            MEMORY_MAP[page + 24][address & 0xff] = value;    //Mirror 3
+        }
+        else if(page == 0x20)
+        {
+            int ctr;
+            if((address & 0xff) == 0x00)
+            {
+                for(ctr=0x2008; ctr<=0x3ff8; ctr+=8)
+                {
+                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                }
+            }
+            else if((address & 0xff) == 0x01)
+            {
+                for(ctr=0x2009; ctr<=0x3ff9; ctr+=8)
+                {
+                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                }
+            }
+            else if((address & 0xff) == 0x02)
+            {
+                for(ctr=0x200a; ctr<=0x3ffa; ctr+=8)
+                {
+                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                }
+            }
+            else if((address & 0xff) == 0x03)
+            {
+                for(ctr=0x200b; ctr<=0x3ffb; ctr+=8)
+                {
+                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                }
+            }
+            else if((address & 0xff) == 0x04)
+            {
+                for(ctr=0x200c; ctr<=0x3ffc; ctr+=8)
+                {
+                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                }
+            }
+            else if((address & 0xff) == 0x05)
+            {
+                for(ctr=0x200d; ctr<=0x3ffd; ctr+=8)
+                {
+                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                }
+            }
+            else if((address & 0xff) == 0x06)
+            {
+                for(ctr=0x200e; ctr<=0x3ffe; ctr+=8)
+                {
+                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                }
+            }
+            else if((address & 0xff) == 0x07)
+            {
+                for(ctr=0x200f; ctr<=0x3fff; ctr+=8)
+                {
+                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                }
+            }
         }
     }
 
@@ -123,8 +183,8 @@ public class CPU_MEMORY
         //*********************************************
         int MSB, LSB, tmp;
 
-        MSB = fastRead8Bit(0xFFFD);
-        LSB = fastRead8Bit(0xFFFC);
+        MSB = fastRead8Bit(0xfffd);
+        LSB = fastRead8Bit(0xfffc);
         tmp = (MSB << 8) | LSB;
 
         return tmp;
@@ -138,8 +198,8 @@ public class CPU_MEMORY
         //*********************************************
         int MSB, LSB, tmp;
 
-        MSB = fastRead8Bit(0xFFFB);
-        LSB = fastRead8Bit(0xFFFA);
+        MSB = fastRead8Bit(0xfffb);
+        LSB = fastRead8Bit(0xfffa);
         tmp = (MSB << 8) | LSB;
 
         return tmp;
@@ -153,8 +213,8 @@ public class CPU_MEMORY
         //*********************************************
         int MSB, LSB, tmp;
 
-        MSB = fastRead8Bit(0xFFFF);
-        LSB = fastRead8Bit(0xFFFE);
+        MSB = fastRead8Bit(0xffff);
+        LSB = fastRead8Bit(0xfffe);
         tmp = (MSB << 8) | LSB;
 
         return tmp;

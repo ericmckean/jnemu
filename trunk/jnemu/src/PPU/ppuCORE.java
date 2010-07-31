@@ -55,7 +55,7 @@ public class ppuCORE
         //**********************************************
         //         1 CPU Cycle = 3 PPU Cycle
         //**********************************************
-        PpuCycle = cpuCORE.CYCLE * 3; //Get the actual PPU Cycle...
+        PpuCycle = cpuCORE.CYCLE; //Get the actual PPU Cycle...
         if(PpuCycle >= 341)
         {
             SCANLINE++;
