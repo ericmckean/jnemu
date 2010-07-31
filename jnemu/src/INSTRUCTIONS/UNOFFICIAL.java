@@ -79,8 +79,6 @@ public class UNOFFICIAL
 
         addr = ADDRESS.get8BitAddressOperand();
         tmp = (CPU_REGISTER.X & CPU_REGISTER.A) & 0xff;
-        FLAG.CHECK_NEGATIVE(tmp);
-        FLAG.CHECK_ZERO(tmp);
         CPU_MEMORY.write8Bit(addr, tmp);
         CPU_REGISTER.PC += 2;
     }
@@ -91,8 +89,6 @@ public class UNOFFICIAL
 
         addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.Y) & 0xff;
         tmp = (CPU_REGISTER.X & CPU_REGISTER.A) & 0xff;
-        FLAG.CHECK_NEGATIVE(tmp);
-        FLAG.CHECK_ZERO(tmp);
         CPU_MEMORY.write8Bit(addr, tmp);
         CPU_REGISTER.PC += 2;
     }
@@ -106,8 +102,6 @@ public class UNOFFICIAL
         addr = MSB * 0x100 + LSB;
 
         tmp = (CPU_REGISTER.X & CPU_REGISTER.A) & 0xff;
-        FLAG.CHECK_NEGATIVE(tmp);
-        FLAG.CHECK_ZERO(tmp);
         CPU_MEMORY.write8Bit(addr, tmp);
         CPU_REGISTER.PC += 2;
     }
@@ -118,8 +112,6 @@ public class UNOFFICIAL
 
         addr = ADDRESS.get16BitAddressOperand();
         tmp = (CPU_REGISTER.X & CPU_REGISTER.A) & 0xff;
-        FLAG.CHECK_NEGATIVE(tmp);
-        FLAG.CHECK_ZERO(tmp);
         CPU_MEMORY.write8Bit(addr, tmp);
         CPU_REGISTER.PC += 3;
     }

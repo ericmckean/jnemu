@@ -66,13 +66,9 @@ public class FLAG
         }
     }
 
-    public static void CHECK_OVERFLOW_SBC(int Value1, int Value2)
+    public static void CHECK_OVERFLOW_SBC(int AC, int Value, int Result)
     {
-        if((Value1 & 0x80) != 0 && (Value2 & 0x80) == 0)
-        {
-            CPU_REGISTER.setOverflowFlag();
-        }
-        else if((Value1 & 0x80) == 0 && (Value2 & 0x80) != 0)
+        if(((AC ^ Result) & 0x80) == 0x80 && ((AC ^ Value) & 0x80) == 0x80)
         {
             CPU_REGISTER.setOverflowFlag();
         }

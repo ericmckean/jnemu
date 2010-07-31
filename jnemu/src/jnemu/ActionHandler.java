@@ -157,6 +157,24 @@ public class ActionHandler implements ActionListener
                 mEnd = 0xff;
                 NES_DEBUGGER.mv.setText(OAM.getMemContent(mStart, mEnd));
             }
+            else if(c.equals("Mirror of $2000-$2007"))
+            {
+                mStart = 0x2000;
+                mEnd = 0x3fff;
+                NES_DEBUGGER.mv.setText(CPU_MEMORY.getMemContent(mStart, mEnd));
+            }
+            else if(c.equals("APU and I/O Register $4000-$4019"))
+            {
+                mStart = 0x4000;
+                mEnd = 0x4019;
+                NES_DEBUGGER.mv.setText(CPU_MEMORY.getMemContent(mStart, mEnd));
+            }
+            else if(c.equals("Expansion ROM $4020-$5FFF"))
+            {
+                mStart = 0x4020;
+                mEnd = 0x5FFF;
+                NES_DEBUGGER.mv.setText(CPU_MEMORY.getMemContent(mStart, mEnd));
+            }
         }
        
     }

@@ -48,7 +48,7 @@ public class emuCORE
             mapperCORE.init();
 
             //Jump to Reset Vector.....
-            CPU_REGISTER.PC = 0xC000;//CPU_MEMORY.getResetVector();
+            CPU_REGISTER.PC = CPU_MEMORY.getResetVector();
 
             OPCODE_FETCHER.loadOpcode(CPU_REGISTER.PC);
             //Show data on the debugger.................
@@ -245,7 +245,7 @@ class coreTHREAD implements Runnable
                     msg.append(e.getStackTrace()[ctr].getFileName() + ": ");
                     msg.append(e.getStackTrace()[ctr].getMethodName() + ": ");
                     msg.append("Line " + e.getStackTrace()[ctr].getLineNumber());
-                    Console.print("[ERROR] " + msg.toString());
+                    Console.print("[ERROR] coreTHREAD - " + msg.toString());
                 }
                 emuCORE.STOP();
             }
