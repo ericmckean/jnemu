@@ -50,21 +50,6 @@ public class PPU_MEMORY
         }
     }
 
-    public static int getActualPpuMemoryAddr(int addr)
-    {
-        int tmp = 0;
-
-        if(addr >= 0x3f00 && addr <= 0x3fff)
-        {
-            tmp = addr; //Palette fetching
-        }
-        else
-        {
-            tmp = (addr & 0xfff) | 0x2000; //Nametable fetching
-        }
-        return tmp;
-    }
-
     public static String getMemContent(int start, int end)
     {
         int ctr, ctr2, tmp;
