@@ -144,5 +144,9 @@ public class ppuCORE
                 isWritingOAMDATA = false;
             }
         }
+        else
+        {
+            NAME_TABLE.fetchNameTable();
+        }
     }
 }

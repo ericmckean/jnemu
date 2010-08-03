@@ -29,12 +29,15 @@ public class NAME_TABLE
 
     public static void fetchNameTable()
     {
+        int AddrTmp;
         if(ppuCORE.isWritingPPUDATA)
         {
             //FIXME: write the value of PPUDATA to PPU memory according to
             //PPUADDR's address content...
             //Console.print("[$2007] " + Integer.toHexString(PPU_REGISTER.getPPUData()));
-            PPU_MEMORY.writePPUMemory(PPU_MEMORY.getActualPpuMemoryAddr(ppuCORE.PPU_ADDR), PPU_REGISTER.getPPUData());
+            AddrTmp = getActualPpuMemoryAddr(ppuCORE.PPU_ADDR);
+            PPU_MEMORY.writePPUMemory(AddrTmp, PPU_REGISTER.getPPUData());
+            MIRRORING.Mirror(AddrTmp, PPU_REGISTER.getPPUData());
             if(PPU_REGISTER.getVramAddressInc() == 0)
             {
                 ppuCORE.PPU_ADDR++;
@@ -62,5 +65,20 @@ public class NAME_TABLE
             }
             ppuCORE.isReadingPPUDATA = false;
         }
+    }
+
+    private static int getActualPpuMemoryAddr(int addr)
+    {
+        int tmp = 0;
+
+        if(addr >= 0x3f00 && addr <= 0x3fff)
+        {
+            tmp = addr; //Palette fetching
+        }
+        else
+        {
+            tmp = (addr & 0xfff) | 0x2000; //Nametable fetching
+        }
+        return tmp;
     }
 }
