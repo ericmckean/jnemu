@@ -1,5 +1,7 @@
 package PPU;
 
+import CARTRIDGE.ROM_INFO;
+
 public class NAME_TABLE
 {
     private static int MSB, LSB;
@@ -69,16 +71,6 @@ public class NAME_TABLE
 
     private static int getActualPpuMemoryAddr(int addr)
     {
-        int tmp = 0;
-
-        if(addr >= 0x3f00 && addr <= 0x3fff)
-        {
-            tmp = addr; //Palette fetching
-        }
-        else
-        {
-            tmp = (addr & 0xfff) | 0x2000; //Nametable fetching
-        }
-        return tmp;
+        return (addr & 0xfff) | 0x2000;
     }
 }
