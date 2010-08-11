@@ -5,7 +5,7 @@ import CARTRIDGE.ROM_IO;
 import CPU.CPU_MEMORY;
 import DEBUGGER.NES_DEBUGGER;
 import MISC.INOUT;
-import PPU.OAM;
+import PPU.OAM_MEMORY;
 import PPU.PPU_MEMORY;
 
 import java.awt.event.ActionEvent;
@@ -148,14 +148,14 @@ public class ActionHandler implements ActionListener
             else if(c.equals("Palette"))
             {
                 mStart = 0x3F00;
-                mEnd = 0x3F20;
+                mEnd = 0x3FFF;
                 NES_DEBUGGER.mv.setText(PPU_MEMORY.getMemContent(mStart, mEnd));
             }
             else if(c.equals("OAM"))
             {
                 mStart = 0x00;
                 mEnd = 0xff;
-                NES_DEBUGGER.mv.setText(OAM.getMemContent(mStart, mEnd));
+                NES_DEBUGGER.mv.setText(OAM_MEMORY.getMemContent(mStart, mEnd));
             }
             else if(c.equals("Mirror of $2000-$2007"))
             {

@@ -4,7 +4,7 @@ import MISC.CONVERTER;
 import java.text.DecimalFormat;
 import jnemu.Console;
 
-public class OAM
+public class OAM_MEMORY
 {
     private static int[] OAM_MAP;
 
@@ -13,12 +13,12 @@ public class OAM
         OAM_MAP = new int[0x101];
     }
 
-    public static int readOAM(int address)
+    public static int Read(int address)
     {
         return OAM_MAP[address];
     }
 
-    public static void writeOAM(int address, int Value)
+    public static void Write(int address, int Value)
     {
         OAM_MAP[address] = Value;
     }
@@ -51,7 +51,7 @@ public class OAM
             for(ctr=start; ctr<=end; ctr++)
             {
                 ctr2 += 1;
-                tmp = OAM.readOAM(ctr);
+                tmp = OAM_MEMORY.Read(ctr);
                 if(ctr2 != BASE)
                 {
                     if(tmp != 0)

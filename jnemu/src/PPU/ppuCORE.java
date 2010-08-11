@@ -32,6 +32,7 @@ public class ppuCORE
     public static boolean isWritingOAMDATA;
     static int OAM_ADDR;
     public static int PpuCycle;
+    public static int InternalBuffer;
     
     public static void init()
     {
@@ -46,8 +47,9 @@ public class ppuCORE
         isAccessingOAMADDR = false;
         isWritingOAMDATA = false;
         PpuCycle = 0;
+        InternalBuffer = 0;
         PPU_MEMORY.init();
-        OAM.init();
+        OAM_MEMORY.init();
     }
 
     public static void execPPU()
@@ -56,6 +58,11 @@ public class ppuCORE
         //         1 CPU Cycle = 3 PPU Cycle
         //**********************************************
         PpuCycle = cpuCORE.CYCLE * 3; //Get the actual PPU Cycle...
+        VRAM.checkForSetAddr();
+        VRAM.checkForRead();
+        VRAM.checkForWrite();
+        oamCORE.checkForRead();
+        oamCORE.checkForWrite();
         if(PpuCycle >= 341)
         {
             SCANLINE++;
@@ -67,31 +74,6 @@ public class ppuCORE
                 //              VBlank Period
                 //*******************************************
                 PPU_REGISTER.setVBlankFlag();
-                //******************************************
-                //        Read / Write During VBlank
-                //              $2006 - $2007
-                //******************************************
-                NAME_TABLE.readNameTable();
-                NAME_TABLE.fetchNameTable();
-
-                //******************************************
-                //      OAM Read / Write During VBlank
-                //              $2003 - $2004
-                //******************************************
-                if(isAccessingOAMADDR)
-                {
-                    OAM_ADDR = PPU_REGISTER.getOAMADDR();
-                    PPU_REGISTER.setOAM_DMA(OAM.readOAM(OAM_ADDR));
-                    isAccessingOAMADDR = false;
-                }
-                else if(isWritingOAMDATA)
-                {
-                    OAM.writeOAM(OAM_ADDR, PPU_REGISTER.getOAMDATA());
-                    OAM_ADDR++;
-                    OAM_ADDR &= 0xff;
-                    isWritingOAMDATA = false;
-                }
-
                 //******************************************
                 //               NMI Section
                 //******************************************
@@ -123,30 +105,6 @@ public class ppuCORE
             //********************************
             //         HBlank Period
             //********************************
-            NAME_TABLE.readNameTable();
-            NAME_TABLE.fetchNameTable();
-
-            //******************************************
-            //      OAM Read / Write During HBlank
-            //              $2003 - $2004
-            //******************************************
-            if(isAccessingOAMADDR)
-            {
-                OAM_ADDR = PPU_REGISTER.getOAMADDR();
-                PPU_REGISTER.setOAM_DMA(OAM.readOAM(OAM_ADDR));
-                isAccessingOAMADDR = false;
-            }
-            else if(isWritingOAMDATA)
-            {
-                OAM.writeOAM(OAM_ADDR, PPU_REGISTER.getOAMDATA());
-                OAM_ADDR++;
-                OAM_ADDR &= 0xff;
-                isWritingOAMDATA = false;
-            }
-        }
-        else
-        {
-            NAME_TABLE.fetchNameTable();
         }
     }
 }
