@@ -30,16 +30,7 @@ class OpcodeFormatter extends Formatter
         StringBuilder tmp = new StringBuilder(10);
 
         tmp.append("<html><head></head><body>");
-        tmp.append("<table border='0'><tr>");
-        tmp.append("<td width='100'>");
-        tmp.append("<b>ADDR</b>");
-        tmp.append("</td>");
-        tmp.append("<td width='100'>");
-        tmp.append("<b>CODE</b>");
-        tmp.append("</td>");
-        tmp.append("<td width='400'>");
-        tmp.append("<b>REGISTER</b>");
-        tmp.append("</td></tr>");
+        tmp.append("<table border='0'>");
         return tmp.toString();
     }
 

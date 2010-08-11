@@ -1,12 +1,10 @@
 package PPU;
 
-import CARTRIDGE.ROM_INFO;
-
-public class NAME_TABLE
+public class VRAM
 {
     private static int MSB, LSB;
 
-    public static void readNameTable()
+    public static void checkForSetAddr()
     {
         if(ppuCORE.isAccessingPPUADDR)
         {
@@ -22,14 +20,33 @@ public class NAME_TABLE
                 //FIXME: put value of memory is PPUDATA according to
                 //PPUADDR's address content for reading purposes....
                 //Console.print("[PPU_ADDR] " + Integer.toHexString(PPU_ADDR));
-                PPU_REGISTER.setPPUData(PPU_MEMORY.readPPUMemory(ppuCORE.PPU_ADDR));
+                PPU_REGISTER.setPPUData(ppuCORE.InternalBuffer);
+                ppuCORE.InternalBuffer = PPU_MEMORY.readPPUMemory(ppuCORE.PPU_ADDR);
                 ppuCORE.isFirstWrite = true;
                 ppuCORE.isAccessingPPUADDR = false;
             }
         }
     }
 
-    public static void fetchNameTable()
+    public static void checkForRead()
+    {
+        if(ppuCORE.isReadingPPUDATA)
+        {
+            if(PPU_REGISTER.getVramAddressInc() == 0)
+            {
+                ppuCORE.PPU_ADDR++;
+                ppuCORE.PPU_ADDR &= 0x3fff;
+            }
+            else
+            {
+                ppuCORE.PPU_ADDR += 32;
+                ppuCORE.PPU_ADDR &= 0x3fff;
+            }
+            ppuCORE.isReadingPPUDATA = false;
+        }
+    }
+
+    public static void checkForWrite()
     {
         int AddrTmp;
         if(ppuCORE.isWritingPPUDATA)
@@ -71,6 +88,7 @@ public class NAME_TABLE
 
     private static int getActualPpuMemoryAddr(int addr)
     {
-        return (addr & 0xfff) | 0x2000;
+        return (addr & 0xfff) + 0x2000;
+        //return addr;
     }
 }

@@ -38,6 +38,29 @@ public class CONVERTER
        return tmp.toString();
    }
 
+   public static String _space(int b)
+   {
+       StringBuilder tmp = new StringBuilder();
+       String x;
+
+       x = Integer.toString(b);
+       if(x.length() == 1)
+       {
+           tmp.append("&nbsp;&nbsp;");
+           tmp.append(x);
+       }
+       else if(x.length() == 2)
+       {
+           tmp.append("&nbsp;");
+           tmp.append(x);
+       }
+       else
+       {
+           tmp.append(x);
+       }
+       return tmp.toString();
+   }
+
    public static String byteTo16BitStringHex(byte b)
    {
        StringBuilder tmp = new StringBuilder();
