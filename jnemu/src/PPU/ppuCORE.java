@@ -23,7 +23,7 @@ public class ppuCORE
     public static int SCANLINE; //Scanline counter............
     public static boolean VBlankPremEnd;
     public static boolean isNMI;
-    public static int PPU_ADDR; //Address form PPUADDR ($2006)...
+    public static int PPU_ADDR_LATCH; //Address form PPUADDR ($2006)...
     public static boolean isFirstWrite;
     public static boolean isAccessingPPUADDR;
     public static boolean isWritingPPUDATA;
@@ -39,7 +39,7 @@ public class ppuCORE
         SCANLINE = 241;
         VBlankPremEnd = false;
         isNMI = false;
-        PPU_ADDR = 0;
+        PPU_ADDR_LATCH = 0;
         isFirstWrite = true;
         isAccessingPPUADDR = true;
         isWritingPPUDATA = false;
@@ -90,7 +90,7 @@ public class ppuCORE
                     VBlankPremEnd = false;
                     isNMI = false;
                     //Clear the PPUSCROLL and PPUADDR address latch...
-                    PPU_ADDR = 0;
+                    PPU_ADDR_LATCH = 0;
                 }
             }
             else if(SCANLINE == 261)
