@@ -1,7 +1,6 @@
 package MISC;
 
 import jnemu.Main;
-import jnemu.Console;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
@@ -39,7 +38,7 @@ public class INOUT
         }
         catch(Exception e)
         {
-            Console.print("[getFilePath]" + e.toString());
+            System.out.println("[getFilePath]" + e.toString());
         }
 
         return tmp;
@@ -91,7 +90,7 @@ public class INOUT
        }
        catch (Exception e)
        {
-            Console.print("[getCharFromString]" + e.toString());
+            System.out.println("[getCharFromString]" + e.toString());
        }
        return tmp;
    }

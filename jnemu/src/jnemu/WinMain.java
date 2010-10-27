@@ -33,7 +33,6 @@ public class WinMain extends JFrame
         setLocation((dim.width / 2) - (scWidth / 2), (dim.height / 2) - (scHeight / 2));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(Color.white);
-        setAlwaysOnTop(true);
 
         p = new RENDERER();
         p.setBounds(0, 0, nesScrWidth, nesScrHeight); //NTSC Resolution...
@@ -115,6 +114,15 @@ public class WinMain extends JFrame
         myConsole = new JCheckBoxMenuItem("Console");
         myConsole.addActionListener(new ActionHandler());
         myMisc.add(myConsole);
+        if(CONFIG.CFG.showConsole)
+        {
+            myConsole.setSelected(true);
+        }
+        else
+        {
+            myConsole.setSelected(false);
+        }
+
 
         JMenuItem myDebugger = new JMenuItem("Debugger");
         myDebugger.setMnemonic('D');

@@ -1,11 +1,8 @@
 package jnemu;
-import CONFIG.cfgCORE;
-import CPU.CPU_MEMORY;
-import CPU.CPU_REGISTER;
+
+import CONFIG.*;
 import DEBUGGER.NES_DEBUGGER;
 import LOGS.LOGGER;
-import MISC.CONVERTER;
-import PPU.ppuCORE;
 
 public class Main
 {
@@ -20,7 +17,21 @@ public class Main
     
     public static void main(String[] args)
     {
-        //Load Emu Config...........
+        //init default config...
+        cfgCORE.initDefault();
+        //Console..
+        con = new Console(CFG.getDefaultConsoleTitle(), 0, 0, 500, 400);
+        if(CONFIG.CFG.showConsole)
+        {
+            con.show();
+        }
+        else
+        {
+            con.hide();
+        }
+
+        System.out.println("JNemu - Java based Nes emulator.");
+        System.out.println("");
 
         //Load Controller Window..
         cont = new NesController();
@@ -46,29 +57,15 @@ public class Main
         opt = new Option();
         opt.setVisible(false);
 
-        //Console..
-        con = new Console();
-        con.setVisible(false);
-
          //Show Main Window..........
         win = new WinMain();
-        //Show Console before main window..
-        Console.displayFrame();
         win.setVisible(true);
         
-        //Clear the Console......
-        Console.clearConsole();
 
         //**************************************
         //           Init CPU Logger
         //**************************************
-        Console.print("Initializing Config...");
-        cfgCORE.initDefault();
-
-        //**************************************
-        //           Init CPU Logger
-        //**************************************
-        Console.print("Initializing LOGGER...");
+        System.out.println("Initializing LOGGER...");
         LOGGER.init();
     }
 

@@ -1,12 +1,13 @@
 package CARTRIDGE;
 
-import jnemu.Console;
+import CONFIG.*;
 import DEBUGGER.NES_DEBUGGER;
 import MISC.CONVERTER;
 import MISC.INOUT;
 
 import java.io.*;
 import java.text.*;
+import jnemu.Main;
 
 public class ROM_IO
 {
@@ -26,13 +27,15 @@ public class ROM_IO
         {
             noSelectedFile = false;
             //Clear the Console.....
-            Console.clearConsole();
+            //Console.clearConsole();
             //load the nes file to cartridge..........
             try
             {
                 File f = new File(path);
                 ROM_INFO.fSize = f.length();
-                Console.print("Loading file [" + f.getName() + "]");
+                System.out.println("");
+                System.out.println("Loading file [" + f.getName() + "]");
+                Main.con.setTitle(CFG.getDefaultConsoleTitle() + " - " + f.getName());
                 RomContent = new byte[(int)f.length()];
                 RomContent = INOUT.getBytesFromFile(f);
                 //System.out.print((int)f.length());
@@ -93,14 +96,14 @@ public class ROM_IO
                 }
                 else
                 {
-                    Console.print("[ERROR] Not a Nes rom file.");
+                    System.out.println("[ERROR] Not a Nes rom file.");
                     isLoaded = false;
                 }
             }
             catch(Exception e)
             {
                 isLoaded = false;
-                Console.print("[loadNesROM] " + e.toString());
+                System.out.println("[loadNesROM] " + e.toString());
             }
         }
     }
@@ -334,7 +337,7 @@ public class ROM_IO
                 }
                 break;
             default :
-                Console.print("[ERROR] Unsupported Rom Bank count.");
+                System.out.println("[ERROR] Unsupported Rom Bank count.");
                 break;
         }
     }
@@ -370,7 +373,7 @@ public class ROM_IO
                 }
                 break;
             default :
-                Console.print("[ERROR] Unsupported VRom Bank count.");
+                System.out.println("[ERROR] Unsupported VRom Bank count.");
                 break;
         }
     }

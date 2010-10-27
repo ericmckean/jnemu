@@ -6,7 +6,6 @@
 
 package CPU;
 
-import jnemu.Console;
 import INSTRUCTIONS.*;
 
 public class cpuCORE
@@ -1095,7 +1094,7 @@ public class cpuCORE
                 break;
             /************** Unknown Opcode **************/
             default :
-                Console.print("[WARNING] Unknown Opcode " + Integer.toHexString(opcode) + " at " + Integer.toHexString(CPU_REGISTER.PC) + ". Executing NOP.");
+                System.out.println("[WARNING] Unknown Opcode " + Integer.toHexString(opcode) + " at " + Integer.toHexString(CPU_REGISTER.PC) + ". Executing NOP.");
                 IMPLIED.NOP();
                 cycle = 2;
                 break;

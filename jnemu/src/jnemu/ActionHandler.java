@@ -29,7 +29,7 @@ public class ActionHandler implements ActionListener
                 switch (ROM_INFO.MAPPER_NUMBER)
                 {
                     case 0 : emuCORE.init();break;
-                    default : Console.print("[ERROR] Unsupported mapper.");break;
+                    default : System.out.println("[ERROR] Unsupported mapper.");break;
                 }
             }
         }
@@ -69,11 +69,11 @@ public class ActionHandler implements ActionListener
         {
             if(WinMain.myConsole.isSelected())
             {
-                Console.displayFrame();
+                Main.con.show();
             }
             else
             {
-                Console.hideFrame();
+                Main.con.hide();
             }
         }
         else if(e.getActionCommand().equals("Step Into"))

@@ -1,7 +1,7 @@
 package LOGS;
 
 import java.util.logging.*;
-import CONFIG.LOG_CFG;
+import CONFIG.CFG;
 
 public class LOGGER
 {
@@ -13,7 +13,7 @@ public class LOGGER
     {
         try
         {
-            opcodeHtml = new FileHandler(LOG_CFG.getLogFileName());
+            opcodeHtml = new FileHandler(CFG.getLogFileName());
             opcodeLogger.addHandler(opcodeHtml);
             opFor = new OpcodeFormatter();
             opcodeHtml.setFormatter(opFor);
@@ -26,6 +26,6 @@ public class LOGGER
 
     public static void write(String logStr)
     {
-        opcodeLogger.log(LOG_CFG.getLogLevel(), logStr);
+        opcodeLogger.log(CFG.getLogLevel(), logStr);
     }
 }
