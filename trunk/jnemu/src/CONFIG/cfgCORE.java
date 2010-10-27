@@ -6,9 +6,10 @@ public class cfgCORE
 {
     public static void initDefault()
     {
-        LOG_CFG.setLogFileName("opcode.htm");
-        LOG_CFG.setLogLevel(Level.INFO);
-        LOG_CFG.enableLog = false;
-        LOG_CFG.enableOpcodeLog = false;
+        CFG.setLogFileName("opcode.htm");
+        CFG.setLogLevel(Level.INFO);
+        CFG.enableLog = false;
+        CFG.enableOpcodeLog = false;
+        CFG.showConsole = true;
     }
 }

@@ -2,7 +2,6 @@ package PPU;
 
 import MISC.CONVERTER;
 import java.text.DecimalFormat;
-import jnemu.Console;
 
 public class OAM_MEMORY
 {
@@ -101,7 +100,7 @@ public class OAM_MEMORY
         }
         catch(Exception e)
         {
-            Console.print("[ERROR] Load the Rom first.");
+            System.out.println("[ERROR] Load the Rom first.");
         }
         return x.toString();
     }

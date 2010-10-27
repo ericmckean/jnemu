@@ -2,7 +2,7 @@ package jnemu;
 
 import CARTRIDGE.ROM_IO;
 import CARTRIDGE.mapperCORE;
-import CONFIG.LOG_CFG;
+import CONFIG.CFG;
 import CPU.CPU_MEMORY;
 import CPU.cpuCORE;
 import CPU.CPU_REGISTER;
@@ -33,7 +33,7 @@ public class emuCORE
             //**************************************
             //              Init CPU
             //**************************************
-            Console.print("Initializing CPU...");
+            System.out.println("Initializing CPU...");
             CPU_MEMORY.init();
             //Init CPU REGISTER...
             CPU_REGISTER.init();
@@ -41,7 +41,7 @@ public class emuCORE
             //**************************************
             //              Init PPU
             //**************************************
-            Console.print("Initializing PPU...");
+            System.out.println("Initializing PPU...");
             ppuCORE.init();
 
             //init mapper.....
@@ -74,7 +74,7 @@ public class emuCORE
         }
         else
         {
-            Console.print("[emuCORE] The PC does not contain a value.");
+            System.out.println("[emuCORE] The PC does not contain a value.");
         }
     }
 
@@ -142,7 +142,7 @@ public class emuCORE
     {
         WinMain.myStart.setEnabled(true);
         WinMain.myStop.setEnabled(false);
-        Console.print("Stopping Core emulation...");
+        System.out.println("Stopping Core emulation...");
         Main.win.setTitle("JNemu");
         isRunning = false;
         emuThread.interrupt();
@@ -152,7 +152,7 @@ public class emuCORE
     {
         WinMain.myStart.setEnabled(false);
         WinMain.myStop.setEnabled(true);
-        Console.print("Starting Core emulation...");
+        System.out.println("Starting Core emulation...");
         isRunning = true;
         core = new coreTHREAD();
         emuThread = new Thread(core);
@@ -179,7 +179,7 @@ class coreTHREAD implements Runnable
         }
         catch(Exception e)
         {
-            Console.print("[ERROR] " + e.toString());
+            System.out.println("[ERROR] " + e.toString());
         }
     }
     public void run()
@@ -196,7 +196,7 @@ class coreTHREAD implements Runnable
 
             try
             {
-                if(LOG_CFG.enableOpcodeLog)
+                if(CFG.enableOpcodeLog)
                 {
                     LogTmp.append("<tr><td>");
                     LogTmp.append(Integer.toHexString(CPU_REGISTER.PC).toUpperCase());
@@ -234,7 +234,7 @@ class coreTHREAD implements Runnable
                     msg.append(e.getStackTrace()[ctr].getFileName() + ": ");
                     msg.append(e.getStackTrace()[ctr].getMethodName() + ": ");
                     msg.append("Line " + e.getStackTrace()[ctr].getLineNumber());
-                    Console.print("[ERROR] coreTHREAD - " + msg.toString());
+                    System.out.println("[ERROR] coreTHREAD - " + msg.toString());
                 }
                 emuCORE.STOP();
             }

@@ -2,12 +2,13 @@ package CONFIG;
 
 import java.util.logging.Level;
 
-public class LOG_CFG
+public class CFG
 {
     private static String LogFileName;
     private static Level LogLevel;
     public static boolean enableLog;
     public static boolean enableOpcodeLog;
+    public static boolean showConsole;
 
     public static void setLogFileName(String Name)
     {
@@ -27,5 +28,10 @@ public class LOG_CFG
     public static Level getLogLevel()
     {
         return LogLevel;
+    }
+    
+    public static String getDefaultConsoleTitle()
+    {
+        return "JNemu";
     }
 }

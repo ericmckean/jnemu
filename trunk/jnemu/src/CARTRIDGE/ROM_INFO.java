@@ -1,7 +1,5 @@
 package CARTRIDGE;
 
-import jnemu.Console;
-
 public class ROM_INFO
 {
     public static int MAPPER_NUMBER;
@@ -20,18 +18,18 @@ public class ROM_INFO
 
     public static void showInfo()
     {
-        Console.print("[INFO] File Size : " + (fSize / 1024) + "kb");
-        Console.print("");
-        Console.print("Reading Header...");
-        Console.print("[INFO] Mapper : " + MAPPER_NUMBER);
-        Console.print("[INFO] TV System : " + TVSystem);
-        Console.print("[INFO] 16kb Rom bank : " + NumberOf16KbRomBank);
-        Console.print("[INFO] 8kb VRom bank : " + NumberOf8KbVRomBank);
-        Console.print("[INFO] 8kb Ram bank : " + RamBank_8KB);
-        Console.print("[INFO] Mirroring : " + MIRRORING);
-        Console.print("[INFO] Battery-backed RAM at $6000-$7FFF : " + new Boolean(isBatteryBacked).toString());
-        Console.print("[INFO] 512byte trainer at $7000-$71FF : " + new Boolean(hasTrainer).toString());
-        Console.print("[INFO] 4 Screen VRam Layout : " + new Boolean(is4ScreenVRamLayout).toString());
-        Console.print("");
+        System.out.println("[INFO] File Size : " + (fSize / 1024) + "kb");
+        System.out.println("");
+        System.out.println("Reading Header...");
+        System.out.println("[INFO] Mapper : " + MAPPER_NUMBER);
+        System.out.println("[INFO] TV System : " + TVSystem);
+        System.out.println("[INFO] 16kb Rom bank : " + NumberOf16KbRomBank);
+        System.out.println("[INFO] 8kb VRom bank : " + NumberOf8KbVRomBank);
+        System.out.println("[INFO] 8kb Ram bank : " + RamBank_8KB);
+        System.out.println("[INFO] Mirroring : " + MIRRORING);
+        System.out.println("[INFO] Battery-backed RAM at $6000-$7FFF : " + new Boolean(isBatteryBacked).toString());
+        System.out.println("[INFO] 512byte trainer at $7000-$71FF : " + new Boolean(hasTrainer).toString());
+        System.out.println("[INFO] 4 Screen VRam Layout : " + new Boolean(is4ScreenVRamLayout).toString());
+        System.out.println("");
     }
 }

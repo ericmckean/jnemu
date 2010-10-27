@@ -2,7 +2,6 @@ package PPU;
 
 import MISC.CONVERTER;
 import java.text.DecimalFormat;
-import jnemu.Console;
 
 public class PPU_MEMORY
 {
@@ -46,7 +45,7 @@ public class PPU_MEMORY
         }
         catch(Exception e)
         {
-            Console.print("[ERROR] PPU MEM WRITE - $" + Integer.toHexString(address) + " : " + e.toString());
+            System.out.println("[ERROR] PPU MEM WRITE - $" + Integer.toHexString(address) + " : " + e.toString());
         }
     }
 
@@ -128,7 +127,7 @@ public class PPU_MEMORY
         }
         catch(Exception e)
         {
-            Console.print("[ERROR] Load the Rom first.");
+            System.out.println("[ERROR] Load the Rom first.");
         }
         return x.toString();
     }

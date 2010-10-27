@@ -5,7 +5,6 @@ import java.util.Arrays;
 import PPU.PPU_REGISTER;
 import PPU.ppuCORE;
 import java.text.DecimalFormat;
-import jnemu.Console;
 
 public class CPU_MEMORY
 {
@@ -307,7 +306,7 @@ public class CPU_MEMORY
         }
         catch(Exception e)
         {
-            Console.print("[ERROR] Load the Rom first.");
+            System.out.println("[ERROR] Load the Rom first.");
         }
         return x.toString();
     }
