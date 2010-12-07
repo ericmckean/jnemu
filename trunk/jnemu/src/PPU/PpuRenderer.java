@@ -3,9 +3,9 @@ package PPU;
 import java.awt.*;
 import javax.swing.*;
 
-public class RENDERER extends JPanel
+public class PpuRenderer extends JPanel
 {
-    public RENDERER()
+    public PpuRenderer()
     {
 
     }

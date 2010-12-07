@@ -2,32 +2,32 @@ package CONFIG;
 
 import java.util.logging.Level;
 
-public class CFG
+public class CfgInfo
 {
-    private static String LogFileName;
-    private static Level LogLevel;
+    private static String logFileName;
+    private static Level logLevel;
     public static boolean enableLog;
     public static boolean enableOpcodeLog;
     public static boolean showConsole;
 
     public static void setLogFileName(String Name)
     {
-        LogFileName = Name;
+        logFileName = Name;
     }
 
     public static String getLogFileName()
     {
-        return LogFileName;
+        return logFileName;
     }
 
     public static void setLogLevel(Level lvl)
     {
-        LogLevel = lvl;
+        logLevel = lvl;
     }
 
     public static Level getLogLevel()
     {
-        return LogLevel;
+        return logLevel;
     }
     
     public static String getDefaultConsoleTitle()

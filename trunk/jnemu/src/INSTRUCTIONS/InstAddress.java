@@ -1,16 +1,16 @@
 package INSTRUCTIONS;
 
-import CPU.CPU_MEMORY;
-import CPU.CPU_REGISTER;
+import CPU.CpuMemory;
+import CPU.CpuRegister;
 
-public class ADDRESS
+public class InstAddress
 {
     public static int get16BitAddressOperand()
     {
         int tmp, LSB, MSB;
 
-        MSB = CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 2);
-        LSB = CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 1);
+        MSB = CpuMemory.fastRead8Bit(CpuRegister.PC + 2);
+        LSB = CpuMemory.fastRead8Bit(CpuRegister.PC + 1);
         tmp = (MSB << 8) | LSB;
 
         return tmp;
@@ -19,7 +19,7 @@ public class ADDRESS
     public static int get8BitAddressOperand()
     {
         int tmp = 0;
-        tmp = CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC + 1);
+        tmp = CpuMemory.fastRead8Bit(CpuRegister.PC + 1);
         return tmp;
     }
 }

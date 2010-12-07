@@ -2,7 +2,7 @@ package jnemu;
 
 import java.awt.event.*;
 
-public class Key_Listener extends KeyAdapter
+public class KeyListener extends KeyAdapter
 {
     @Override
     public void keyPressed(KeyEvent evt)
@@ -10,10 +10,10 @@ public class Key_Listener extends KeyAdapter
         switch(evt.getKeyCode())
         {
             case KeyEvent.VK_F11 :
-                emuCORE.StepInto();
+                EmuCore.StepInto();
                 break;
             case KeyEvent.VK_F10 :
-                emuCORE.updateDebugger();
+                EmuCore.updateDebugger();
                 break;
         }
     }

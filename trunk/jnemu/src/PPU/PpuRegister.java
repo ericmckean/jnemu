@@ -1,8 +1,8 @@
 package PPU;
 
-import CPU.CPU_MEMORY;
+import CPU.CpuMemory;
 
-public class PPU_REGISTER
+public class PpuRegister
 {
     //*******************************************************************
     //                       VBlank Flag
@@ -11,25 +11,25 @@ public class PPU_REGISTER
     {
         int tmp;
 
-        tmp = CPU_MEMORY.fastRead8Bit(0x2002);
+        tmp = CpuMemory.fastRead8Bit(0x2002);
         tmp = tmp | 0x80;
-        CPU_MEMORY.write8Bit(0x2002, tmp);
+        CpuMemory.write8Bit(0x2002, tmp);
     }
 
     public static void clearVBlankFlag()
     {
         int tmp;
 
-        tmp = CPU_MEMORY.fastRead8Bit(0x2002);
+        tmp = CpuMemory.fastRead8Bit(0x2002);
         tmp = tmp & 0x7F;
-        CPU_MEMORY.write8Bit(0x2002, tmp);
+        CpuMemory.write8Bit(0x2002, tmp);
     }
 
     public static int getVBlankFlag()
     {
         int tmp;
 
-        tmp = CPU_MEMORY.fastRead8Bit(0x2002);
+        tmp = CpuMemory.fastRead8Bit(0x2002);
         tmp = (tmp & 0x80) >> 0x07;
         return tmp;
     }
@@ -42,25 +42,25 @@ public class PPU_REGISTER
     {
         int tmp;
 
-        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp = CpuMemory.fastRead8Bit(0x2000);
         tmp = tmp | 0x80;
-        CPU_MEMORY.write8Bit(0x2000, tmp);
+        CpuMemory.write8Bit(0x2000, tmp);
     }
 
     public static void clearNMIFlag()
     {
         int tmp;
 
-        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp = CpuMemory.fastRead8Bit(0x2000);
         tmp = tmp & 0x7F;
-        CPU_MEMORY.write8Bit(0x2000, tmp);
+        CpuMemory.write8Bit(0x2000, tmp);
     }
 
     public static int getNMIFlag()
     {
         int tmp;
 
-        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp = CpuMemory.fastRead8Bit(0x2000);
         tmp = (tmp & 0x80) >> 0x07;
         return tmp;
     }
@@ -70,7 +70,7 @@ public class PPU_REGISTER
     //********************************************************
     public static int getPPUAddr()
     {
-        return CPU_MEMORY.fastRead8Bit(0x2006);
+        return CpuMemory.fastRead8Bit(0x2006);
     }
 
     //********************************************************
@@ -78,12 +78,12 @@ public class PPU_REGISTER
     //********************************************************
     public static int getPPUData()
     {
-        return CPU_MEMORY.fastRead8Bit(0x2007);
+        return CpuMemory.fastRead8Bit(0x2007);
     }
 
     public static void setPPUData(int Value)
     {
-        CPU_MEMORY.write8Bit(0x2007, Value);
+        CpuMemory.write8Bit(0x2007, Value);
     }
     //********************************************************
     //                   VRam Address increment
@@ -91,7 +91,7 @@ public class PPU_REGISTER
     public static int getVramAddressInc()
     {
         int tmp;
-        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp = CpuMemory.fastRead8Bit(0x2000);
         tmp &= 0x04;
         return tmp >> 2;
     }
@@ -104,7 +104,7 @@ public class PPU_REGISTER
     {
         int tmp, addr = 0;
 
-        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp = CpuMemory.fastRead8Bit(0x2000);
         tmp &= 0x03;
         switch(tmp)
         {
@@ -132,7 +132,7 @@ public class PPU_REGISTER
     {
         int tmp, addr = 0;
 
-        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp = CpuMemory.fastRead8Bit(0x2000);
         tmp &= 0x10;
         switch(tmp)
         {
@@ -154,7 +154,7 @@ public class PPU_REGISTER
     {
         int tmp, addr = 0;
 
-        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp = CpuMemory.fastRead8Bit(0x2000);
         tmp &= 0x08;
         switch(tmp)
         {
@@ -177,7 +177,7 @@ public class PPU_REGISTER
         // 0 for 8x8, 1 for 8x16..........................
         int tmp;
 
-        tmp = CPU_MEMORY.fastRead8Bit(0x2000);
+        tmp = CpuMemory.fastRead8Bit(0x2000);
         tmp &= 0x20;
         return tmp;
     }
@@ -188,16 +188,16 @@ public class PPU_REGISTER
 
     public static int getOAMADDR()
     {
-        return CPU_MEMORY.fastRead8Bit(0x2003);
+        return CpuMemory.fastRead8Bit(0x2003);
     }
 
     public static int getOAMDATA()
     {
-        return CPU_MEMORY.fastRead8Bit(0x2004);
+        return CpuMemory.fastRead8Bit(0x2004);
     }
 
     public static void setOAM_DMA(int Value)
     {
-        CPU_MEMORY.write8Bit(0x4014, Value);
+        CpuMemory.write8Bit(0x4014, Value);
     }
 }

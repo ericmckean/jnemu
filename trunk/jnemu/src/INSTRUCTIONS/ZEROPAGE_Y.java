@@ -1,27 +1,27 @@
 package INSTRUCTIONS;
 
-import CPU.CPU_MEMORY;
-import CPU.CPU_REGISTER;
-import CPU.FLAG;
+import CPU.CpuMemory;
+import CPU.CpuRegister;
+import CPU.CpuFlag;
 
 public class ZEROPAGE_Y
 {
     public static void STX()
     {
-        CPU_MEMORY.write8Bit((ADDRESS.get8BitAddressOperand() + CPU_REGISTER.Y) & 0xFF, CPU_REGISTER.X);
-        CPU_REGISTER.PC += 2;
+        CpuMemory.write8Bit((InstAddress.get8BitAddressOperand() + CpuRegister.Y) & 0xFF, CpuRegister.X);
+        CpuRegister.PC += 2;
     }
 
     public static void LDX()
     {
         int Value, addr;
 
-        addr = (ADDRESS.get8BitAddressOperand() + CPU_REGISTER.Y) & 0xFF;
-        Value =  CPU_MEMORY.read8Bit(addr);
-        CPU_REGISTER.X = Value;
-        FLAG.CHECK_ZERO(Value);
-        FLAG.CHECK_NEGATIVE(Value);
+        addr = (InstAddress.get8BitAddressOperand() + CpuRegister.Y) & 0xFF;
+        Value =  CpuMemory.read8Bit(addr);
+        CpuRegister.X = Value;
+        CpuFlag.checkZero(Value);
+        CpuFlag.checkNegative(Value);
 
-        CPU_REGISTER.PC += 2;
+        CpuRegister.PC += 2;
     }
 }

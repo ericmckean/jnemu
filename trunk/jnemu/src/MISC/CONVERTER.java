@@ -1,6 +1,6 @@
 package MISC;
 
-public class CONVERTER
+public class Converter
 {
    public static String byteTo8BitStringHex(byte b)
    {

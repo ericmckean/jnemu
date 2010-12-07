@@ -1,18 +1,23 @@
 package jnemu;
 
-import CARTRIDGE.ROM_IO;
-import CARTRIDGE.mapperCORE;
-import CONFIG.CFG;
-import CPU.CPU_MEMORY;
-import CPU.cpuCORE;
-import CPU.CPU_REGISTER;
-import PPU.ppuCORE;
+import CARTRIDGE.RomIo;
+import CARTRIDGE.MapperCore;
+import CONFIG.CfgInfo;
+import CPU.CpuMemory;
+import CPU.CpuCore;
+import CPU.CpuRegister;
+import PPU.PpuCore;
 import DEBUGGER.*;
-import INSTRUCTIONS.INTERRUPT;
-import LOGS.LOGGER;
-import MISC.CONVERTER;
+import INSTRUCTIONS.InstInterrupt;
+import LOGS.EmuLogger;
+import MISC.Converter;
 
-public class emuCORE
+
+
+//*****************************************************
+//                   Core Thread
+//*****************************************************
+public class EmuCore
 {
     public static boolean isRunning = false;
     public static Thread emuThread;
@@ -23,52 +28,52 @@ public class emuCORE
         //if the file is loaded to the cartridge, start emulation.
         //else dont do anything...................................
         
-        if(ROM_IO.noSelectedFile == false)
+        if(RomIo.noSelectedFile == false)
         {
             isRunning = false;
             
-            WinMain.myStop.setEnabled(false);
-            WinMain.myStart.setEnabled(true);
+            WinMain.mStop.setEnabled(false);
+            WinMain.mStart.setEnabled(true);
             
             //**************************************
             //              Init CPU
             //**************************************
             System.out.println("Initializing CPU...");
-            CPU_MEMORY.init();
+            CpuMemory.init();
             //Init CPU REGISTER...
-            CPU_REGISTER.init();
+            CpuRegister.init();
 
             //**************************************
             //              Init PPU
             //**************************************
             System.out.println("Initializing PPU...");
-            ppuCORE.init();
+            PpuCore.init();
 
             //init mapper.....
-            mapperCORE.init();
+            MapperCore.init();
 
             //Jump to Reset Vector.....
-            CPU_REGISTER.PC = CPU_MEMORY.getResetVector();
+            CpuRegister.PC = CpuMemory.getResetVector();
 
-            OPCODE_FETCHER.loadOpcode(CPU_REGISTER.PC);
+            OpcodeFetcher.loadOpcode(CpuRegister.PC);
             //Show data on the debugger.................
-            NES_DEBUGGER.REG_A.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.A));
-            NES_DEBUGGER.REG_X.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.X));
-            NES_DEBUGGER.REG_Y.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.Y));
-            NES_DEBUGGER.REG_PC.setText(MISC_FUNCTIONS.forceTo16Bit(CPU_REGISTER.PC));
+            NesDebugger.REG_A.setText(MiscFunctions.forceTo8Bit(CpuRegister.A));
+            NesDebugger.REG_X.setText(MiscFunctions.forceTo8Bit(CpuRegister.X));
+            NesDebugger.REG_Y.setText(MiscFunctions.forceTo8Bit(CpuRegister.Y));
+            NesDebugger.REG_PC.setText(MiscFunctions.forceTo16Bit(CpuRegister.PC));
         }
     }
 
     public static void StepInto()
     {
-        if(CPU_REGISTER.PC != 0)
+        if(CpuRegister.PC != 0)
         {
             //count cycle and execute opcode...
-            cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
-            ppuCORE.execPPU();
-            if(ppuCORE.isNMI)
+            CpuCore.cpuCycle += CpuCore.exec(CpuMemory.fastRead8Bit(CpuRegister.PC));
+            PpuCore.execPPU();
+            if(PpuCore.isNMI)
             {
-                INTERRUPT.NMI();
+                InstInterrupt.NMI();
             }
             updateDebugger();
         }
@@ -85,7 +90,7 @@ public class emuCORE
         //search the entire content of REG_Viewer.....
             for(ctr=0; ctr<=100; ctr++)
             {
-                if(NES_DEBUGGER.REG_Viewer.getItem(ctr).contains(NES_DEBUGGER.REG_PC.getText()))
+                if(NesDebugger.REG_Viewer.getItem(ctr).contains(NesDebugger.REG_PC.getText()))
                 {
                     found = true;
                     tmp = ctr;
@@ -94,54 +99,54 @@ public class emuCORE
 
             if(found)
             {
-                NES_DEBUGGER.REG_Viewer.select(tmp);
+                NesDebugger.REG_Viewer.select(tmp);
             }
             else
             {
-                OPCODE_FETCHER.loadOpcode(CPU_REGISTER.PC);
+                OpcodeFetcher.loadOpcode(CpuRegister.PC);
                 for(ctr=0; ctr<=100; ctr++)
                 {
-                    if(NES_DEBUGGER.REG_Viewer.getItem(ctr).contains(NES_DEBUGGER.REG_PC.getText()))
+                    if(NesDebugger.REG_Viewer.getItem(ctr).contains(NesDebugger.REG_PC.getText()))
                     {
                         tmp = ctr;
                     }
                 }
-                NES_DEBUGGER.REG_Viewer.select(tmp);
+                NesDebugger.REG_Viewer.select(tmp);
             }
             
 
             //Show data on the debugger.................
-            NES_DEBUGGER.REG_A.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.A));
-            NES_DEBUGGER.REG_X.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.X));
-            NES_DEBUGGER.REG_Y.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.Y));
-            NES_DEBUGGER.REG_PC.setText(MISC_FUNCTIONS.forceTo16Bit(CPU_REGISTER.PC));
-            NES_DEBUGGER.REG_SP.setText(MISC_FUNCTIONS.forceTo8Bit(CPU_REGISTER.SP));
+            NesDebugger.REG_A.setText(MiscFunctions.forceTo8Bit(CpuRegister.A));
+            NesDebugger.REG_X.setText(MiscFunctions.forceTo8Bit(CpuRegister.X));
+            NesDebugger.REG_Y.setText(MiscFunctions.forceTo8Bit(CpuRegister.Y));
+            NesDebugger.REG_PC.setText(MiscFunctions.forceTo16Bit(CpuRegister.PC));
+            NesDebugger.REG_SP.setText(MiscFunctions.forceTo8Bit(CpuRegister.SP));
 
-            NES_DEBUGGER.F_N.setText("" + CPU_REGISTER.getNegativeFlag());
-            NES_DEBUGGER.F_Z.setText("" + CPU_REGISTER.getZeroFlag());
-            NES_DEBUGGER.F_C.setText("" + CPU_REGISTER.getCarryFlag());
-            NES_DEBUGGER.F_I.setText("" + CPU_REGISTER.getInterruptFlag());
-            NES_DEBUGGER.F_V.setText("" + CPU_REGISTER.getOverflowFlag());
-            NES_DEBUGGER.F_D.setText("" + CPU_REGISTER.getDecimalFlag());
-            NES_DEBUGGER.F_B.setText("" + CPU_REGISTER.getBRKFlag());
+            NesDebugger.F_N.setText("" + CpuRegister.getNegativeFlag());
+            NesDebugger.F_Z.setText("" + CpuRegister.getZeroFlag());
+            NesDebugger.F_C.setText("" + CpuRegister.getCarryFlag());
+            NesDebugger.F_I.setText("" + CpuRegister.getInterruptFlag());
+            NesDebugger.F_V.setText("" + CpuRegister.getOverflowFlag());
+            NesDebugger.F_D.setText("" + CpuRegister.getDecimalFlag());
+            NesDebugger.F_B.setText("" + CpuRegister.getBRKFlag());
 
-            NES_DEBUGGER.MEM_2000.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2000)));
-            NES_DEBUGGER.MEM_2001.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2001)));
-            NES_DEBUGGER.MEM_2002.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2002)));
-            NES_DEBUGGER.MEM_2003.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2003)));
-            NES_DEBUGGER.MEM_2004.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2004)));
-            NES_DEBUGGER.MEM_2005.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2005)));
-            NES_DEBUGGER.MEM_2006.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2006)));
-            NES_DEBUGGER.MEM_2007.setText("" + MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(0x2007)));
+            NesDebugger.MEM_2000.setText("" + MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(0x2000)));
+            NesDebugger.MEM_2001.setText("" + MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(0x2001)));
+            NesDebugger.MEM_2002.setText("" + MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(0x2002)));
+            NesDebugger.MEM_2003.setText("" + MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(0x2003)));
+            NesDebugger.MEM_2004.setText("" + MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(0x2004)));
+            NesDebugger.MEM_2005.setText("" + MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(0x2005)));
+            NesDebugger.MEM_2006.setText("" + MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(0x2006)));
+            NesDebugger.MEM_2007.setText("" + MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(0x2007)));
 
-            NES_DEBUGGER.CPU_CYCLE.setText("" + cpuCORE.CYCLE);
-            NES_DEBUGGER.PPU_SCANLINE.setText("" + ppuCORE.SCANLINE);
+            NesDebugger.CPU_CYCLE.setText("" + CpuCore.cpuCycle);
+            NesDebugger.PPU_SCANLINE.setText("" + PpuCore.SCANLINE);
     }
 
     public static void STOP()
     {
-        WinMain.myStart.setEnabled(true);
-        WinMain.myStop.setEnabled(false);
+        WinMain.mStart.setEnabled(true);
+        WinMain.mStop.setEnabled(false);
         System.out.println("Stopping Core emulation...");
         Main.win.setTitle("JNemu");
         isRunning = false;
@@ -150,8 +155,8 @@ public class emuCORE
 
     public static void GO()
     {
-        WinMain.myStart.setEnabled(false);
-        WinMain.myStop.setEnabled(true);
+        WinMain.mStart.setEnabled(false);
+        WinMain.mStop.setEnabled(true);
         System.out.println("Starting Core emulation...");
         isRunning = true;
         core = new coreTHREAD();
@@ -160,11 +165,6 @@ public class emuCORE
         Main.win.setTitle("JNemu - running");
     }
 }
-
-
-//*****************************************************
-//                   Core Thread
-//*****************************************************
 
 class coreTHREAD implements Runnable
 {
@@ -175,7 +175,7 @@ class coreTHREAD implements Runnable
     {
         try
         {
-            pc = CONVERTER.stringHexToInt(NES_DEBUGGER.codeBreak.getText()); //Stop point...
+            pc = Converter.stringHexToInt(NesDebugger.codeBreak.getText()); //Stop point...
         }
         catch(Exception e)
         {
@@ -184,44 +184,44 @@ class coreTHREAD implements Runnable
     }
     public void run()
     {
-        while(emuCORE.isRunning)
+        while(EmuCore.isRunning)
         {
-            if(NES_DEBUGGER.codeCheck.isSelected())
+            if(NesDebugger.codeCheck.isSelected())
             {
-                if(CPU_REGISTER.PC == pc)
+                if(CpuRegister.PC == pc)
                 {
-                    emuCORE.STOP();
+                    EmuCore.STOP();
                 }
             }
 
             try
             {
-                if(CFG.enableOpcodeLog)
+                if(CfgInfo.enableOpcodeLog)
                 {
                     LogTmp.append("<tr><td>");
-                    LogTmp.append(Integer.toHexString(CPU_REGISTER.PC).toUpperCase());
+                    LogTmp.append(Integer.toHexString(CpuRegister.PC).toUpperCase());
                     LogTmp.append("</td>");
                     LogTmp.append("<td>");
                     LogTmp.append("A:");
-                    LogTmp.append(CONVERTER.intTo8BitStringHex(CPU_REGISTER.A));
+                    LogTmp.append(Converter.intTo8BitStringHex(CpuRegister.A));
                     LogTmp.append(" ");
                     LogTmp.append("X:");
-                    LogTmp.append(CONVERTER.intTo8BitStringHex(CPU_REGISTER.X));
+                    LogTmp.append(Converter.intTo8BitStringHex(CpuRegister.X));
                     LogTmp.append(" ");
                     LogTmp.append("Y:");
-                    LogTmp.append(CONVERTER.intTo8BitStringHex(CPU_REGISTER.Y));
+                    LogTmp.append(Converter.intTo8BitStringHex(CpuRegister.Y));
                     LogTmp.append(" ");
                     LogTmp.append("SR:");
-                    LogTmp.append(CONVERTER.intTo8BitStringHex(CPU_REGISTER.SR));
+                    LogTmp.append(Converter.intTo8BitStringHex(CpuRegister.SR));
                     LogTmp.append(" ");
                     LogTmp.append("SP:");
-                    LogTmp.append(CONVERTER.intTo8BitStringHex(CPU_REGISTER.SP));
+                    LogTmp.append(Converter.intTo8BitStringHex(CpuRegister.SP));
                     LogTmp.append("</td></tr>");
-                    LOGGER.write(LogTmp.toString());
+                    EmuLogger.write(LogTmp.toString());
                     LogTmp.delete(0,LogTmp.length());
                 }
-                cpuCORE.CYCLE += cpuCORE.exec(CPU_MEMORY.fastRead8Bit(CPU_REGISTER.PC));
-                ppuCORE.execPPU();
+                CpuCore.cpuCycle += CpuCore.exec(CpuMemory.fastRead8Bit(CpuRegister.PC));
+                PpuCore.execPPU();
             }
             catch(Exception e)
             {
@@ -230,21 +230,21 @@ class coreTHREAD implements Runnable
                 for(int ctr=0; ctr<=(e.getStackTrace().length - 1);ctr++)
                 {
                     msg = new StringBuilder(5);
-                    msg.append(e.toString() + ": ");
-                    msg.append(e.getStackTrace()[ctr].getFileName() + ": ");
-                    msg.append(e.getStackTrace()[ctr].getMethodName() + ": ");
-                    msg.append("Line " + e.getStackTrace()[ctr].getLineNumber());
+                    msg.append(e.toString()).append(": ");
+                    msg.append(e.getStackTrace()[ctr].getFileName()).append(": ");
+                    msg.append(e.getStackTrace()[ctr].getMethodName()).append(": ");
+                    msg.append("Line ").append(e.getStackTrace()[ctr].getLineNumber());
                     System.out.println("[ERROR] coreTHREAD - " + msg.toString());
                 }
-                emuCORE.STOP();
+                EmuCore.STOP();
             }
 
             //****************************************
             //             Cyclic Task
             //****************************************
-            if(ppuCORE.isNMI)
+            if(PpuCore.isNMI)
             {
-                INTERRUPT.NMI();
+                InstInterrupt.NMI();
             }
             try
             {

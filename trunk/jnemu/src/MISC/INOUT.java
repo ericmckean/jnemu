@@ -6,7 +6,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import java.io.*;
 
-public class INOUT
+public class InOut
 {
     public static String getFilePath()
     {

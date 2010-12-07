@@ -1,14 +1,14 @@
 package jnemu;
 
 import CONFIG.*;
-import DEBUGGER.NES_DEBUGGER;
-import LOGS.LOGGER;
+import DEBUGGER.NesDebugger;
+import LOGS.EmuLogger;
 
 public class Main
 {
     public static WinMain win;
     public static NesController cont;
-    public static NES_DEBUGGER deb;
+    public static NesDebugger deb;
     public static NesGraphics graph;
     public static NesSound sound;
     public static About about;
@@ -18,10 +18,10 @@ public class Main
     public static void main(String[] args)
     {
         //init default config...
-        cfgCORE.initDefault();
+        CfgCore.initDefault();
         //Console..
-        con = new Console(CFG.getDefaultConsoleTitle(), 0, 0, 500, 400);
-        if(CONFIG.CFG.showConsole)
+        con = new Console(CfgInfo.getDefaultConsoleTitle(), 0, 0, 600, 400);
+        if(CfgInfo.showConsole)
         {
             con.show();
         }
@@ -30,15 +30,16 @@ public class Main
             con.hide();
         }
 
-        System.out.println("JNemu - Java based Nes emulator.");
-        System.out.println("");
+        System.out.println("================================");
+        System.out.println(" JNemu - Java based Nes emulator.");
+        System.out.println("================================");
 
         //Load Controller Window..
         cont = new NesController();
         cont.setVisible(false);
 
         //Load Debugger Window..
-        deb = new NES_DEBUGGER();
+        deb = new NesDebugger();
         deb.setVisible(false);
 
         //Load Graphics Window..
@@ -66,7 +67,7 @@ public class Main
         //           Init CPU Logger
         //**************************************
         System.out.println("Initializing LOGGER...");
-        LOGGER.init();
+        EmuLogger.init();
     }
 
 }
