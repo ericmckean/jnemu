@@ -1,19 +1,19 @@
 package LOGS;
 
 import java.util.logging.*;
-import CONFIG.CFG;
+import CONFIG.CfgInfo;
 
-public class LOGGER
+public class EmuLogger
 {
     private static FileHandler opcodeHtml;
-    private static Logger opcodeLogger = Logger.getLogger("");
+    private static final Logger opcodeLogger = Logger.getLogger("");
     private static Formatter opFor;
 
     public static void init()
     {
         try
         {
-            opcodeHtml = new FileHandler(CFG.getLogFileName());
+            opcodeHtml = new FileHandler(CfgInfo.getLogFileName());
             opcodeLogger.addHandler(opcodeHtml);
             opFor = new OpcodeFormatter();
             opcodeHtml.setFormatter(opFor);
@@ -26,6 +26,6 @@ public class LOGGER
 
     public static void write(String logStr)
     {
-        opcodeLogger.log(CFG.getLogLevel(), logStr);
+        opcodeLogger.log(CfgInfo.getLogLevel(), logStr);
     }
 }

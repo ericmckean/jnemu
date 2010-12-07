@@ -1,18 +1,18 @@
 package CPU;
 
-import MISC.CONVERTER;
+import MISC.Converter;
 import java.util.Arrays;
-import PPU.PPU_REGISTER;
-import PPU.ppuCORE;
+import PPU.PpuRegister;
+import PPU.PpuCore;
 import java.text.DecimalFormat;
 
-public class CPU_MEMORY
+public class CpuMemory
 {
-    private static int[][] MEMORY_MAP;
+    private static int[][] memMap;
 
     public static void init()
     {
-        MEMORY_MAP = new int[0x100][0x100];
+        memMap = new int[0x100][0x100];
         //***********************************************
         //           Memory Power-Up state...
         //***********************************************
@@ -55,16 +55,16 @@ public class CPU_MEMORY
         //***************************************************
         //      Read functions for Opcode Operand Only
         //***************************************************
-        if(address == 0x2002 && PPU_REGISTER.getVBlankFlag() == 1)
+        if(address == 0x2002 && PpuRegister.getVBlankFlag() == 1)
         {
             //Force ending of VBlank when CPU reads at $2002 during VBlank state...
-            ppuCORE.VBlankPremEnd = true;
+            PpuCore.VBlankPremEnd = true;
         }
         else if(address == 0x2007)
         {
-            ppuCORE.isReadingPPUDATA = true;
+            PpuCore.isReadingPPUDATA = true;
         }
-        return MEMORY_MAP[address >> 8][address & 0xFF] & 0xFF;
+        return memMap[address >> 8][address & 0xFF] & 0xFF;
     }
 
     public static int fastRead8Bit(int address)
@@ -73,7 +73,7 @@ public class CPU_MEMORY
         //            Multipurpose read functions
         //                  for performace
         //***************************************************
-        return MEMORY_MAP[address >> 8][address & 0xFF] & 0xFF;
+        return memMap[address >> 8][address & 0xFF] & 0xFF;
     }
 
     public static void write8Bit(int address, int value)
@@ -83,29 +83,29 @@ public class CPU_MEMORY
 
         if(address == 0x2006)
         {
-            ppuCORE.isAccessingPPUADDR = true;
+            PpuCore.isAccessingPPUADDR = true;
         }
         else if(address == 0x2007)
         {
-            ppuCORE.isWritingPPUDATA = true;
+            PpuCore.isWritingPPUDATA = true;
         }
         else if(address == 0x2003)
         {
-            ppuCORE.isAccessingOAMADDR = true;
+            PpuCore.isAccessingOAMADDR = true;
         }
         else if(address == 0x2004)
         {
-            ppuCORE.isWritingOAMDATA = true;
+            PpuCore.isWritingOAMDATA = true;
         }
-        MEMORY_MAP[page][address & 0xff] = value;
+        memMap[page][address & 0xff] = value;
         //***************************************************
         //                MEMORY Mirroring
         //***************************************************
         if(page >= 0 && page <= 7) //Mirror from page 0-7 (3x)
         {
-            MEMORY_MAP[page + 8][address & 0xff] = value;     //Mirror 1
-            MEMORY_MAP[page + 16][address & 0xff] = value;    //Mirror 2
-            MEMORY_MAP[page + 24][address & 0xff] = value;    //Mirror 3
+            memMap[page + 8][address & 0xff] = value;     //Mirror 1
+            memMap[page + 16][address & 0xff] = value;    //Mirror 2
+            memMap[page + 24][address & 0xff] = value;    //Mirror 3
         }
         else if(page == 0x20)
         {
@@ -114,56 +114,56 @@ public class CPU_MEMORY
             {
                 for(ctr=0x2008; ctr<=0x3ff8; ctr+=8)
                 {
-                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                    memMap[ctr >> 8][ctr & 0xff] = value;
                 }
             }
             else if((address & 0xff) == 0x01)
             {
                 for(ctr=0x2009; ctr<=0x3ff9; ctr+=8)
                 {
-                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                    memMap[ctr >> 8][ctr & 0xff] = value;
                 }
             }
             else if((address & 0xff) == 0x02)
             {
                 for(ctr=0x200a; ctr<=0x3ffa; ctr+=8)
                 {
-                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                    memMap[ctr >> 8][ctr & 0xff] = value;
                 }
             }
             else if((address & 0xff) == 0x03)
             {
                 for(ctr=0x200b; ctr<=0x3ffb; ctr+=8)
                 {
-                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                    memMap[ctr >> 8][ctr & 0xff] = value;
                 }
             }
             else if((address & 0xff) == 0x04)
             {
                 for(ctr=0x200c; ctr<=0x3ffc; ctr+=8)
                 {
-                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                    memMap[ctr >> 8][ctr & 0xff] = value;
                 }
             }
             else if((address & 0xff) == 0x05)
             {
                 for(ctr=0x200d; ctr<=0x3ffd; ctr+=8)
                 {
-                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                    memMap[ctr >> 8][ctr & 0xff] = value;
                 }
             }
             else if((address & 0xff) == 0x06)
             {
                 for(ctr=0x200e; ctr<=0x3ffe; ctr+=8)
                 {
-                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                    memMap[ctr >> 8][ctr & 0xff] = value;
                 }
             }
             else if((address & 0xff) == 0x07)
             {
                 for(ctr=0x200f; ctr<=0x3fff; ctr+=8)
                 {
-                    MEMORY_MAP[ctr >> 8][ctr & 0xff] = value;
+                    memMap[ctr >> 8][ctr & 0xff] = value;
                 }
             }
         }
@@ -171,7 +171,7 @@ public class CPU_MEMORY
 
     public static void clear()
     {
-        Arrays.fill(MEMORY_MAP, 0);
+        Arrays.fill(memMap, 0);
     }
 
     public static int getResetVector()
@@ -248,7 +248,7 @@ public class CPU_MEMORY
                 x.append(space);
             }
             x.append("\n\n");
-            x.append("$" + CONVERTER.intTo16BitStringHex(start));
+            x.append("$").append(Converter.intTo16BitStringHex(start));
             x.append(space2);
 
             ctr2 = 0;
@@ -256,14 +256,14 @@ public class CPU_MEMORY
             for(ctr=start; ctr<=end; ctr++)
             {
                 ctr2 += 1;
-                tmp = CPU_MEMORY.fastRead8Bit(ctr);
+                tmp = CpuMemory.fastRead8Bit(ctr);
                 if(ctr2 != BASE)
                 {
                     if(tmp != 0)
                     {
-                        x.append(CONVERTER.intTo8BitStringHex(tmp));
+                        x.append(Converter.intTo8BitStringHex(tmp));
                         x.append(space);
-                        UTF8.append(CONVERTER.intToChar(tmp));
+                        UTF8.append(Converter.intToChar(tmp));
                         UTF8.append(space);
                     }
                     else
@@ -278,14 +278,14 @@ public class CPU_MEMORY
                 {
                     if(tmp != 0)
                     {
-                        x.append(CONVERTER.intTo8BitStringHex(tmp));
-                        UTF8.append(CONVERTER.intToChar(tmp));
+                        x.append(Converter.intTo8BitStringHex(tmp));
+                        UTF8.append(Converter.intToChar(tmp));
                         UTF8.append(space);
                         x.append(space3);
                         x.append(UTF8.toString());
                         UTF8.delete(0, UTF8.length());
                         x.append("\n");
-                        x.append("$" + CONVERTER.intTo16BitStringHex(ctr + 1));
+                        x.append("$").append(Converter.intTo16BitStringHex(ctr + 1));
                         x.append(space2);
                     }
                     else
@@ -297,7 +297,7 @@ public class CPU_MEMORY
                         x.append(UTF8.toString());
                         UTF8.delete(0, UTF8.length());
                         x.append("\n");
-                        x.append("$" + CONVERTER.intTo16BitStringHex(ctr + 1));
+                        x.append("$").append(Converter.intTo16BitStringHex(ctr + 1));
                         x.append(space2);
                     }
                     ctr2 = 0;

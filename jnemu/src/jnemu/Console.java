@@ -17,7 +17,7 @@ public class Console extends WindowAdapter implements WindowListener,  ActionLis
     private final PipedInputStream pin = new PipedInputStream();
     private final PipedInputStream pin2 = new PipedInputStream();
 
-    Thread MyThrower;
+    Thread mThrower;
 
     public Console(String name, int x, int y, int width, int height)
     {
@@ -29,7 +29,7 @@ public class Console extends WindowAdapter implements WindowListener,  ActionLis
         CON_OUT.setEditable(false);
         CON_OUT.setBackground(Color.BLACK);
         CON_OUT.setForeground(Color.LIGHT_GRAY);
-        Font font = new Font("Terminal", Font.PLAIN, 12);
+        Font font = new Font("Terminal", Font.BOLD, 12);
         CON_OUT.setFont(font);
 
         DefaultCaret caret = (DefaultCaret)CON_OUT.getCaret();
@@ -172,7 +172,7 @@ public class Console extends WindowAdapter implements WindowListener,  ActionLis
             in.read(b);
             input = input + new String(b,0,b.length);
         }
-        while( !input.endsWith("\n") &&  !input.endsWith("\r\n") && !END);
+        while(!input.endsWith("\n") &&  !input.endsWith("\r\n") && !END);
         return input;
     }
 

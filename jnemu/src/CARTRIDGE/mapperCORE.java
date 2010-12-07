@@ -2,15 +2,15 @@ package CARTRIDGE;
 
 import MAPPER.*;
 
-public class mapperCORE
+public class MapperCore
 {
     public static void init()
     {
-        switch(ROM_INFO.MAPPER_NUMBER)
+        switch(RomInfo.mapperNumber)
         {
             case 0: 
-                NROM.LoadRom();
-                NROM.LoadVRom();
+                nRom.LoadRom();
+                nRom.LoadVRom();
                 break;
         }
     }

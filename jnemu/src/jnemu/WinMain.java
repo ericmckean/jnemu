@@ -3,13 +3,13 @@ package jnemu;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
-import PPU.RENDERER;
+import PPU.PpuRenderer;
 
 public class WinMain extends JFrame
 {
-    public static JMenuItem myStart;
-    public static JMenuItem myStop;
-    public static JCheckBoxMenuItem myConsole;
+    public static JMenuItem mStart;
+    public static JMenuItem mStop;
+    public static JCheckBoxMenuItem mConsole;
     public JPanel p;
 
     WinMain()
@@ -34,7 +34,7 @@ public class WinMain extends JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(Color.white);
 
-        p = new RENDERER();
+        p = new PpuRenderer();
         p.setBounds(0, 0, nesScrWidth, nesScrHeight); //NTSC Resolution...
         add(p);
         //p.setVisible(false);
@@ -45,94 +45,94 @@ public class WinMain extends JFrame
         JMenuBar bar = new JMenuBar();
 
         // Menu
-        JMenu myFile = new JMenu("File");
-        myFile.setMnemonic('F');
-        bar.add(myFile);
+        JMenu mFile = new JMenu("File");
+        mFile.setMnemonic('F');
+        bar.add(mFile);
 
-        JMenu myEmu = new JMenu("Emulation");
-        myEmu.setMnemonic('E');
-        bar.add(myEmu);
+        JMenu mEmu = new JMenu("Emulation");
+        mEmu.setMnemonic('E');
+        bar.add(mEmu);
 
-        JMenu myConfig = new JMenu("Config");
-        myConfig.setMnemonic('C');
-        bar.add(myConfig);
+        JMenu mConfig = new JMenu("Config");
+        mConfig.setMnemonic('C');
+        bar.add(mConfig);
         
-        JMenu myMisc = new JMenu("Misc");
-        myMisc.setMnemonic('M');
-        bar.add(myMisc);
+        JMenu mMisc = new JMenu("Misc");
+        mMisc.setMnemonic('M');
+        bar.add(mMisc);
 
 
         // File
-        JMenuItem myOpenRom = new JMenuItem("Open Rom");
-        myOpenRom.setMnemonic('O');
-        myOpenRom.addActionListener(new ActionHandler());
-        myFile.add(myOpenRom);
+        JMenuItem mOpenRom = new JMenuItem("Open Rom");
+        mOpenRom.setMnemonic('O');
+        mOpenRom.addActionListener(new ActionHandler());
+        mFile.add(mOpenRom);
 
-        myFile.addSeparator();
+        mFile.addSeparator();
 
-        JMenuItem myExit = new JMenuItem("Exit");
-        myExit.setMnemonic('x');
-        myExit.addActionListener(new ActionHandler());
-        myFile.add(myExit);
+        JMenuItem mExit = new JMenuItem("Exit");
+        mExit.setMnemonic('x');
+        mExit.addActionListener(new ActionHandler());
+        mFile.add(mExit);
 
         //Emulation
 
-        myStart = new JMenuItem("Start");
-        myStart.setMnemonic('a');
-        myStart.addActionListener(new ActionHandler());
-        myEmu.add(myStart);
-        myStart.setEnabled(false);
+        mStart = new JMenuItem("Start");
+        mStart.setMnemonic('a');
+        mStart.addActionListener(new ActionHandler());
+        mEmu.add(mStart);
+        mStart.setEnabled(false);
 
-        myStop = new JMenuItem("Stop");
-        myStop.setMnemonic('o');
-        myStop.addActionListener(new ActionHandler());
-        myEmu.add(myStop);
-        myStop.setEnabled(false);
+        mStop = new JMenuItem("Stop");
+        mStop.setMnemonic('o');
+        mStop.addActionListener(new ActionHandler());
+        mEmu.add(mStop);
+        mStop.setEnabled(false);
 
         // Config
-        JMenuItem myGraphics = new JMenuItem("Graphics");
-        myGraphics.setMnemonic('G');
-        myGraphics.addActionListener(new ActionHandler());
-        myConfig.add(myGraphics);
+        JMenuItem mGraphics = new JMenuItem("Graphics");
+        mGraphics.setMnemonic('G');
+        mGraphics.addActionListener(new ActionHandler());
+        mConfig.add(mGraphics);
 
-        JMenuItem mySound = new JMenuItem("Sound");
-        mySound.setMnemonic('S');
-        mySound.addActionListener(new ActionHandler());
-        myConfig.add(mySound);
+        JMenuItem mSound = new JMenuItem("Sound");
+        mSound.setMnemonic('S');
+        mSound.addActionListener(new ActionHandler());
+        mConfig.add(mSound);
 
-        JMenuItem myController = new JMenuItem("Controller");
-        myController.setMnemonic('C');
-        myController.addActionListener(new ActionHandler());
-        myConfig.add(myController);
+        JMenuItem mController = new JMenuItem("Controller");
+        mController.setMnemonic('C');
+        mController.addActionListener(new ActionHandler());
+        mConfig.add(mController);
 
-        JMenuItem myFolder = new JMenuItem("Option");
-        myFolder.setMnemonic('O');
-        myFolder.addActionListener(new ActionHandler());
-        myConfig.add(myFolder);
+        JMenuItem mFolder = new JMenuItem("Option");
+        mFolder.setMnemonic('O');
+        mFolder.addActionListener(new ActionHandler());
+        mConfig.add(mFolder);
 
         //Misc
-        myConsole = new JCheckBoxMenuItem("Console");
-        myConsole.addActionListener(new ActionHandler());
-        myMisc.add(myConsole);
-        if(CONFIG.CFG.showConsole)
+        mConsole = new JCheckBoxMenuItem("Console");
+        mConsole.addActionListener(new ActionHandler());
+        mMisc.add(mConsole);
+        if(CONFIG.CfgInfo.showConsole)
         {
-            myConsole.setSelected(true);
+            mConsole.setSelected(true);
         }
         else
         {
-            myConsole.setSelected(false);
+            mConsole.setSelected(false);
         }
 
 
-        JMenuItem myDebugger = new JMenuItem("Debugger");
-        myDebugger.setMnemonic('D');
-        myDebugger.addActionListener(new ActionHandler());
-        myMisc.add(myDebugger);
+        JMenuItem mDebugger = new JMenuItem("Debugger");
+        mDebugger.setMnemonic('D');
+        mDebugger.addActionListener(new ActionHandler());
+        mMisc.add(mDebugger);
 
-        JMenuItem myAbout = new JMenuItem("About");
-        myAbout.setMnemonic('A');
-        myAbout.addActionListener(new ActionHandler());
-        myMisc.add(myAbout);
+        JMenuItem mAbout = new JMenuItem("About");
+        mAbout.setMnemonic('A');
+        mAbout.addActionListener(new ActionHandler());
+        mMisc.add(mAbout);
 
         //Show MenuBar................
         setJMenuBar(bar);

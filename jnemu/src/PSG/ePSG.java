@@ -1,6 +1,6 @@
 package PSG;
 
-public class ePSG
+public class EPsg
 {
 
 }

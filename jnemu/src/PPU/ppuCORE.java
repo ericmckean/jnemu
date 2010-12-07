@@ -16,9 +16,9 @@
 
 package PPU;
 
-import CPU.cpuCORE;
+import CPU.CpuCore;
 
-public class ppuCORE
+public class PpuCore
 {
     public static int SCANLINE; //Scanline counter............
     public static boolean VBlankPremEnd;
@@ -48,8 +48,8 @@ public class ppuCORE
         isWritingOAMDATA = false;
         PpuCycle = 0;
         InternalBuffer = 0;
-        PPU_MEMORY.init();
-        OAM_MEMORY.init();
+        PpuMemory.init();
+        OamMemory.init();
     }
 
     public static void execPPU()
@@ -57,34 +57,34 @@ public class ppuCORE
         //**********************************************
         //         1 CPU Cycle = 3 PPU Cycle
         //**********************************************
-        PpuCycle = cpuCORE.CYCLE * 3; //Get the actual PPU Cycle...
-        VRAM.checkForSetAddr();
-        VRAM.checkForRead();
-        VRAM.checkForWrite();
-        oamCORE.checkForRead();
-        oamCORE.checkForWrite();
+        PpuCycle = CpuCore.cpuCycle * 3; //Get the actual PPU Cycle...
+        VRam.checkForSetAddr();
+        VRam.checkForRead();
+        VRam.checkForWrite();
+        OamCore.checkForRead();
+        OamCore.checkForWrite();
         if(PpuCycle >= 341)
         {
             SCANLINE++;
             PpuCycle = 1;
-            cpuCORE.CYCLE = 0;
+            CpuCore.cpuCycle = 0;
             if(SCANLINE >= 240 && SCANLINE <= 259)
             {
                 //*******************************************
                 //              VBlank Period
                 //*******************************************
-                PPU_REGISTER.setVBlankFlag();
+                PpuRegister.setVBlankFlag();
                 //******************************************
                 //               NMI Section
                 //******************************************
-                if(PPU_REGISTER.getNMIFlag() == 1)
+                if(PpuRegister.getNMIFlag() == 1)
                 {
                     //Generate NMI...............
                     isNMI = true;
                 }
                 else if(VBlankPremEnd) //check for VBlank Premature termination...
                 {
-                    PPU_REGISTER.clearVBlankFlag();
+                    PpuRegister.clearVBlankFlag();
                     //Don't forget to set VBlankPremEnd to false after VBlank is
                     //prematurely terminated as it will cause an infinite loop..
                     VBlankPremEnd = false;
@@ -95,7 +95,7 @@ public class ppuCORE
             }
             else if(SCANLINE == 261)
             {
-                PPU_REGISTER.clearVBlankFlag();
+                PpuRegister.clearVBlankFlag();
                 PpuCycle = 0;
                 SCANLINE = -1;
             }

@@ -1,9 +1,9 @@
 package MISC;
 
-import CPU.CPU_MEMORY;
-import DEBUGGER.MISC_FUNCTIONS;
+import CPU.CpuMemory;
+import DEBUGGER.MiscFunctions;
 
-public class MACHINE
+public class Machine
 {
     public static String getCode(int size, int pc)
     {
@@ -13,23 +13,23 @@ public class MACHINE
         {
             case 1 :
                 sb.append("     ");
-                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc)));
+                sb.append(MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(pc)));
                 sb.append("                         ");
                 break;
             case 2 :
                 sb.append("     ");
-                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc)));
+                sb.append(MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(pc)));
                 sb.append("  ");
-                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc + 1)));
+                sb.append(MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(pc + 1)));
                 sb.append("                  ");
                 break;
             case 3 :
                 sb.append("     ");
-                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc)));
+                sb.append(MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(pc)));
                 sb.append("  ");
-                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc + 1)));
+                sb.append(MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(pc + 1)));
                 sb.append("  ");
-                sb.append(MISC_FUNCTIONS.forceTo8Bit(CPU_MEMORY.fastRead8Bit(pc + 2)));
+                sb.append(MiscFunctions.forceTo8Bit(CpuMemory.fastRead8Bit(pc + 2)));
                 sb.append("           ");
                 break;
         }

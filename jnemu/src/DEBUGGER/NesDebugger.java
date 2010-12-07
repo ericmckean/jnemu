@@ -4,10 +4,10 @@ package DEBUGGER;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.text.*;
-import jnemu.Key_Listener;
+import jnemu.KeyListener;
 import jnemu.ActionHandler;
 
-public class NES_DEBUGGER extends JDialog
+public class NesDebugger extends JDialog
 {
     int scWidth = 700 - 30;
     int scHeight = 400;
@@ -49,7 +49,7 @@ public class NES_DEBUGGER extends JDialog
     public static JTextField codeBreak;
     public static JCheckBox codeCheck;
 
-    public NES_DEBUGGER()
+    public NesDebugger()
     {
         /********************** Main Window ***********************/
         setTitle("Debugger");
@@ -63,7 +63,7 @@ public class NES_DEBUGGER extends JDialog
         /*************************** TAB ***************************/
 
         JTabbedPane tab = new JTabbedPane();
-        tab.addKeyListener(new Key_Listener());
+        tab.addKeyListener(new KeyListener());
         add(tab);
 
         //Assembly............................

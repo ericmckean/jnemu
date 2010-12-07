@@ -1,25 +1,25 @@
 package PPU;
 
-public class oamCORE
+public class OamCore
 {
     public static void checkForRead()
     {
-        if(ppuCORE.isAccessingOAMADDR)
+        if(PpuCore.isAccessingOAMADDR)
         {
-            ppuCORE.OAM_ADDR = PPU_REGISTER.getOAMADDR();
-            PPU_REGISTER.setOAM_DMA(OAM_MEMORY.Read(ppuCORE.OAM_ADDR));
-            ppuCORE.isAccessingOAMADDR = false;
+            PpuCore.OAM_ADDR = PpuRegister.getOAMADDR();
+            PpuRegister.setOAM_DMA(OamMemory.Read(PpuCore.OAM_ADDR));
+            PpuCore.isAccessingOAMADDR = false;
         }
     }
 
     public static void checkForWrite()
     {
-        if(ppuCORE.isWritingOAMDATA)
+        if(PpuCore.isWritingOAMDATA)
         {
-            OAM_MEMORY.Write(ppuCORE.OAM_ADDR, PPU_REGISTER.getOAMDATA());
-            ppuCORE.OAM_ADDR++;
-            ppuCORE.OAM_ADDR &= 0xff;
-            ppuCORE.isWritingOAMDATA = false;
+            OamMemory.Write(PpuCore.OAM_ADDR, PpuRegister.getOAMDATA());
+            PpuCore.OAM_ADDR++;
+            PpuCore.OAM_ADDR &= 0xff;
+            PpuCore.isWritingOAMDATA = false;
         }
     }
 }

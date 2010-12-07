@@ -1,74 +1,76 @@
 package PPU;
 
-public class VRAM
+//import CPU.*;
+
+public class VRam
 {
     private static int MSB, LSB;
 
     public static void checkForSetAddr()
     {
-        if(ppuCORE.isAccessingPPUADDR)
+        if(PpuCore.isAccessingPPUADDR)
         {
-            if(ppuCORE.isFirstWrite)
+            if(PpuCore.isFirstWrite)
             {
-                MSB = PPU_REGISTER.getPPUAddr();
-                ppuCORE.isFirstWrite = false;
+                MSB = PpuRegister.getPPUAddr();
+                PpuCore.isFirstWrite = false;
             }
             else
             {
-                LSB = PPU_REGISTER.getPPUAddr();
-                ppuCORE.PPU_ADDR_LATCH = ((MSB << 8) | LSB); //get the actual PPU address..
+                LSB = PpuRegister.getPPUAddr();
+                PpuCore.PPU_ADDR_LATCH = ((MSB << 8) | LSB); //get the actual PPU address..
                 //FIXME: put value of memory is PPUDATA according to
                 //PPUADDR's address content for reading purposes....
-                //Console.print("[PPU_ADDR] " + Integer.toHexString(PPU_ADDR));
-                PPU_REGISTER.setPPUData(ppuCORE.InternalBuffer);
-                ppuCORE.InternalBuffer = PPU_MEMORY.readPPUMemory(ppuCORE.PPU_ADDR_LATCH);
-                ppuCORE.isFirstWrite = true;
-                ppuCORE.isAccessingPPUADDR = false;
+                //System.out.println("[PPU] pc=$" + Integer.toHexString(CPU_REGISTER.PC) + "; addr=" + Integer.toHexString(ppuCORE.PPU_ADDR_LATCH));
+                PpuRegister.setPPUData(PpuCore.InternalBuffer);
+                PpuCore.InternalBuffer = PpuMemory.readPPUMemory(PpuCore.PPU_ADDR_LATCH);
+                PpuCore.isFirstWrite = true;
+                PpuCore.isAccessingPPUADDR = false;
             }
         }
     }
 
     public static void checkForRead()
     {
-        if(ppuCORE.isReadingPPUDATA)
+        if(PpuCore.isReadingPPUDATA)
         {
-            if(PPU_REGISTER.getVramAddressInc() == 0)
+            if(PpuRegister.getVramAddressInc() == 0)
             {
-                ppuCORE.PPU_ADDR_LATCH++;
-                ppuCORE.PPU_ADDR_LATCH &= 0x3fff;
+                PpuCore.PPU_ADDR_LATCH++;
+                PpuCore.PPU_ADDR_LATCH &= 0x3fff;
             }
             else
             {
-                ppuCORE.PPU_ADDR_LATCH += 32;
-                ppuCORE.PPU_ADDR_LATCH &= 0x3fff;
+                PpuCore.PPU_ADDR_LATCH += 32;
+                PpuCore.PPU_ADDR_LATCH &= 0x3fff;
             }
-            ppuCORE.InternalBuffer = PPU_MEMORY.readPPUMemory(ppuCORE.PPU_ADDR_LATCH);
-            ppuCORE.isReadingPPUDATA = false;
+            PpuCore.InternalBuffer = PpuMemory.readPPUMemory(PpuCore.PPU_ADDR_LATCH);
+            PpuCore.isReadingPPUDATA = false;
         }
     }
 
     public static void checkForWrite()
     {
         int AddrTmp;
-        if(ppuCORE.isWritingPPUDATA)
+        if(PpuCore.isWritingPPUDATA)
         {
             //FIXME: write the value of PPUDATA to PPU memory according to
             //PPUADDR's address content...
-            //Console.print("[$2007] " + Integer.toHexString(PPU_REGISTER.getPPUData()));
-            AddrTmp = getActualPpuMemoryAddr(ppuCORE.PPU_ADDR_LATCH);
-            PPU_MEMORY.writePPUMemory(AddrTmp, PPU_REGISTER.getPPUData());
-            MIRRORING.Mirror(AddrTmp, PPU_REGISTER.getPPUData());
-            if(PPU_REGISTER.getVramAddressInc() == 0)
+            //System.out.println("[$2007] " + Integer.toHexString(PPU_REGISTER.getPPUData()));
+            AddrTmp = getActualPpuMemoryAddr(PpuCore.PPU_ADDR_LATCH);
+            PpuMemory.writePPUMemory(AddrTmp, PpuRegister.getPPUData());
+            Mirroring.Mirror(AddrTmp, PpuRegister.getPPUData());
+            if(PpuRegister.getVramAddressInc() == 0)
             {
-                ppuCORE.PPU_ADDR_LATCH++;
-                ppuCORE.PPU_ADDR_LATCH &= 0x3fff;
+                PpuCore.PPU_ADDR_LATCH++;
+                PpuCore.PPU_ADDR_LATCH &= 0x3fff;
             }
             else
             {
-                ppuCORE.PPU_ADDR_LATCH += 32;
-                ppuCORE.PPU_ADDR_LATCH &= 0x3fff;
+                PpuCore.PPU_ADDR_LATCH += 32;
+                PpuCore.PPU_ADDR_LATCH &= 0x3fff;
             }
-            ppuCORE.isWritingPPUDATA = false;
+            PpuCore.isWritingPPUDATA = false;
         }
     }
 

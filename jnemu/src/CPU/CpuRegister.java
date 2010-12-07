@@ -1,6 +1,6 @@
 package CPU;
 
-public class CPU_REGISTER
+public class CpuRegister
 {
     public static int X; //X register
     public static int Y; //Y register
@@ -11,13 +11,13 @@ public class CPU_REGISTER
 
     public static void init()
     {
-        CPU_REGISTER.A = 0;
-        CPU_REGISTER.SP = 0xFD;
-        CPU_REGISTER.PC = 0;
-        CPU_REGISTER.X = 0;
-        CPU_REGISTER.Y = 0;
-        CPU_REGISTER.SR = 0x24;
-        cpuCORE.CYCLE = 0;
+        CpuRegister.A = 0;
+        CpuRegister.SP = 0xFD;
+        CpuRegister.PC = 0;
+        CpuRegister.X = 0;
+        CpuRegister.Y = 0;
+        CpuRegister.SR = 0x24;
+        CpuCore.cpuCycle = 0;
     }
 
     //carry flag........................

@@ -1,6 +1,6 @@
 package DEBUGGER;
 
-public class MISC_FUNCTIONS
+public class MiscFunctions
 {
     public static String forceTo8Bit(int i)
     {

@@ -9,12 +9,12 @@ public class RELATIVE
         int i = 0; //opcode cycle...
         int oldPC, newPC;
 
-        if(CPU_REGISTER.getNegativeFlag() == 0)
+        if(CpuRegister.getNegativeFlag() == 0)
         {
-            oldPC = CPU_REGISTER.PC; //get the old PC...
-            BRANCH.execBranch();
-            newPC = CPU_REGISTER.PC; //get the new PC...
-            if(CPU_MEMORY.getPage(oldPC) == CPU_MEMORY.getPage(newPC))
+            oldPC = CpuRegister.PC; //get the old PC...
+            InstBranch.execBranch();
+            newPC = CpuRegister.PC; //get the new PC...
+            if(CpuMemory.getPage(oldPC) == CpuMemory.getPage(newPC))
             {
                 i = 3;
             }
@@ -25,7 +25,7 @@ public class RELATIVE
         }
         else
         {
-            CPU_REGISTER.PC += 2;
+            CpuRegister.PC += 2;
             i = 2;
         }
         return i;
@@ -36,12 +36,12 @@ public class RELATIVE
         int i = 0; //opcode cycle...
         int oldPC, newPC;
 
-        if(CPU_REGISTER.getZeroFlag() == 0)
+        if(CpuRegister.getZeroFlag() == 0)
         {
-            oldPC = CPU_REGISTER.PC; //get the old PC...
-            BRANCH.execBranch();
-            newPC = CPU_REGISTER.PC; //get the new PC...
-            if(CPU_MEMORY.getPage(oldPC) == CPU_MEMORY.getPage(newPC))
+            oldPC = CpuRegister.PC; //get the old PC...
+            InstBranch.execBranch();
+            newPC = CpuRegister.PC; //get the new PC...
+            if(CpuMemory.getPage(oldPC) == CpuMemory.getPage(newPC))
             {
                 i = 3;
             }
@@ -52,7 +52,7 @@ public class RELATIVE
         }
         else
         {
-            CPU_REGISTER.PC += 2;
+            CpuRegister.PC += 2;
             i = 2;
         }
         return i;
@@ -63,12 +63,12 @@ public class RELATIVE
         int i = 0; //opcode cycle...
         int oldPC, newPC;
 
-        if(CPU_REGISTER.getNegativeFlag() == 1)
+        if(CpuRegister.getNegativeFlag() == 1)
         {
-            oldPC = CPU_REGISTER.PC; //get the old PC...
-            BRANCH.execBranch();
-            newPC = CPU_REGISTER.PC; //get the new PC...
-            if(CPU_MEMORY.getPage(oldPC) == CPU_MEMORY.getPage(newPC))
+            oldPC = CpuRegister.PC; //get the old PC...
+            InstBranch.execBranch();
+            newPC = CpuRegister.PC; //get the new PC...
+            if(CpuMemory.getPage(oldPC) == CpuMemory.getPage(newPC))
             {
                 i = 3;
             }
@@ -79,7 +79,7 @@ public class RELATIVE
         }
         else
         {
-            CPU_REGISTER.PC += 2;
+            CpuRegister.PC += 2;
             i = 2;
         }
         return i;
@@ -90,12 +90,12 @@ public class RELATIVE
         int i = 0; //opcode cycle...
         int oldPC, newPC;
 
-        if(CPU_REGISTER.getZeroFlag() == 1)
+        if(CpuRegister.getZeroFlag() == 1)
         {
-            oldPC = CPU_REGISTER.PC; //get the old PC...
-            BRANCH.execBranch();
-            newPC = CPU_REGISTER.PC; //get the new PC...
-            if(CPU_MEMORY.getPage(oldPC) == CPU_MEMORY.getPage(newPC))
+            oldPC = CpuRegister.PC; //get the old PC...
+            InstBranch.execBranch();
+            newPC = CpuRegister.PC; //get the new PC...
+            if(CpuMemory.getPage(oldPC) == CpuMemory.getPage(newPC))
             {
                 i = 3;
             }
@@ -106,7 +106,7 @@ public class RELATIVE
         }
         else
         {
-            CPU_REGISTER.PC += 2;
+            CpuRegister.PC += 2;
             i = 2;
         }
         return i;
@@ -117,12 +117,12 @@ public class RELATIVE
         int i = 0; //opcode cycle...
         int oldPC, newPC;
 
-        if(CPU_REGISTER.getCarryFlag() == 1)
+        if(CpuRegister.getCarryFlag() == 1)
         {
-            oldPC = CPU_REGISTER.PC; //get the old PC...
-            BRANCH.execBranch();
-            newPC = CPU_REGISTER.PC; //get the new PC...
-            if(CPU_MEMORY.getPage(oldPC) == CPU_MEMORY.getPage(newPC))
+            oldPC = CpuRegister.PC; //get the old PC...
+            InstBranch.execBranch();
+            newPC = CpuRegister.PC; //get the new PC...
+            if(CpuMemory.getPage(oldPC) == CpuMemory.getPage(newPC))
             {
                 i = 3;
             }
@@ -133,7 +133,7 @@ public class RELATIVE
         }
         else
         {
-            CPU_REGISTER.PC += 2;
+            CpuRegister.PC += 2;
             i = 2;
         }
         return i;
@@ -144,12 +144,12 @@ public class RELATIVE
         int i = 0; //opcode cycle...
         int oldPC, newPC;
 
-        if(CPU_REGISTER.getCarryFlag() == 0)
+        if(CpuRegister.getCarryFlag() == 0)
         {
-            oldPC = CPU_REGISTER.PC; //get the old PC...
-            BRANCH.execBranch();
-            newPC = CPU_REGISTER.PC; //get the new PC...
-            if(CPU_MEMORY.getPage(oldPC) == CPU_MEMORY.getPage(newPC))
+            oldPC = CpuRegister.PC; //get the old PC...
+            InstBranch.execBranch();
+            newPC = CpuRegister.PC; //get the new PC...
+            if(CpuMemory.getPage(oldPC) == CpuMemory.getPage(newPC))
             {
                 i = 3;
             }
@@ -160,7 +160,7 @@ public class RELATIVE
         }
         else
         {
-            CPU_REGISTER.PC += 2;
+            CpuRegister.PC += 2;
             i = 2;
         }
         return i;
@@ -171,12 +171,12 @@ public class RELATIVE
         int i = 0; //opcode cycle...
         int oldPC, newPC;
 
-        if(CPU_REGISTER.getOverflowFlag() == 0)
+        if(CpuRegister.getOverflowFlag() == 0)
         {
-            oldPC = CPU_REGISTER.PC; //get the old PC...
-            BRANCH.execBranch();
-            newPC = CPU_REGISTER.PC; //get the new PC...
-            if(CPU_MEMORY.getPage(oldPC) == CPU_MEMORY.getPage(newPC))
+            oldPC = CpuRegister.PC; //get the old PC...
+            InstBranch.execBranch();
+            newPC = CpuRegister.PC; //get the new PC...
+            if(CpuMemory.getPage(oldPC) == CpuMemory.getPage(newPC))
             {
                 i = 3;
             }
@@ -187,7 +187,7 @@ public class RELATIVE
         }
         else
         {
-            CPU_REGISTER.PC += 2;
+            CpuRegister.PC += 2;
             i = 2;
         }
         return i;
@@ -198,12 +198,12 @@ public class RELATIVE
         int i = 0; //opcode cycle...
         int oldPC, newPC;
 
-        if(CPU_REGISTER.getOverflowFlag() == 1)
+        if(CpuRegister.getOverflowFlag() == 1)
         {
-            oldPC = CPU_REGISTER.PC; //get the old PC...
-            BRANCH.execBranch();
-            newPC = CPU_REGISTER.PC; //get the new PC...
-            if(CPU_MEMORY.getPage(oldPC) == CPU_MEMORY.getPage(newPC))
+            oldPC = CpuRegister.PC; //get the old PC...
+            InstBranch.execBranch();
+            newPC = CpuRegister.PC; //get the new PC...
+            if(CpuMemory.getPage(oldPC) == CpuMemory.getPage(newPC))
             {
                 i = 3;
             }
@@ -214,7 +214,7 @@ public class RELATIVE
         }
         else
         {
-            CPU_REGISTER.PC += 2;
+            CpuRegister.PC += 2;
             i = 2;
         }
         return i;

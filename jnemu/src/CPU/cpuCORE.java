@@ -8,9 +8,9 @@ package CPU;
 
 import INSTRUCTIONS.*;
 
-public class cpuCORE
+public class CpuCore
 {
-    public static int CYCLE; //cycle counter..................
+    public static int cpuCycle; //cycle counter..................
 
     public static int exec(int opcode)
     {
@@ -23,7 +23,7 @@ public class cpuCORE
              */
             /************** ADC **************/
             case 0x69 : //Immediate
-                IMMIDIATE.ADC();
+                InstImmidiate.ADC();
                 cycle = 2;
                 break;
             case 0x65 : //Zero Page
@@ -35,25 +35,25 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0x6D : //Absolute
-                ABSOLUTE.ADC();
+                InstAbosolute.ADC();
                 cycle = 4;
                 break;
             case 0x7D : //Absolute, X
-                cycle = ABSOLUTE_X.ADC();
+                cycle = InstAbsoluteX.ADC();
                 break;
             case 0x79 : //Absolute, Y
-                cycle = ABSOLUTE_Y.ADC();
+                cycle = InstAbsoluteY.ADC();
                 break;
             case 0x61 : //(Indirect, X)
-                INDIRECT_X.ADC();
+                InstIndirectX.ADC();
                 cycle = 6;
                 break;
             case 0x71 : //(Indirect), Y
-                cycle = INDIRECT_Y.ADC();
+                cycle = InstIndirectY.ADC();
                 break;
             /************** SBC **************/
             case 0xE9 : //immidiate
-                IMMIDIATE.SBC();
+                InstImmidiate.SBC();
                 cycle = 2;
                 break;
             case 0xE5 : //zeropage
@@ -65,28 +65,28 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0xED : //absolute
-                ABSOLUTE.SBC();
+                InstAbosolute.SBC();
                 cycle = 4;
                 break;
             case 0xFD : //absolute,X
-                cycle = ABSOLUTE_X.SBC();
+                cycle = InstAbsoluteX.SBC();
                 break;
             case 0xF9 : //absolute,Y
-                cycle = ABSOLUTE_Y.SBC();
+                cycle = InstAbsoluteY.SBC();
                 break;
             case 0xE1 : //(indirect,X)
-                INDIRECT_X.SBC();
+                InstIndirectX.SBC();
                 cycle = 6;
                 break;
             case 0xF1 : //(indirect),Y
-                cycle = INDIRECT_Y.SBC();
+                cycle = InstIndirectY.SBC();
                 break;
             /*
              *        Shift / Rotate
              */
             /************** ASL **************/
             case 0x0A : //(Accumulator)
-                ACCUMULATOR.ASL();
+                InstAccumulator.ASL();
                 cycle = 2;
                 break;
             case 0x06 : //Zero Page
@@ -98,16 +98,16 @@ public class cpuCORE
                 cycle = 6;
                 break;
             case 0x0E : //Absolute
-                ABSOLUTE.ASL();
+                InstAbosolute.ASL();
                 cycle = 6;
                 break;
             case 0x1E : //Absolute, X
-                ABSOLUTE_X.ASL();
+                InstAbsoluteX.ASL();
                 cycle = 7;
                 break;
             /************** LSR **************/
             case 0x4A : //accumulator
-                ACCUMULATOR.LSR();
+                InstAccumulator.LSR();
                 cycle = 2;
                 break;
             case 0x46 : //zeropage
@@ -119,16 +119,16 @@ public class cpuCORE
                 cycle = 6;
                 break;
             case 0x4E : //absolute
-                ABSOLUTE.LSR();
+                InstAbosolute.LSR();
                 cycle = 6;
                 break;
             case 0x5E : //absolute,X
-                ABSOLUTE_X.LSR();
+                InstAbsoluteX.LSR();
                 cycle = 7;
                 break;
             /************** ROL **************/
             case 0x2A : //accumulator
-                ACCUMULATOR.ROL();
+                InstAccumulator.ROL();
                 cycle = 2;
                 break;
             case 0x26 : //zeropage
@@ -140,16 +140,16 @@ public class cpuCORE
                 cycle = 6;
                 break;
             case 0x2E : //absolute
-                ABSOLUTE.ROL();
+                InstAbosolute.ROL();
                 cycle = 6;
                 break;
             case 0x3E : //absolute,X
-                ABSOLUTE_X.ROL();
+                InstAbsoluteX.ROL();
                 cycle = 7;
                 break;
             /************** ROR **************/
             case 0x6A : //accumulator
-                ACCUMULATOR.ROR();
+                InstAccumulator.ROR();
                 cycle = 2;
                 break;
             case 0x66 : //zeropage
@@ -161,11 +161,11 @@ public class cpuCORE
                 cycle = 6;
                 break;
             case 0x6E : //absolute
-                ABSOLUTE.ROR();
+                InstAbosolute.ROR();
                 cycle = 6;
                 break;
             case 0x7E : //absolute,X
-                ABSOLUTE_X.ROR();
+                InstAbsoluteX.ROR();
                 cycle = 7;
                 break;
             /*
@@ -181,21 +181,21 @@ public class cpuCORE
                 cycle = 6;
                 break;
             case 0xEE : //Absolute
-                ABSOLUTE.INC();
+                InstAbosolute.INC();
                 cycle = 6;
                 break;
             case 0xFE : //Absolute, X
-                ABSOLUTE_X.INC();
+                InstAbsoluteX.INC();
                 cycle = 7;
                 break;
             /************** INX **************/
             case 0xE8 : //Implied
-                IMPLIED.INX();
+                InstImplied.INX();
                 cycle = 2;
                 break;
             /************** INY **************/
             case 0xC8 : //Implied
-                IMPLIED.INY();
+                InstImplied.INY();
                 cycle = 2;
                 break;
             /************** DEC **************/
@@ -208,21 +208,21 @@ public class cpuCORE
                 cycle = 6;
                 break;
             case 0xCE : //Absolute
-                ABSOLUTE.DEC();
+                InstAbosolute.DEC();
                 cycle = 6;
                 break;
             case 0xDE : //Absolute, X
-                ABSOLUTE_X.DEC();
+                InstAbsoluteX.DEC();
                 cycle = 7;
                 break;
             /************** DEX **************/
             case 0xCA : //Implied
-                IMPLIED.DEX();
+                InstImplied.DEX();
                 cycle = 2;
                 break;
             /************** DEY **************/
             case 0x88 : //Implied
-                IMPLIED.DEY();
+                InstImplied.DEY();
                 cycle = 2;
                 break;
             /*
@@ -230,7 +230,7 @@ public class cpuCORE
              */
             /************** LDA **************/
             case 0xA9 : //Immidiate
-                IMMIDIATE.LDA();
+                InstImmidiate.LDA();
                 cycle = 2;
                 break;
             case 0xA5 : //Zero Page
@@ -242,25 +242,25 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0xAD : //Absolute
-                ABSOLUTE.LDA();
+                InstAbosolute.LDA();
                 cycle = 4;
                 break;
             case 0xBD : //Absolute, X
-                cycle = ABSOLUTE_X.LDA();
+                cycle = InstAbsoluteX.LDA();
                 break;
             case 0xB9 : //Absolute, Y
-                cycle = ABSOLUTE_Y.LDA();
+                cycle = InstAbsoluteY.LDA();
                 break;
             case 0xA1 : //(Indirect, X)
-                INDIRECT_X.LDA();
+                InstIndirectX.LDA();
                 cycle = 6;
                 break;
             case 0xB1 : //(Indirect), Y
-                cycle = INDIRECT_Y.LDA();
+                cycle = InstIndirectY.LDA();
                 break;
             /************** LDX **************/
             case 0xA2 : //Immediate
-                IMMIDIATE.LDX();
+                InstImmidiate.LDX();
                 cycle = 2;
                 break;
             case 0xA6 : //Zero Page
@@ -272,15 +272,15 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0xAE : //Absolute
-                ABSOLUTE.LDX();
+                InstAbosolute.LDX();
                 cycle = 4;
                 break;
             case 0xBE : //Absolute, Y
-                cycle = ABSOLUTE_Y.LDX();
+                cycle = InstAbsoluteY.LDX();
                 break;
             /************** LDY **************/
             case 0xA0 : //Immediate
-                IMMIDIATE.LDY();
+                InstImmidiate.LDY();
                 cycle = 2;
                 break;
             case 0xA4 : //Zero Page
@@ -292,11 +292,11 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0xAC : //Absolute
-                ABSOLUTE.LDY();
+                InstAbosolute.LDY();
                 cycle = 4;
                 break;
             case 0xBC : //Absolute, X
-                cycle = ABSOLUTE_X.LDY();
+                cycle = InstAbsoluteX.LDY();
                 break;
             /************** STA **************/
             case 0x85 : //Zero Page
@@ -308,23 +308,23 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0x8D : //Absolute
-                ABSOLUTE.STA();
+                InstAbosolute.STA();
                 cycle = 3;
                 break;
             case 0x9D : //Absolute,X
-                ABSOLUTE_X.STA();
+                InstAbsoluteX.STA();
                 cycle = 5;
                 break;
             case 0x99 : //Absolute,Y
-                ABSOLUTE_Y.STA();
+                InstAbsoluteY.STA();
                 cycle = 5;
                 break;
             case 0x81 : //(Indirect,X)
-                INDIRECT_X.STA();
+                InstIndirectX.STA();
                 cycle = 6;
                 break;
             case 0x91 : //(Indirect),Y
-                INDIRECT_Y.STA();
+                InstIndirectY.STA();
                 cycle = 6;
                 break;
             /************** STX **************/
@@ -337,7 +337,7 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0x8E : //Absolute
-                ABSOLUTE.STX();
+                InstAbosolute.STX();
                 cycle = 4;
                 break;
             /************** STY **************/
@@ -350,7 +350,7 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0x8C : //Absolute
-                ABSOLUTE.STY();
+                InstAbosolute.STY();
                 cycle = 4;
                 break;
             /*
@@ -358,7 +358,7 @@ public class cpuCORE
              */
             /************** AND **************/
             case 0x29 : //Immediate
-                IMMIDIATE.AND();
+                InstImmidiate.AND();
                 cycle = 2;
                 break;
             case 0x25 : //Zero Page
@@ -370,25 +370,25 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0x2D : //Absolute
-                ABSOLUTE.AND();
+                InstAbosolute.AND();
                 cycle = 4;
                 break;
             case 0x3D : //Absolute, X
-                cycle = ABSOLUTE_X.AND();
+                cycle = InstAbsoluteX.AND();
                 break;
             case 0x39 : //Absolute, Y
-                cycle = ABSOLUTE_Y.AND();
+                cycle = InstAbsoluteY.AND();
                 break;
             case 0x21 : //(Indirect, X)
-                INDIRECT_X.AND();
+                InstIndirectX.AND();
                 cycle = 6;
                 break;
             case 0x31 : //(Indirect), Y
-                cycle = INDIRECT_Y.AND();
+                cycle = InstIndirectY.AND();
                 break;
             /************** EOR **************/
             case 0x49 : //Immediate
-                IMMIDIATE.EOR();
+                InstImmidiate.EOR();
                 cycle = 2;
                 break;
             case 0x45 : //Zero Page
@@ -400,25 +400,25 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0x4D : //Absolute
-                ABSOLUTE.EOR();
+                InstAbosolute.EOR();
                 cycle = 4;
                 break;
             case 0x5D : //Absolute, X
-                cycle = ABSOLUTE_X.EOR();
+                cycle = InstAbsoluteX.EOR();
                 break;
             case 0x59 : //Absolute, Y
-                cycle = ABSOLUTE_Y.EOR();
+                cycle = InstAbsoluteY.EOR();
                 break;
             case 0x41 : //(Indirect, X)
-                INDIRECT_X.EOR();
+                InstIndirectX.EOR();
                 cycle = 6;
                 break;
             case 0x51 : //(Indirect), Y
-                cycle = INDIRECT_Y.EOR();
+                cycle = InstIndirectY.EOR();
                 break;
             /************** ORA **************/
             case 0x09 : //Immediate
-                IMMIDIATE.ORA();
+                InstImmidiate.ORA();
                 cycle = 2;
                 break;
             case 0x05 : //Zero Page
@@ -430,32 +430,32 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0x0D : //Absolute
-                ABSOLUTE.ORA();
+                InstAbosolute.ORA();
                 cycle = 4;
                 break;
             case 0x1D : //Absolute,X
-                cycle = ABSOLUTE_X.ORA();
+                cycle = InstAbsoluteX.ORA();
                 break;
             case 0x19 : //Absolute,Y
-                cycle = ABSOLUTE_Y.ORA();
+                cycle = InstAbsoluteY.ORA();
                 break;
             case 0x01 : //(Indirect,X)
-                INDIRECT_X.ORA();
+                InstIndirectX.ORA();
                 cycle = 6;
                 break;
             case 0x11 : //(Indirect),Y
-                cycle = INDIRECT_Y.ORA();
+                cycle = InstIndirectY.ORA();
                 break;
             /*
              *        Jump, Branching, Subroutine Instructions
              */
             /************** JMP **************/
             case 0x4C : //Absolute
-                ABSOLUTE.JMP();
+                InstAbosolute.JMP();
                 cycle = 3;
                 break;
             case 0x6C : //Indirect
-                INDIRECT.JMP();
+                InstIndirect.JMP();
                 cycle = 5;
                 break;
             /************** BCC **************/
@@ -492,17 +492,17 @@ public class cpuCORE
                 break;
             /************** JSR **************/
             case 0x20 : //Absolute
-                ABSOLUTE.JSR();
+                InstAbosolute.JSR();
                 cycle = 6;
                 break;
             /************** RTI **************/
             case 0x40 : //implied
-                IMPLIED.RTI();
+                InstImplied.RTI();
                 cycle = 6;
                 break;
             /************** RTS **************/
             case 0x60 : //implied
-                IMPLIED.RTS();
+                InstImplied.RTS();
                 cycle = 6;
                 break;
             /*
@@ -510,7 +510,7 @@ public class cpuCORE
              */
             /************** CMP **************/
             case 0xC9 : //Immediate
-                IMMIDIATE.CMP();
+                InstImmidiate.CMP();
                 cycle = 2;
                 break;
             case 0xC5 : //Zero Page
@@ -522,25 +522,25 @@ public class cpuCORE
                 cycle = 4;
                 break;
             case 0xCD : //Absolute
-                ABSOLUTE.CMP();
+                InstAbosolute.CMP();
                 cycle = 4;
                 break;
             case 0xDD : //Absolute, X
-                cycle = ABSOLUTE_X.CMP();
+                cycle = InstAbsoluteX.CMP();
                 break;
             case 0xD9 : //Absolute, Y
-                cycle = ABSOLUTE_Y.CMP();
+                cycle = InstAbsoluteY.CMP();
                 break;
             case 0xC1 : //(Indirect, X)
-                INDIRECT_X.CMP();
+                InstIndirectX.CMP();
                 cycle = 6;
                 break;
             case 0xD1 : //(Indirect), Y
-                cycle = INDIRECT_Y.CMP();
+                cycle = InstIndirectY.CMP();
                 break;
             /************** CPX **************/
             case 0xE0 : //Immediate
-                IMMIDIATE.CPX();
+                InstImmidiate.CPX();
                 cycle = 2;
                 break;
             case 0xE4 : //Zero Page
@@ -548,12 +548,12 @@ public class cpuCORE
                 cycle = 3;
                 break;
             case 0xEC : //Absolute
-                ABSOLUTE.CPX();
+                InstAbosolute.CPX();
                 cycle = 4;
                 break;
             /************** CPY **************/
             case 0xC0 : //immidiate
-                IMMIDIATE.CPY();
+                InstImmidiate.CPY();
                 cycle = 2;
                 break;
             case 0xC4 : //zeropage
@@ -561,7 +561,7 @@ public class cpuCORE
                 cycle = 3;
                 break;
             case 0xCC : //absolute
-                ABSOLUTE.CPY();
+                InstAbosolute.CPY();
                 cycle = 4;
                 break;
             /************** BIT **************/
@@ -570,7 +570,7 @@ public class cpuCORE
                 cycle = 3;
                 break;
             case 0x2C : //absolute
-                ABSOLUTE.BIT();
+                InstAbosolute.BIT();
                 cycle = 4;
                 break;
             /*
@@ -579,97 +579,97 @@ public class cpuCORE
             /************** BRL **************/ //<< FIXME: needs attention.
             /************** CLC **************/
             case 0x18 : //Implied
-                IMPLIED.CLC();
+                InstImplied.CLC();
                 cycle = 2;
                 break;
             /************** CLD **************/
             case 0xD8 : //Implied
-                IMPLIED.CLD();
+                InstImplied.CLD();
                 cycle = 2;
                 break;
             /************** CLI **************/
             case 0x58 : //Implied
-                IMPLIED.CLI();
+                InstImplied.CLI();
                 cycle = 2;
                 break;
             /************** CLV **************/
             case 0xB8 : //Implied
-                IMPLIED.CLV();
+                InstImplied.CLV();
                 cycle = 2;
                 break;
             /************** NOP **************/
             case 0xEA : //implied
-                IMPLIED.NOP();
+                InstImplied.NOP();
                 cycle = 2;
                 break;
             /************** PHA **************/
             case 0x48 : //implied
-                IMPLIED.PHA();
+                InstImplied.PHA();
                 cycle = 3;
                 break;
             /************** PHP **************/
             case 0x08 : //implied
-                IMPLIED.PHP();
+                InstImplied.PHP();
                 cycle = 3;
                 break;
             /************** PLA **************/
             case 0x68 : //implied
-                IMPLIED.PLA();
+                InstImplied.PLA();
                 cycle = 3;
                 break;
             /************** PLP **************/
             case 0x28 : //implied
-                IMPLIED.PLP();
+                InstImplied.PLP();
                 cycle = 4;
                 break;
             /************** SEC **************/
             case 0x38 : //implied
-                IMPLIED.SEC();
+                InstImplied.SEC();
                 cycle = 2;
                 break;
             /************** SED **************/
             case 0xF8 : //implied
-                IMPLIED.SED();
+                InstImplied.SED();
                 cycle = 2;
                 break;
             /************** SEI **************/
             case 0x78 : //implied
-                IMPLIED.SEI();
+                InstImplied.SEI();
                 cycle = 2;
                 break;
             /************** TAX **************/
             case 0xAA : //implied
-                IMPLIED.TAX();
+                InstImplied.TAX();
                 cycle = 2;
                 break;
             /************** TAY **************/
             case 0xA8 : //implied
-                IMPLIED.TAY();
+                InstImplied.TAY();
                 cycle = 2;
                 break;
             /************** TSX **************/
             case 0xBA : //implied
-                IMPLIED.TSX();
+                InstImplied.TSX();
                 cycle = 2;
                 break;
             /************** TXA **************/
             case 0x8A : //implied
-                IMPLIED.TXA();
+                InstImplied.TXA();
                 cycle = 2;
                 break;
             /************** TYA **************/
             case 0x98 : //implied
-                IMPLIED.TYA();
+                InstImplied.TYA();
                 cycle = 2;
                 break;
             /************** TXS **************/
             case 0x9A : //implied
-                IMPLIED.TXS();
+                InstImplied.TXS();
                 cycle = 2;
                 break;
             /************** BRK **************/
             case 0x00 :
-                IMPLIED.BRK();
+                InstImplied.BRK();
                 cycle = 7;
                 break;
             /*
@@ -950,7 +950,7 @@ public class cpuCORE
                 break;
             /*************** SBC ***************/
             case 0xEB :
-                IMMIDIATE.SBC();
+                InstImmidiate.SBC();
                 cycle = 2;
                 break;
             /*************** RLA ***************/
@@ -1084,7 +1084,7 @@ public class cpuCORE
             //       for more information and observations.
 
             case 0x8B :
-                CPU_REGISTER.PC += 2;
+                CpuRegister.PC += 2;
                 cycle = 2;
                 break;
             /*************** XAS ***************/
@@ -1094,8 +1094,8 @@ public class cpuCORE
                 break;
             /************** Unknown Opcode **************/
             default :
-                System.out.println("[WARNING] Unknown Opcode " + Integer.toHexString(opcode) + " at " + Integer.toHexString(CPU_REGISTER.PC) + ". Executing NOP.");
-                IMPLIED.NOP();
+                System.out.println("[WARNING] Unknown Opcode " + Integer.toHexString(opcode) + " at " + Integer.toHexString(CpuRegister.PC) + ". Executing NOP.");
+                InstImplied.NOP();
                 cycle = 2;
                 break;
         }

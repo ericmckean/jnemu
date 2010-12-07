@@ -1,18 +1,18 @@
 package CARTRIDGE;
 
 import CONFIG.*;
-import DEBUGGER.NES_DEBUGGER;
-import MISC.CONVERTER;
-import MISC.INOUT;
+import DEBUGGER.NesDebugger;
+import MISC.Converter;
+import MISC.InOut;
 
 import java.io.*;
 import java.text.*;
 import jnemu.Main;
 
-public class ROM_IO
+public class RomIo
 {
     public static boolean noSelectedFile;
-    private static byte[] RomContent;
+    private static byte[] romContent;
     
     //check if the file loaded was a nes rom file.
     public static boolean isNes, isLoaded;
@@ -32,65 +32,65 @@ public class ROM_IO
             try
             {
                 File f = new File(path);
-                ROM_INFO.fSize = f.length();
+                RomInfo.fSize = f.length();
                 System.out.println("");
                 System.out.println("Loading file [" + f.getName() + "]");
-                Main.con.setTitle(CFG.getDefaultConsoleTitle() + " - " + f.getName());
-                RomContent = new byte[(int)f.length()];
-                RomContent = INOUT.getBytesFromFile(f);
+                Main.con.setTitle(CfgInfo.getDefaultConsoleTitle() + " - " + f.getName());
+                romContent = new byte[(int)f.length()];
+                romContent = InOut.getBytesFromFile(f);
                 //System.out.print((int)f.length());
-                checkNesROM(RomContent);
-                if(ROM_IO.isNes)
+                checkNesROM(romContent);
+                if(RomIo.isNes)
                 {
-                    showInDebugger(RomContent);
+                    showInDebugger(romContent);
                     //Get the Cartridge info........
-                    ROM_INFO.NumberOf16KbRomBank = Integer.parseInt(get16kbRomBank(RomContent));
-                    ROM_INFO.NumberOf8KbVRomBank = Integer.parseInt(get8kbVRomBank(RomContent));
-                    ROM_INFO.RamBank_8KB = Integer.parseInt(get8kbRamBank(RomContent));
-                    ROM_INFO.MAPPER_NUMBER = getMapper(RomContent);
-                    ROM_INFO.MIRRORING = getMirroring(RomContent);
-                    ROM_INFO.TVSystem = getTVSystem(RomContent);
+                    RomInfo.numberOf16KbRomBank = Integer.parseInt(get16kbRomBank(romContent));
+                    RomInfo.numberOf8KbVRomBank = Integer.parseInt(get8kbVRomBank(romContent));
+                    RomInfo.ramBank_8KB = Integer.parseInt(get8kbRamBank(romContent));
+                    RomInfo.mapperNumber = getMapper(romContent);
+                    RomInfo.mirroringInfo = getMirroring(romContent);
+                    RomInfo.tvSystem = getTVSystem(romContent);
 
-                    if(isBatteryBacked(RomContent).equals("1"))
+                    if(isBatteryBacked(romContent).equals("1"))
                     {
-                        ROM_INFO.isBatteryBacked = true;
+                        RomInfo.isBatteryBacked = true;
                     }
-                    else if(isBatteryBacked(RomContent).equals("0"))
+                    else if(isBatteryBacked(romContent).equals("0"))
                     {
-                        ROM_INFO.isBatteryBacked = false;
+                        RomInfo.isBatteryBacked = false;
                     }
                     
-                    if(get512ByteTrainer(RomContent).equals("1"))
+                    if(get512ByteTrainer(romContent).equals("1"))
                     {
-                        ROM_INFO.hasTrainer = true;
+                        RomInfo.hasTrainer = true;
                     }
-                    else if(get512ByteTrainer(RomContent).equals("0"))
+                    else if(get512ByteTrainer(romContent).equals("0"))
                     {
-                        ROM_INFO.hasTrainer = false;
+                        RomInfo.hasTrainer = false;
                     }
 
-                    if(getFourScreenVRamLayout(RomContent).equals("1"))
+                    if(getFourScreenVRamLayout(romContent).equals("1"))
                     {
-                        ROM_INFO.is4ScreenVRamLayout = true;
+                        RomInfo.is4ScreenVRamLayout = true;
                     }
-                    else if(getFourScreenVRamLayout(RomContent).equals("0"))
+                    else if(getFourScreenVRamLayout(romContent).equals("0"))
                     {
-                        ROM_INFO.is4ScreenVRamLayout = false;
+                        RomInfo.is4ScreenVRamLayout = false;
                     }
 
                     //Get the 512kb Trainer if existing..
-                    if(ROM_INFO.hasTrainer)
+                    if(RomInfo.hasTrainer)
                     {
-                        get512Trainer(RomContent);
+                        get512Trainer(romContent);
                     }
 
                     //show rom info...........
-                    ROM_INFO.showInfo();
+                    RomInfo.showInfo();
 
                     //Get the 16kb Rom Bank...
-                    getRomBank(RomContent);
+                    getRomBank(romContent);
                     //Get the 8kb VRom Bank...
-                    getVRomBank(RomContent);
+                    getVRomBank(romContent);
 
                     isLoaded = true;
                 }
@@ -138,14 +138,14 @@ public class ROM_IO
             ctr2 += 1;
             if(ctr2 != BASE)
             {
-                temp.append(CONVERTER.byteTo8BitStringHex(bytes[ctr]));
+                temp.append(Converter.byteTo8BitStringHex(bytes[ctr]));
                 temp.append(Spacer);
-                unicode.append(CONVERTER.byteToChar(bytes[ctr]));
+                unicode.append(Converter.byteToChar(bytes[ctr]));
                 unicode.append(Spacer);
             }
             else
             {
-                temp.append(CONVERTER.byteTo8BitStringHex(bytes[ctr]));
+                temp.append(Converter.byteTo8BitStringHex(bytes[ctr]));
                 temp.append(Spacer3);
                 temp.append(unicode.toString());
                 unicode.delete(0, unicode.length());
@@ -154,7 +154,7 @@ public class ROM_IO
             }
             
         }
-        NES_DEBUGGER.jt.setText(temp.toString());
+        NesDebugger.jt.setText(temp.toString());
     }
 
     private static void checkNesROM(byte[] bytes)
@@ -172,17 +172,17 @@ public class ROM_IO
 
     private static String get16kbRomBank(byte[] b)
     {
-        return CONVERTER.byteToStringInt(b[4]);
+        return Converter.byteToStringInt(b[4]);
     }
 
     private static String get8kbVRomBank(byte[] b)
     {
-        return CONVERTER.byteToStringInt(b[5]);
+        return Converter.byteToStringInt(b[5]);
     }
 
     private static String get8kbRamBank(byte[] b)
     {
-        return CONVERTER.byteToStringInt(b[8]);
+        return Converter.byteToStringInt(b[8]);
     }
 
     private static int getMapper(byte[] b)
@@ -190,8 +190,8 @@ public class ROM_IO
         int tmp;
         String str;
 
-        String lower = CONVERTER.byteTo8BitStringHex(b[6]);
-        String higher = CONVERTER.byteTo8BitStringHex(b[7]);
+        String lower = Converter.byteTo8BitStringHex(b[6]);
+        String higher = Converter.byteTo8BitStringHex(b[7]);
 
         str =  higher.substring(0,1) + lower.substring(0,1);
         tmp = Integer.parseInt(str,16);
@@ -202,7 +202,7 @@ public class ROM_IO
     private static String getMirroring(byte[] b)
     {
         String r = new String();
-        String tmp = INOUT.getCharFromString(8, CONVERTER.byteToStringBinary(b[6]));
+        String tmp = InOut.getCharFromString(8, Converter.byteToStringBinary(b[6]));
         if(tmp.equals("1"))
         {
             r = "VERTICAL";
@@ -216,50 +216,50 @@ public class ROM_IO
 
     private static String isBatteryBacked(byte[] b)
     {
-        String z = CONVERTER.byteToStringBinary(b[6]);
+        String z = Converter.byteToStringBinary(b[6]);
         if(z.length() <= 1)
         {
             return "0";
         }
         else
         {
-            String tmp = INOUT.getCharFromString(7, z);
+            String tmp = InOut.getCharFromString(7, z);
             return tmp;
         }
     }
 
     private static String get512ByteTrainer(byte[] b)
     {
-        String z = CONVERTER.byteToStringBinary(b[6]);
+        String z = Converter.byteToStringBinary(b[6]);
         if(z.length() <= 1)
         {
             return "0";
         }
         else
         {
-            String tmp = INOUT.getCharFromString(6, z);
+            String tmp = InOut.getCharFromString(6, z);
             return tmp;
         }
     }
 
     private static String getFourScreenVRamLayout(byte[] b)
     {
-        String z = CONVERTER.byteToStringBinary(b[6]);
+        String z = Converter.byteToStringBinary(b[6]);
         if(z.length() <= 1)
         {
             return "0";
         }
         else
         {
-            String tmp = INOUT.getCharFromString(5, z);
+            String tmp = InOut.getCharFromString(5, z);
             return tmp;
         }
     }
 
     private static String getTVSystem(byte[] b)
     {
-        String z = CONVERTER.byteToStringBinary(b[9]);
-        String tmp = INOUT.getCharFromString(1, z);
+        String z = Converter.byteToStringBinary(b[9]);
+        String tmp = InOut.getCharFromString(1, z);
         String r = "";
 
         if(tmp.equals("0"))
@@ -285,8 +285,8 @@ public class ROM_IO
             tmp[a] = b[a + start];
         }
         
-        ROM_INFO.Trainer = new byte[size];
-        ROM_INFO.Trainer = tmp;
+        RomInfo.trainerInfo = new byte[size];
+        RomInfo.trainerInfo = tmp;
     }
 
     private static void getRomBank(byte[] b)
@@ -294,7 +294,7 @@ public class ROM_IO
         int start, end, i;
         int size = 16384; //16kb Rom bank.
 
-        if(ROM_INFO.hasTrainer)
+        if(RomInfo.hasTrainer)
         {
             start = 16 + 512;
         }
@@ -306,16 +306,16 @@ public class ROM_IO
         end = start + size;
         i = 0;
         
-        ROM_INFO.RomBank_16KB = new byte[size][ROM_INFO.NumberOf16KbRomBank];
+        RomInfo.romBank_16KB = new byte[size][RomInfo.numberOf16KbRomBank];
 
-        switch (ROM_INFO.NumberOf16KbRomBank)
+        switch (RomInfo.numberOf16KbRomBank)
         {
             case 0 : //do nothing, just to prevent the error showing.;
                 break;
             case 1 : //load 1 Rom bank.
                 for(int ctr=start; ctr<end; ctr++)
                 {
-                    ROM_INFO.RomBank_16KB[i][0] = b[ctr];
+                    RomInfo.romBank_16KB[i][0] = b[ctr];
                     i++;
                 }
                 break;
@@ -323,7 +323,7 @@ public class ROM_IO
                 //0..
                 for(int ctr=start; ctr<end; ctr++)
                 {
-                    ROM_INFO.RomBank_16KB[i][0] = b[ctr];
+                    RomInfo.romBank_16KB[i][0] = b[ctr];
                     i++;
                 }
                 i = 0;
@@ -332,7 +332,7 @@ public class ROM_IO
                 //1..
                 for(int ctr=start; ctr<end; ctr++)
                 {
-                    ROM_INFO.RomBank_16KB[i][1] = b[ctr];
+                    RomInfo.romBank_16KB[i][1] = b[ctr];
                     i++;
                 }
                 break;
@@ -347,28 +347,28 @@ public class ROM_IO
         int start, end, i;
         int size = 8192; //8kb VRom bank.
 
-        if(ROM_INFO.hasTrainer)
+        if(RomInfo.hasTrainer)
         {
-            start = 16 + 512 + (16384 * ROM_INFO.NumberOf16KbRomBank);
+            start = 16 + 512 + (16384 * RomInfo.numberOf16KbRomBank);
         }
         else
         {
-            start = 16 + (16384 * ROM_INFO.NumberOf16KbRomBank);
+            start = 16 + (16384 * RomInfo.numberOf16KbRomBank);
         }
 
         end = start + size;
         i = 0;
 
-        ROM_INFO.VRomBank_8KB = new byte[size][ROM_INFO.NumberOf8KbVRomBank];
+        RomInfo.vRomBank_8KB = new byte[size][RomInfo.numberOf8KbVRomBank];
 
-        switch (ROM_INFO.NumberOf8KbVRomBank)
+        switch (RomInfo.numberOf8KbVRomBank)
         {
             case 0 : //do nothing, just to prevent the error showing.;
                 break;
             case 1 : //load 1 VRom bank.
                 for(int ctr=start; ctr<end; ctr++)
                 {
-                    ROM_INFO.VRomBank_8KB[i][0] = b[ctr];
+                    RomInfo.vRomBank_8KB[i][0] = b[ctr];
                     i++;
                 }
                 break;
