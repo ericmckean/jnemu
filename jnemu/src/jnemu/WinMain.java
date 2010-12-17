@@ -3,7 +3,7 @@ package jnemu;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
-import PPU.PpuRenderer;
+import NesPpu.PpuRenderer;
 
 public class WinMain extends JFrame
 {
@@ -114,7 +114,7 @@ public class WinMain extends JFrame
         mConsole = new JCheckBoxMenuItem("Console");
         mConsole.addActionListener(new ActionHandler());
         mMisc.add(mConsole);
-        if(CONFIG.CfgInfo.showConsole)
+        if(EmuConfig.CfgInfo.showConsole)
         {
             mConsole.setSelected(true);
         }

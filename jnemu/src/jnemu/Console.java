@@ -19,6 +19,7 @@ public class Console extends WindowAdapter implements WindowListener,  ActionLis
 
     Thread mThrower;
 
+    @SuppressWarnings({"LeakingThisInConstructor", "CallToThreadStartDuringObjectConstruction"})
     public Console(String name, int x, int y, int width, int height)
     {
         CON = new JFrame(name);
@@ -71,11 +72,11 @@ public class Console extends WindowAdapter implements WindowListener,  ActionLis
 
         END = false;
 
-        TReader=new Thread(this);
+        TReader = new Thread(this);
         TReader.setDaemon(true);
         TReader.start();
 
-        TReader2=new Thread(this);
+        TReader2 = new Thread(this);
         TReader2.setDaemon(true);
         TReader2.start();
 

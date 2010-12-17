@@ -1,12 +1,12 @@
 package jnemu;
 
-import CARTRIDGE.RomInfo;
-import CARTRIDGE.RomIo;
-import CPU.CpuMemory;
-import DEBUGGER.NesDebugger;
-import MISC.InOut;
-import PPU.OamMemory;
-import PPU.PpuMemory;
+import NesRomCartridge.RomInfo;
+import NesRomCartridge.RomIo;
+import NesCpu.CpuMemory;
+import EmuDebugger.NesDebugger;
+import EmuMisc.InOut;
+import NesPpu.OamMemory;
+import NesPpu.PpuMemory;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
