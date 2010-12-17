@@ -1,16 +1,16 @@
 package jnemu;
 
-import CARTRIDGE.RomIo;
-import CARTRIDGE.MapperCore;
-import CONFIG.CfgInfo;
-import CPU.CpuMemory;
-import CPU.CpuCore;
-import CPU.CpuRegister;
-import PPU.PpuCore;
-import DEBUGGER.*;
-import INSTRUCTIONS.InstInterrupt;
-import LOGS.EmuLogger;
-import MISC.Converter;
+import NesRomCartridge.RomIo;
+import NesRomCartridge.MapperCore;
+import EmuConfig.CfgInfo;
+import NesCpu.CpuMemory;
+import NesCpu.CpuCore;
+import NesCpu.CpuRegister;
+import NesPpu.PpuCore;
+import EmuDebugger.*;
+import NesCpuInstructions.InstInterrupt;
+import EmuLog.EmuLogger;
+import EmuMisc.Converter;
 
 
 
@@ -21,7 +21,7 @@ public class EmuCore
 {
     public static boolean isRunning = false;
     public static Thread emuThread;
-    static coreTHREAD core;
+    static coreThread core;
 
     public static void init()
     {
@@ -70,8 +70,8 @@ public class EmuCore
         {
             //count cycle and execute opcode...
             CpuCore.cpuCycle += CpuCore.exec(CpuMemory.fastRead8Bit(CpuRegister.PC));
-            PpuCore.execPPU();
-            if(PpuCore.isNMI)
+            PpuCore.execPpu();
+            if(PpuCore.isNmi)
             {
                 InstInterrupt.NMI();
             }
@@ -159,19 +159,19 @@ public class EmuCore
         WinMain.mStop.setEnabled(true);
         System.out.println("Starting Core emulation...");
         isRunning = true;
-        core = new coreTHREAD();
+        core = new coreThread();
         emuThread = new Thread(core);
         emuThread.start();
         Main.win.setTitle("JNemu - running");
     }
 }
 
-class coreTHREAD implements Runnable
+class coreThread implements Runnable
 {
     int pc;
     StringBuilder LogTmp = new StringBuilder(50);
     
-    coreTHREAD()
+    coreThread()
     {
         try
         {
@@ -221,7 +221,7 @@ class coreTHREAD implements Runnable
                     LogTmp.delete(0,LogTmp.length());
                 }
                 CpuCore.cpuCycle += CpuCore.exec(CpuMemory.fastRead8Bit(CpuRegister.PC));
-                PpuCore.execPPU();
+                PpuCore.execPpu();
             }
             catch(Exception e)
             {
@@ -242,7 +242,7 @@ class coreTHREAD implements Runnable
             //****************************************
             //             Cyclic Task
             //****************************************
-            if(PpuCore.isNMI)
+            if(PpuCore.isNmi)
             {
                 InstInterrupt.NMI();
             }

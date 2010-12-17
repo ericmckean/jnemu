@@ -1,8 +1,8 @@
 package jnemu;
 
-import CONFIG.*;
-import DEBUGGER.NesDebugger;
-import LOGS.EmuLogger;
+import EmuConfig.*;
+import EmuDebugger.NesDebugger;
+import EmuLog.EmuLogger;
 
 public class Main
 {
@@ -31,7 +31,7 @@ public class Main
         }
 
         System.out.println("================================");
-        System.out.println(" JNemu - Java based Nes emulator.");
+        System.out.println(" JNemu - Java based Nes emulator");
         System.out.println("================================");
 
         //Load Controller Window..
@@ -66,7 +66,7 @@ public class Main
         //**************************************
         //           Init CPU Logger
         //**************************************
-        System.out.println("Initializing LOGGER...");
+        System.out.println("Initializing logger...");
         EmuLogger.init();
     }
 
