@@ -32,6 +32,6 @@ public class CfgInfo
     
     public static String getDefaultConsoleTitle()
     {
-        return "JNemu";
+        return "JNemu Console";
     }
 }
