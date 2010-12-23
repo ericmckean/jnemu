@@ -52,12 +52,12 @@ public class PpuCore
         OamMemory.init();
     }
 
-    public static void execPpu()
+    public static void exec()
     {
         //**********************************************
         //         1 CPU Cycle = 3 PPU Cycle
         //**********************************************
-        PpuCycle = CpuCore.cpuCycle * 3; //Get the actual PPU Cycle...
+        PpuCycle++;
         VRam.checkForSetAddr();
         VRam.checkForRead();
         VRam.checkForWrite();
